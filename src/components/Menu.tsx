@@ -10,65 +10,68 @@ import { faDiscord } from "@fortawesome/free-brands-svg-icons";
 export const Menu = () => {
   return (
     <MenuStyle>
-      <MenuHeader>Homework Bot</MenuHeader>
+      <MenuHeader>
+        <IconStyle src="https://i.imgur.com/uMPcOzj.png" alt="Reddit Avatar" />
+      </MenuHeader>
       <MenuContent>
         <MenuItem>
           <FontAwesomeIcon icon={faHome} size="2x" />
-          <span>Home</span>
         </MenuItem>
         <MenuItem>
           <FontAwesomeIcon className="icon" icon={faDiscord} size="2x" />
-          <span>Discord</span>
         </MenuItem>
         <MenuItem>
           <FontAwesomeIcon icon={faInfoCircle} size="2x" />
-          <span>Logs</span>
         </MenuItem>
       </MenuContent>
     </MenuStyle>
   );
 };
 
+const IconStyle = styled.img`
+  height: 65px;
+  width: 65px;
+  background-color: #2f3136;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s all;
+  :hover {
+    border-radius: 5px;
+  }
+`;
+
 const MenuStyle = styled.div`
   width: 100px;
   height: 100%;
-  background: #212c31;
-  padding: 0px;
+  background-color: #202225;
   position: fixed;
   box-sizing: border-box;
-  h1 {
-  }
 `;
 
 const MenuHeader = styled.header`
   box-sizing: border-box;
-  box-shadow: 0px 1px 25px 0px rgba(0, 0, 0, 0.25);
-  padding: 25px;
-  z-index: 10;
+  box-shadow: 0px 1px 25px 0px rgba(0, 0, 0, 0.35);
+  padding: 18px;
   background-color: inherit;
   text-align: center;
-  width: 100%;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
 `;
 
 const MenuContent = styled.div`
   box-sizing: border-box;
-  margin-top: 50px;
 `;
 
 const MenuItem = styled.div`
-  background-color: #212c31;
-  width: 180px;
-  border: 2px solid pink;
-  cursor: pointer;
+  width: 100%;
   display: flex;
-  text-align: center;
   justify-content: center;
-  margin: 0 3px 0 0;
   padding: 20px 0;
-  span {
-    padding-left: 10px;
-    padding-top: 8px;
+  transition: 0.7s all;
+  :hover {
+    background-color: #2f3136;
+    cursor: pointer;
   }
 `;
