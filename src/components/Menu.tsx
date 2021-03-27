@@ -29,8 +29,8 @@ export const Menu = () => {
 };
 
 const IconStyle = styled.img`
-  height: 65px;
-  width: 65px;
+  height: 55px;
+  width: 55px;
   background-color: #2f3136;
   border-radius: 50px;
   display: flex;
@@ -43,7 +43,7 @@ const IconStyle = styled.img`
 `;
 
 const MenuStyle = styled.div`
-  width: 100px;
+  width: 85px;
   height: 100%;
   background-color: #202225;
   position: fixed;
@@ -52,12 +52,13 @@ const MenuStyle = styled.div`
 
 const MenuHeader = styled.header`
   box-sizing: border-box;
-  box-shadow: 0px 1px 25px 0px rgba(0, 0, 0, 0.35);
-  padding: 18px;
+  box-shadow: 0px 1px 25px 0px rgba(0, 0, 0, 0.25);
+  padding: 15px;
   background-color: inherit;
   text-align: center;
   font-size: 20px;
   font-weight: bold;
+  height: 85px;
 `;
 
 const MenuContent = styled.div`
