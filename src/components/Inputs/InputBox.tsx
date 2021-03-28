@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 type InputProps = {
   message: String;
@@ -8,10 +8,12 @@ type InputProps = {
 
 export const InputBox = (props: InputProps) => {
   return (
-    <InputContainer>
+    <>
       <StyledSpan>{props.message}</StyledSpan>
-      <input value={props.value} />
-    </InputContainer>
+      <InputContainer>
+        <input value={props.value} />
+      </InputContainer>
+    </>
   );
 };
 
@@ -35,12 +37,12 @@ const InputContainer = styled.div`
     background: #141617;
     border: 2px solid #1f1f1f;
     border-radius: 5px;
-    transition: 0.4s;
+    transition: 340ms;
     :focus {
       background: #1f1f1f;
       border: 2px solid #292929;
       outline: 0;
-      transition: 0.4s;
+      transition: 340ms;
     }
   }
 `;

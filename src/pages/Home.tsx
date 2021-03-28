@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BasePageStyle, ContainerStyle } from "../styles";
+import { ContainerStyle, BasePageStyle } from "../styles/Styles";
 import { PageHeader } from "../components/PageHeader";
 import { Switch } from "../components/Inputs/Switch";
 import { InputBox } from "../components/Inputs/InputBox";
@@ -36,33 +36,24 @@ export const Home = () => {
           <SettingContainer>
             <Setting>
               <InputBox
-                message="User Agent:"
+                message="User Agent"
                 value="7PsadJasKWdfgEhhjPtyOAWEIA94fsd"
               />
             </Setting>
             <Setting>
-              <InputBox message="Username:" value="3Q99CZASKD" />
+              <InputBox message="Username" value="3Q99CZASKD" />
             </Setting>
             <Setting>
-              <InputBox message="Client Secret: " value="3Q99CZASKD" />
+              <InputBox message="Client Secret" value="3Q99CZASKD" />
+            </Setting>
+
+            <Setting>
+              <InputBox message="Password" value="ThisIsAPassword" />
             </Setting>
           </SettingContainer>
-
-          <Setting>
-            Client Secret: <input value="3Q99CZASKD" />
-          </Setting>
-          <Setting>
-            User Agent: <input value="7PsadJasKWdfgEhhjPtyOAWEIA94fsd" />
-          </Setting>
-          <Setting>
-            Username: <input value="CrimsonUser" />
-          </Setting>
-          <Setting>
-            Password: <input value="ThisIsAPassword" type="password" />
-          </Setting>
           <Setting>
             <Switch
-              message="Validate On Submit  "
+              message="Validate On Submit"
               isToggled={isToggled}
               onToggle={() => setIsToggled(!isToggled)}
             />

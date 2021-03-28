@@ -31,7 +31,7 @@ const PageHeaderStyle = styled.header`
   width: calc(100% - 85px);
   z-index: 10;
   height: 85px;
-  background-color: #141617;
+  background-color: ${(props) => props.theme.base.content};
   justify-content: center;
   h2 {
     font-family: "Lexend Deca";

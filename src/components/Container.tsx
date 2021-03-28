@@ -1,6 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-import { ContainerStyle } from "../styles";
+import { ContainerStyle } from "../styles/Styles";
 
 export const Container = () => {
   return (

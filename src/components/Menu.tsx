@@ -27,7 +27,7 @@ export const Menu = () => {
 const IconStyle = styled.img`
   height: 55px;
   width: 55px;
-  background-color: #2f3136;
+  background-color: ${(props) => props.theme.base.menuHover};
   border-radius: 50px;
   display: flex;
   justify-content: center;
@@ -41,7 +41,7 @@ const IconStyle = styled.img`
 const MenuStyle = styled.div`
   width: 85px;
   height: 100%;
-  background-color: #202225;
+  background-color: ${(props) => props.theme.base.menu};
   position: fixed;
   box-sizing: border-box;
 `;
@@ -54,7 +54,7 @@ const MenuHeader = styled.header`
   text-align: center;
   font-size: 20px;
   font-weight: bold;
-  height: 85px;
+  height: ${(props) => props.theme.height.topContent};
 `;
 
 const MenuContent = styled.div`
@@ -68,7 +68,7 @@ const MenuItem = styled.div`
   padding: 20px 0;
   transition: 0.5s all;
   :hover {
-    background-color: #2f3136;
+    background-color: ${(props) => props.theme.base.menuHover};
     cursor: pointer;
   }
 `;
