@@ -1,6 +1,7 @@
 import React from "react";
 import { Menu } from "./components/Menu";
 import { Home } from "./pages/Home";
+import { Discord } from "./pages/Discord";
 import { Route, Switch } from "react-router-dom";
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/discord">
-          <h1>Test</h1>
+          <Discord />
         </Route>
         <Route path="/discord">
           <h1>Test</h1>

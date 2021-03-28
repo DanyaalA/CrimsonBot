@@ -6,7 +6,7 @@ import { InputBox } from "../components/Inputs/InputBox";
 
 import styled from "styled-components";
 
-export const Home = () => {
+export const Discord = () => {
   const [isToggled, setIsToggled] = useState(false);
 
   /*
@@ -47,22 +47,6 @@ export const Home = () => {
             />
             <Switch
               message="Validate On Submit"
-              isToggled={isToggled}
-              onToggle={() => setIsToggled(!isToggled)}
-            />
-          </GeneralSettingContainer>
-          <GeneralSettingContainer id="comboContainer">
-            <h1>Main</h1>
-            <InputBox message="DiscordID" value="Remzy#0666" />
-            <InputBox message="Title" value="Hey add me on Discord!" />
-            <InputBox
-              message="Body"
-              value="Hey Add me On Discord My Id Is: {DiscordID}"
-            />
-            <InputBox message="Subreddits" value="gaming" />
-            <InputBox message="Forbidden Words" value="hire me, for hire" />
-            <Switch
-              message="Log Bot Activity"
               isToggled={isToggled}
               onToggle={() => setIsToggled(!isToggled)}
             />

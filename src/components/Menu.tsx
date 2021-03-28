@@ -1,24 +1,42 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
 export const Menu = () => {
   return (
     <MenuStyle>
-      <MenuHeader>
-        <IconStyle src="https://i.imgur.com/uMPcOzj.png" alt="Reddit Avatar" />
-      </MenuHeader>
+      <Link to="/">
+        <MenuHeader>
+          <IconStyle
+            src="https://i.imgur.com/uMPcOzj.png"
+            alt="Reddit Avatar"
+          />
+        </MenuHeader>
+      </Link>
+
       <MenuContent>
-        <MenuItem>
-          <FontAwesomeIcon icon={faHome} size="2x" />
-        </MenuItem>
-        <MenuItem>
-          <FontAwesomeIcon className="icon" icon={faDiscord} size="2x" />
-        </MenuItem>
-        <MenuItem>
-          <FontAwesomeIcon icon={faInfoCircle} size="2x" />
-        </MenuItem>
+        <Link to="/">
+          <MenuItem>
+            <FontAwesomeIcon icon={faHome} size="2x" color="#FFF" />
+          </MenuItem>
+        </Link>
+        <Link to="/discord">
+          <MenuItem>
+            <FontAwesomeIcon
+              className="icon"
+              icon={faDiscord}
+              size="2x"
+              color="#FFF"
+            />
+          </MenuItem>
+        </Link>
+        <Link to="/logs">
+          <MenuItem>
+            <FontAwesomeIcon icon={faInfoCircle} size="2x" color="#FFF" />
+          </MenuItem>
+        </Link>
       </MenuContent>
     </MenuStyle>
   );
@@ -59,6 +77,10 @@ const MenuHeader = styled.header`
 
 const MenuContent = styled.div`
   box-sizing: border-box;
+  #noLink {
+  }
+  a {
+  }
 `;
 
 const MenuItem = styled.div`

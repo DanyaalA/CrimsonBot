@@ -13,6 +13,7 @@ export const BasePageStyle = styled.div`
 
 export const ContainerStyle = styled.div`
   margin-top: 15px;
+  transition: all 4.5s ease;
   //box-shadow: 5px 1px 35px 5px rgba(0, 0, 0, 0.35);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
