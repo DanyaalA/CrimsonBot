@@ -33,9 +33,21 @@ export const Home = () => {
         </StatsContainer>
         <MainSettingsContainer>
           <h1>General Settings</h1>
-          <Setting>
-            <InputBox />
-          </Setting>
+          <SettingContainer>
+            <Setting>
+              <InputBox
+                message="User Agent:"
+                value="7PsadJasKWdfgEhhjPtyOAWEIA94fsd"
+              />
+            </Setting>
+            <Setting>
+              <InputBox message="Username:" value="3Q99CZASKD" />
+            </Setting>
+            <Setting>
+              <InputBox message="Client Secret: " value="3Q99CZASKD" />
+            </Setting>
+          </SettingContainer>
+
           <Setting>
             Client Secret: <input value="3Q99CZASKD" />
           </Setting>
@@ -60,6 +72,15 @@ export const Home = () => {
     </>
   );
 };
+
+const SettingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  input {
+  }
+  span {
+  }
+`;
 
 const StatsContainer = styled(ContainerStyle)`
   display: flex;

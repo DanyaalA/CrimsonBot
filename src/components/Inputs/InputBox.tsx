@@ -1,15 +1,17 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-export const InputBox = () => {
+type InputProps = {
+  message: String;
+  value: string;
+};
+
+export const InputBox = (props: InputProps) => {
   return (
-    <>
-      <StyledSpan>Client Secret</StyledSpan>
-      <InputStyle>
-        <input />
-        <Slider />
-      </InputStyle>
-    </>
+    <InputContainer>
+      <StyledSpan>{props.message}</StyledSpan>
+      <input value={props.value} />
+    </InputContainer>
   );
 };
 
@@ -17,57 +19,28 @@ const StyledSpan = styled.span`
   padding-right: 5px;
 `;
 
-const InputStyle = styled.label`
-  position: relative;
-  display: inline-block;
-  width: 50px;
+const InputContainer = styled.div`
+  display: flex;
   height: 23px;
+  padding-bottom: 10px;
+  span {
+    padding-right: 5px;
+  }
   input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  input:checked + span:before {
-    transform: translatex(26px);
-  }
-  input:checked + span {
-    background-color: #2196f3;
-  }
-`;
-
-const Slider = styled.span<any>`
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: 0.4s;
-  background-color: #ccc;
-  ${(props) =>
-    props.isSquare
-      ? css`
-          border-radius: 0px;
-        `
-      : css`
-          border-radius: 34px;
-        `}
-  :before {
-    position: absolute;
-    content: "";
-    height: 15px;
-    width: 15px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
+    padding-left: 10px;
+    color: white;
+    font-family: "Lexend Deca";
+    width: 300px;
+    height: 30px;
+    background: #141617;
+    border: 2px solid #1f1f1f;
+    border-radius: 5px;
     transition: 0.4s;
-    ${(props) =>
-      props.isSquare
-        ? css`
-            border-radius: 0px;
-          `
-        : css`
-            border-radius: 50%;
-          `}
+    :focus {
+      background: #1f1f1f;
+      border: 2px solid #292929;
+      outline: 0;
+      transition: 0.4s;
+    }
   }
 `;
