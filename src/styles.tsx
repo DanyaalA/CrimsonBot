@@ -16,7 +16,6 @@ export const ContainerStyle = styled.div`
   margin-top: 15px;
   padding: 20px 0px 20px 15px;
   width: 100%;
-  display: flex;
   border-radius: 10px;
   background-color: #161c1f;
   //141617

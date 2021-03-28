@@ -1,6 +1,7 @@
 import React from "react";
 import { BasePageStyle, ContainerStyle } from "../styles";
 import { PageHeader } from "../components/PageHeader";
+import { Switch } from "../components/Switch";
 import styled from "styled-components";
 
 export const Home = () => {
@@ -9,10 +10,38 @@ export const Home = () => {
       <PageHeader />
       <BasePageStyle>
         <StatsContainer>
-          <h2>DM's: 500</h2>
-          <h2>Posts: 600</h2>
-          <h2>Student Posts: 500</h2>
+          <h2>
+            DM's <span>500</span>
+          </h2>
+          <h2>
+            Posts <span>800</span>
+          </h2>
+          <h2>
+            Filtered Posts <span>600</span>
+          </h2>
         </StatsContainer>
+        <MainSettingsContainer>
+          <h1>General Settings</h1>
+          <Setting>
+            <Switch rounded={true} isToggled={true} onToggle={false} />
+          </Setting>
+          <Setting>
+            Client Secret: <input value="3Q99CZASKD" />
+          </Setting>
+          <Setting>
+            User Agent: <input value="7PsadJasKWdfgEhhjPtyOAWEIA94fsd" />
+          </Setting>
+          <Setting>
+            Username: <input value="CrimsonUser" />
+          </Setting>
+          <Setting>
+            Password: <input value="ThisIsAPassword" type="password" />
+          </Setting>
+          <Setting>
+            Validate On Submit:
+            <input type="checkbox" value="Car" />
+          </Setting>
+        </MainSettingsContainer>
       </BasePageStyle>
     </>
   );
@@ -29,4 +58,19 @@ const StatsContainer = styled(ContainerStyle)`
     align-content: left;
     text-align: right;
   }
+  span {
+    font-weight: normal;
+    font-size: 15px;
+  }
 `;
+
+const MainSettingsContainer = styled(ContainerStyle)`
+  padding-left: 25px;
+  h1 {
+    text-align: center;
+    border-radius: 5px;
+    width: 100%;
+  }
+`;
+
+const Setting = styled.div``;

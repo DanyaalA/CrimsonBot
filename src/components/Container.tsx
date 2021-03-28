@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { ContainerStyle } from "../styles";
 
 export const Container = () => {
   return (
@@ -16,12 +17,3 @@ export const Container = () => {
     </ContainerStyle>
   );
 };
-
-const ContainerStyle = styled.div`
-  margin-top: 15px;
-  width: 100%;
-  padding: 20px 0;
-  border-radius: 10px;
-  background-color: #161c1f;
-  //141617
-`;

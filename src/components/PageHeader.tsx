@@ -6,7 +6,7 @@ export const PageHeader = () => {
     <PageHeaderStyle>
       <div>
         <h2>
-          CrimsonBot/Reddit Settings - /<span>u/CrismonUser</span>
+          CrimsonBot/Reddit Settings <span>/u/CrismonUser</span>
         </h2>
       </div>
     </PageHeaderStyle>
@@ -21,12 +21,21 @@ const PageHeaderStyle = styled.header`
   display: flex;
   align-items: center;
   position: fixed;
-  background-color: #202225;
   margin-left: 85px;
   width: calc(100% - 85px);
   z-index: 10;
   height: 85px;
+  justify-content: center;
   h2 {
-    font-family: "Lobster";
+    font-family: "Lexend Deca";
+  }
+  span {
+    display: flex;
+    text-align: center;
+    vertical-align: center;
+    justify-content: center;
+    font-weight: normal;
+    font-size: 15px;
+    padding-left: 5px;
   }
 `;

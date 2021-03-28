@@ -70,7 +70,7 @@ const MenuItem = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px 0;
-  transition: 0.7s all;
+  transition: 0.5s all;
   :hover {
     background-color: #2f3136;
     cursor: pointer;
