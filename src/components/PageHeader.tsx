@@ -1,12 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-export const PageHeader = () => {
+type PageProps = {
+  title: String;
+  subtitle: String;
+};
+
+export const PageHeader = (props: PageProps) => {
   return (
     <PageHeaderStyle>
       <div>
         <h2>
-          CrimsonBot/Reddit Settings <span>/u/CrismonUser</span>
+          {props.title} <span>{props.subtitle}</span>
+          CrimsonBot Reddit Settings <span>/u/CrismonUser</span>
         </h2>
       </div>
     </PageHeaderStyle>

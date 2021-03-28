@@ -1,38 +1,49 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { ContainerStyle } from "../styles";
 
 type RadioProps = {
-  rounded: boolean;
+  isSquare?: boolean;
   isToggled: boolean;
   onToggle: any;
+  message?: String;
 };
 
 export const Switch = (props: RadioProps) => {
   return (
-    <SwitchStyle>
-      <input type="checkbox" />
-      <Slider
-        rounded={props.rounded}
-        checked={props.isToggled}
-        onChange={props.onToggle}
-      />
-    </SwitchStyle>
+    <>
+      <StyledSpan>{props.message}</StyledSpan>
+      <SwitchStyle>
+        <input
+          type="checkbox"
+          checked={props.isToggled}
+          onChange={props.onToggle}
+        />
+        <Slider
+          rounded={props.isSquare}
+          checked={props.isToggled}
+          onChange={props.onToggle}
+        />
+      </SwitchStyle>
+    </>
   );
 };
+
+const StyledSpan = styled.span`
+  padding-right: 5px;
+`;
 
 const SwitchStyle = styled.label`
   position: relative;
   display: inline-block;
   width: 50px;
-  height: 28px;
+  height: 23px;
   input {
     opacity: 0;
     width: 0;
     height: 0;
   }
   input:checked + span:before {
-    transform: translatex(20px);
+    transform: translatex(26px);
   }
   input:checked + span {
     background-color: #2196f3;
@@ -49,29 +60,29 @@ const Slider = styled.span<any>`
   transition: 0.4s;
   background-color: #ccc;
   ${(props) =>
-    props.rounded
+    props.isSquare
       ? css`
-          border-radius: 34px;
+          border-radius: 0px;
         `
       : css`
-          border-radius: 0px;
+          border-radius: 34px;
         `}
   :before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
+    height: 15px;
+    width: 15px;
     left: 4px;
     bottom: 4px;
     background-color: white;
     transition: 0.4s;
     ${(props) =>
-      props.rounded
+      props.isSquare
         ? css`
-            border-radius: 50%;
+            border-radius: 0px;
           `
         : css`
-            border-radius: 0px;
+            border-radius: 50%;
           `}
   }
 `;

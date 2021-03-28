@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { BasePageStyle, ContainerStyle } from "../styles";
 import { PageHeader } from "../components/PageHeader";
-import { Switch } from "../components/Switch";
+import { Switch } from "../components/Inputs/Switch";
+import { InputBox } from "../components/Inputs/InputBox";
+
 import styled from "styled-components";
 
 export const Home = () => {
+  const [isToggled, setIsToggled] = useState(false);
+
+  /*
+  const boxTogle = () => {
+    const newToggle = !isToggled;
+    setIsToggled(newToggle);
+    console.log("New Toggle: " + newToggle);
+  }; */
+
   return (
     <>
-      <PageHeader />
+      <PageHeader title="" subtitle="" />
       <BasePageStyle>
         <StatsContainer>
           <h2>
@@ -23,7 +34,7 @@ export const Home = () => {
         <MainSettingsContainer>
           <h1>General Settings</h1>
           <Setting>
-            <Switch rounded={true} isToggled={true} onToggle={false} />
+            <InputBox />
           </Setting>
           <Setting>
             Client Secret: <input value="3Q99CZASKD" />
@@ -38,8 +49,11 @@ export const Home = () => {
             Password: <input value="ThisIsAPassword" type="password" />
           </Setting>
           <Setting>
-            Validate On Submit:
-            <input type="checkbox" value="Car" />
+            <Switch
+              message="Validate On Submit  "
+              isToggled={isToggled}
+              onToggle={() => setIsToggled(!isToggled)}
+            />
           </Setting>
         </MainSettingsContainer>
       </BasePageStyle>
@@ -73,4 +87,6 @@ const MainSettingsContainer = styled(ContainerStyle)`
   }
 `;
 
-const Setting = styled.div``;
+const Setting = styled.div`
+  margin-top: 10px;
+`;

@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faInfo,
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHome, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
 export const Menu = () => {
   return (
