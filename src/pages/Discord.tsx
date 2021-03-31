@@ -33,20 +33,44 @@ export const Discord = () => {
         </StatsContainer>
         <ComboContainer>
           <GeneralSettingContainer id="comboContainer">
-            <h1>Account</h1>
-            <InputBox message="Client ID" value="3QKdFMXaCZg" />
+            <h1>General</h1>
             <InputBox
-              message="Client Secret"
+              message="Discord Bot Token"
               value="7PsadJasKWdfgEhhjPtyOAWEIA94fsd"
             />
-            <InputBox message="Username" value="3Q99CZASKD" />
-            <InputBox message="Password" value="ThisIsAPassword" />
+            <InputBox message="Discord Server ID" value="Work Lab" />
             <InputBox
-              message="User Agent"
-              value="platform:Firefox:0.0.1 (by /Dan/"
+              message="Auto Respond Message"
+              value="Please Join My server and create a ticket a tutor will contact you shortly and help you with your message"
             />
             <Switch
-              message="Validate On Submit"
+              message="Auto Log"
+              isToggled={isToggled}
+              onToggle={() => setIsToggled(!isToggled)}
+            />
+            <Switch
+              message="Auto DM"
+              isToggled={isToggled}
+              onToggle={() => setIsToggled(!isToggled)}
+            />
+          </GeneralSettingContainer>
+          <GeneralSettingContainer id="comboContainer">
+            <h1>Logs</h1>
+            <InputBox message="Log Server" value="Talk here" />
+            <InputBox message="New Ticket Channel" value="Updates" />
+            <InputBox
+              message=""
+              value="Hey Add me On Discord My Id Is: {DiscordID}"
+            />
+            <InputBox message="Subreddits" value="gaming" />
+            <InputBox message="Forbidden Words" value="hire me, for hire" />
+            <Switch
+              message="DM Dan"
+              isToggled={isToggled}
+              onToggle={() => setIsToggled(!isToggled)}
+            />
+            <Switch
+              message="DM Aroma"
               isToggled={isToggled}
               onToggle={() => setIsToggled(!isToggled)}
             />
