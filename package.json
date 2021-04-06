@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "14.15.5"
+  },
   "name": "redditbot-frontend",
   "version": "0.1.0",
   "private": true,
