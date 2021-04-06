@@ -7,8 +7,14 @@ if (devMode) {
   domain = "http://localhost:3000/";
 }
 
-export const GetRequest = async (uri: String): Promise<Config> => {
-  let response = await fetch(domain + uri);
+export const GetConfig = async (): Promise<Config> => {
+  let response = await fetch(domain + "config");
+  let data = await response.json();
+  return data;
+};
+
+export const GetLogs = async (): Promise<LogsDto> => {
+  let response = await fetch(domain + "logs");
   let data = await response.json();
   return data;
 };
@@ -16,6 +22,21 @@ export const GetRequest = async (uri: String): Promise<Config> => {
 export const PostConfig = async (config: Config) => {
   axios.post(domain + "updateConfig", config).catch();
 };
+
+type LogDto = {
+  user: string;
+  message: string;
+  subreddit: string;
+  id: string;
+  time: string;
+};
+
+export class LogsDto {
+  logs: string;
+  constructor(data: any) {
+    this.logs = data;
+  }
+}
 
 export class Config {
   clientID: string;

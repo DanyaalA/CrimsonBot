@@ -12,7 +12,6 @@ export const PageHeader = (props: PageProps) => {
       <div>
         <h2>
           {props.title} <span>{props.subtitle}</span>
-          CrimsonBot Reddit Settings <span>/u/CrismonUser</span>
         </h2>
       </div>
     </PageHeaderStyle>

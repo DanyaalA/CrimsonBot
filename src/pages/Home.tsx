@@ -3,7 +3,7 @@ import { ContainerStyle, BasePageStyle } from "../styles/Styles";
 import { PageHeader } from "../components/PageHeader";
 import { Switch } from "../components/Inputs/Switch";
 import { InputBox } from "../components/Inputs/InputBox";
-import { Config, GetRequest, PostConfig } from "../utils/APIHelper";
+import { Config, GetConfig, PostConfig } from "../utils/APIHelper";
 
 import styled from "styled-components";
 
@@ -19,7 +19,7 @@ export const Home = () => {
   }; */
 
   const json = async () => {
-    let data = await GetRequest("config");
+    let data = await GetConfig();
     setConfig(data);
     console.log(data.title);
   };
@@ -34,7 +34,10 @@ export const Home = () => {
 
   return (
     <HomeStyle>
-      <PageHeader title="" subtitle="" />
+      <PageHeader
+        title="CrimsonBot Reddit Settings"
+        subtitle={`/u/${config.username}`}
+      />
       <BasePageStyle>
         <StatsContainer>
           <h2>
