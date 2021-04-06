@@ -58,12 +58,6 @@ export const Discord = () => {
             <h1>Logs</h1>
             <InputBox message="Log Server" value="Talk here" />
             <InputBox message="New Ticket Channel" value="Updates" />
-            <InputBox
-              message=""
-              value="Hey Add me On Discord My Id Is: {DiscordID}"
-            />
-            <InputBox message="Subreddits" value="gaming" />
-            <InputBox message="Forbidden Words" value="hire me, for hire" />
             <Switch
               message="DM Dan"
               isToggled={isToggled}

@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ContainerStyle, BasePageStyle } from "../styles/Styles";
 import { PageHeader } from "../components/PageHeader";
 import { Switch } from "../components/Inputs/Switch";
 import { InputBox } from "../components/Inputs/InputBox";
+import { Config, GetRequest, PostConfig } from "../utils/APIHelper";
 
 import styled from "styled-components";
 
 export const Home = () => {
   const [isToggled, setIsToggled] = useState(false);
+  const [val, setval] = useState("");
+  const [config, setConfig] = useState(new Config({}));
 
   /*
   const boxTogle = () => {
@@ -15,6 +18,20 @@ export const Home = () => {
     setIsToggled(newToggle);
     console.log("New Toggle: " + newToggle);
   }; */
+
+  const json = async () => {
+    let data = await GetRequest("config");
+    setConfig(data);
+    console.log(data.title);
+  };
+
+  useEffect(() => {
+    json();
+  }, []);
+
+  const saveData = () => {
+    PostConfig(config);
+  };
 
   return (
     <HomeStyle>
@@ -34,16 +51,55 @@ export const Home = () => {
         <ComboContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>Account</h1>
-            <InputBox message="Client ID" value="3QKdFMXaCZg" />
+            <InputBox
+              message="Client ID"
+              value={config.clientID}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  clientID: e.target.value,
+                });
+              }}
+            />
             <InputBox
               message="Client Secret"
-              value="7PsadJasKWdfgEhhjPtyOAWEIA94fsd"
+              value={config.clientSecret}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  clientSecret: e.target.value,
+                });
+              }}
             />
-            <InputBox message="Username" value="3Q99CZASKD" />
-            <InputBox message="Password" value="ThisIsAPassword" />
+            <InputBox
+              message="Username"
+              value={config.username}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  username: e.target.value,
+                });
+              }}
+            />
+            <InputBox
+              message="Password"
+              value={config.password}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  password: e.target.value,
+                });
+              }}
+            />
             <InputBox
               message="User Agent"
-              value="platform:Firefox:0.0.1 (by /Dan/"
+              value={config.userAgent}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  userAgent: e.target.value,
+                });
+              }}
             />
             <Switch
               message="Validate On Submit"
@@ -53,11 +109,25 @@ export const Home = () => {
           </GeneralSettingContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>Main</h1>
-            <InputBox message="DiscordID" value="Remzy#0666" />
-            <InputBox message="Title" value="Hey add me on Discord!" />
+            <InputBox
+              message="Title"
+              value={config.title}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  title: e.target.value,
+                });
+              }}
+            />
             <InputBox
               message="Body"
-              value="Hey Add me On Discord My Id Is: {DiscordID}"
+              value={config.pmBody}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  pmBody: e.target.value,
+                });
+              }}
             />
             <InputBox message="Subreddits" value="gaming" />
             <InputBox message="Forbidden Words" value="hire me, for hire" />
@@ -66,12 +136,15 @@ export const Home = () => {
               isToggled={isToggled}
               onToggle={() => setIsToggled(!isToggled)}
             />
+            <button onClick={saveData}>Save</button>
           </GeneralSettingContainer>
         </ComboContainer>
       </BasePageStyle>
     </HomeStyle>
   );
 };
+
+export default Home;
 
 const HomeStyle = styled.div`
   transition: all 5s ease-in-out;

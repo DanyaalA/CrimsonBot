@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 type InputProps = {
   message: String;
   value: string;
+  onChange?: any;
 };
 
-export const InputBox = (props: InputProps) => {
+export const InputBox = ({ message, value, onChange }: InputProps) => {
+  const handleChange = (event: any) => {
+    value = event.target.value;
+
+    //onChange.ev = event;
+    if (typeof onChange === "function") {
+      onChange(event);
+    }
+  };
+
   return (
     <>
-      <StyledSpan>{props.message}</StyledSpan>
+      <StyledSpan>{message}</StyledSpan>
       <InputContainer>
-        <input value={props.value} />
+        <input value={value} onChange={handleChange} />
       </InputContainer>
     </>
   );
