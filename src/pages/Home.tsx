@@ -6,7 +6,6 @@ import { InputBox } from "../components/Inputs/InputBox";
 import { Config, GetRequest, PostConfig } from "../utils/APIHelper";
 
 import styled from "styled-components";
-import { ListBox } from "../components/Inputs/ListBox";
 
 export const Home = () => {
   const [isLogging, setIsLogging] = useState(false);
