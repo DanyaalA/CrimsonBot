@@ -10,7 +10,7 @@ export const Menu = () => {
       <Link to="/">
         <MenuHeader>
           <IconStyle
-            src="https://i.imgur.com/uMPcOzj.png"
+            src="https://i.redd.it/snoovatar/snoovatars/289760a5-8144-4717-8e53-ab768d53b89d.png"
             alt="Reddit Avatar"
           />
         </MenuHeader>

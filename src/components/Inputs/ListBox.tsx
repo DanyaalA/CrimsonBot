@@ -3,11 +3,11 @@ import styled from "styled-components";
 
 type InputProps = {
   message: String;
-  value: string | [string];
+  value: [string];
   onChange?: any;
 };
 
-export const InputBox = ({ message, value, onChange }: InputProps) => {
+export const ListBox = ({ message, value, onChange }: InputProps) => {
   const handleChange = (event: any) => {
     value = event.target.value;
 
@@ -21,7 +21,11 @@ export const InputBox = ({ message, value, onChange }: InputProps) => {
     <>
       <StyledSpan>{message}</StyledSpan>
       <InputContainer>
-        <input value={value} onChange={handleChange} />
+        <select>
+          <option value="HwForCash">HwForCash</option>
+          <option value="Examhelper">Hekper</option>
+          <option value="HelpExamer">Exam</option>
+        </select>
       </InputContainer>
     </>
   );

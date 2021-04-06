@@ -6,10 +6,10 @@ import { InputBox } from "../components/Inputs/InputBox";
 import { Config, GetRequest, PostConfig } from "../utils/APIHelper";
 
 import styled from "styled-components";
+import { ListBox } from "../components/Inputs/ListBox";
 
 export const Home = () => {
-  const [isToggled, setIsToggled] = useState(false);
-  const [val, setval] = useState("");
+  const [isLogging, setIsLogging] = useState(false);
   const [config, setConfig] = useState(new Config({}));
 
   /*
@@ -101,11 +101,9 @@ export const Home = () => {
                 });
               }}
             />
-            <Switch
-              message="Validate On Submit"
-              isToggled={isToggled}
-              onToggle={() => setIsToggled(!isToggled)}
-            />
+            <CenterDiv>
+              <CustomButton onClick={saveData}>Save</CustomButton>
+            </CenterDiv>
           </GeneralSettingContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>Main</h1>
@@ -129,14 +127,34 @@ export const Home = () => {
                 });
               }}
             />
-            <InputBox message="Subreddits" value="gaming" />
-            <InputBox message="Forbidden Words" value="hire me, for hire" />
+            <InputBox
+              message="Subreddits"
+              value={config.subreddits}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  subreddits: e.target.value.split(","),
+                });
+              }}
+            />
+            <InputBox
+              message="Forbidden Words"
+              value={config.forbiddenWords}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  forbiddenWords: e.target.value.split(","),
+                });
+              }}
+            />
             <Switch
               message="Log Bot Activity"
-              isToggled={isToggled}
-              onToggle={() => setIsToggled(!isToggled)}
+              isToggled={isLogging}
+              onToggle={() => setIsLogging(!isLogging)}
             />
-            <button onClick={saveData}>Save</button>
+            <CenterDiv>
+              <CustomButton onClick={saveData}>Save</CustomButton>
+            </CenterDiv>
           </GeneralSettingContainer>
         </ComboContainer>
       </BasePageStyle>
@@ -145,6 +163,35 @@ export const Home = () => {
 };
 
 export default Home;
+
+const CenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const CustomButton = styled.button`
+  width: 50%;
+  height: 28px;
+  border: none;
+  background-color: #313c4b;
+  border-radius: 5px;
+  justify-content: center;
+  color: white;
+  font-family: "Lexend Deca";
+  font-size: 18px;
+  outline: none;
+  :active {
+    border: none;
+  }
+
+  :hover {
+    background-color: #455366;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+  transition: 0.5s;
+`;
 
 const HomeStyle = styled.div`
   transition: all 5s ease-in-out;
