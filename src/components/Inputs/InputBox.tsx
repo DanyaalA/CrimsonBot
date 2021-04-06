@@ -5,9 +5,10 @@ type InputProps = {
   message: String;
   value: string | [string];
   onChange?: any;
+  type?: string;
 };
 
-export const InputBox = ({ message, value, onChange }: InputProps) => {
+export const InputBox = ({ message, value, onChange, type }: InputProps) => {
   const handleChange = (event: any) => {
     value = event.target.value;
 
@@ -21,7 +22,7 @@ export const InputBox = ({ message, value, onChange }: InputProps) => {
     <>
       <StyledSpan>{message}</StyledSpan>
       <InputContainer>
-        <input value={value} onChange={handleChange} />
+        <input value={value} onChange={handleChange} type={type} />
       </InputContainer>
     </>
   );

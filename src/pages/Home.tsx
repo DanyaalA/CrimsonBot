@@ -83,6 +83,7 @@ export const Home = () => {
             <InputBox
               message="Password"
               value={config.password}
+              type="password"
               onChange={(e: any) => {
                 setConfig({
                   ...config,
