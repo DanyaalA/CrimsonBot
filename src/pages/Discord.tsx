@@ -82,12 +82,17 @@ const HomeStyle = styled.div`
 const GeneralSettingContainer = styled(ContainerStyle)`
   display: flex;
   flex-direction: column;
-  padding-left: 25px;
+  padding: 25px;
 
   h1 {
     text-align: center;
     border-radius: 5px;
     width: 100%;
+  }
+
+  .inputBox {
+    width: 100%;
+    padding-bottom: 10px;
   }
 `;
 
