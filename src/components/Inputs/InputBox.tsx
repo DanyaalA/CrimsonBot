@@ -18,12 +18,12 @@ export const InputBox = ({ message, value, onChange, type }: InputProps) => {
   };
 
   return (
-    <>
+    <div className="inputBox">
       <StyledSpan>{message}</StyledSpan>
       <InputContainer>
         <input value={value} onChange={handleChange} type={type} />
       </InputContainer>
-    </>
+    </div>
   );
 };
 
@@ -35,14 +35,16 @@ const InputContainer = styled.div`
   display: flex;
   height: 23px;
   padding-bottom: 10px;
+
   span {
     padding-right: 5px;
   }
+
   input {
     padding-left: 10px;
     color: white;
     font-family: "Lexend Deca";
-    width: 300px;
+    width: 100%;
     height: 30px;
     background: #141617;
     border: 2px solid #1f1f1f;
