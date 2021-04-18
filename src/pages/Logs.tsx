@@ -13,6 +13,7 @@ export const Logs = () => {
 
   const json = async () => {
     let data = await GetLogs();
+    console.log(data);
     setLogs(data);
   };
 

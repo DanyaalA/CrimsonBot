@@ -55,11 +55,11 @@ export const Home = () => {
             <h1>Account</h1>
             <InputBox
               message="Client ID"
-              value={config.clientID}
+              value={config.clientId}
               onChange={(e: any) => {
                 setConfig({
                   ...config,
-                  clientID: e.target.value,
+                  clientId: e.target.value,
                 });
               }}
             />
