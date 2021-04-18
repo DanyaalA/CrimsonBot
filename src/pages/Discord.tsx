@@ -93,15 +93,9 @@ const GeneralSettingContainer = styled(ContainerStyle)`
 
 const StatsContainer = styled(ContainerStyle)`
   display: flex;
-  text-align: right;
-  align-content: right;
-  justify-content: right;
+  justify-content: space-between;
   width: 100%;
-  h2 {
-    padding-left: 18%;
-    align-content: left;
-    text-align: right;
-  }
+
   span {
     font-weight: normal;
     font-size: 15px;

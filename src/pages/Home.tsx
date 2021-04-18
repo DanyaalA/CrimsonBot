@@ -213,20 +213,15 @@ const GeneralSettingContainer = styled(ContainerStyle)`
 
   .inputBox {
     width: 100%;
+    padding-bottom: 10px;
   }
 `;
 
 const StatsContainer = styled(ContainerStyle)`
   display: flex;
-  text-align: right;
-  align-content: right;
-  justify-content: right;
+  justify-content: space-between;
   width: 100%;
-  h2 {
-    padding-left: 18%;
-    align-content: left;
-    text-align: right;
-  }
+
   span {
     font-weight: normal;
     font-size: 15px;
@@ -236,6 +231,7 @@ const StatsContainer = styled(ContainerStyle)`
 const ComboContainer = styled.div`
   display: flex;
   margin-left: 5px;
+
   #comboContainer {
     margin-left: 15px;
   }
