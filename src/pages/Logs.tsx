@@ -23,6 +23,7 @@ export const Logs = () => {
   return (
     <HomeStyle>
       <PageHeader title="Crimson Reddit Logs" subtitle="/u/HomeworkHelperr" />
+
       <BasePageStyle>
         <GeneralSettingContainer id="comboContainer">
           <h1>Logs</h1>
@@ -35,6 +36,11 @@ export const Logs = () => {
 
 const HomeStyle = styled.div`
   transition: all 5s ease-in-out;
+
+  table {
+    width: 100%;
+    text-align: center;
+  }
 `;
 
 const GeneralSettingContainer = styled(ContainerStyle)`
