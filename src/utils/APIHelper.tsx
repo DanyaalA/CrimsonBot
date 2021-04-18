@@ -13,11 +13,19 @@ export const GetConfig = async (): Promise<Config> => {
   return data[0];
 };
 
-export const GetLogs = async (): Promise<LogsDto> => {
+export const GetLogs = async (): Promise<[LogsDto]> => {
   let response = await fetch(domain + "logs");
   let data = await response.json();
   console.log(data);
-  return data;
+  let pmLogs: [LogsDto] = [new LogsDto({})];
+  data.forEach((element: LogsDto) => {
+    if (element.pm) {
+      pmLogs.push(element);
+    }
+  });
+  console.log(pmLogs);
+  pmLogs.reverse();
+  return pmLogs;
 };
 
 export const PostConfig = async (config: Config) => {

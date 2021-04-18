@@ -9,11 +9,10 @@ import { Table } from "../components/Table";
 import { GetLogs, LogsDto } from "../utils/APIHelper";
 
 export const Logs = () => {
-  const [logs, setLogs] = useState(new LogsDto({}));
+  const [logs, setLogs] = useState([new LogsDto({})]);
 
   const json = async () => {
     let data = await GetLogs();
-    console.log(data);
     setLogs(data);
   };
 

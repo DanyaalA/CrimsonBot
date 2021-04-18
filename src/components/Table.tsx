@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { LogsDto } from "../utils/APIHelper";
 
 type LogProps = {
-  logs: LogsDto;
+  logs: LogsDto[];
 };
 
 export const Table = ({ logs }: LogProps) => {
@@ -18,34 +18,19 @@ export const Table = ({ logs }: LogProps) => {
       </Header>
 
       <Content>
-        <TableItem>
-          <p>HomeworkHelp</p>
-          <p>Add Pamela#0006 on Discord</p>
-          <p>HwforCash</p>
-          <p>Link Here</p>
-          <p>06/04/2021 22:42</p>
-        </TableItem>
-        <TableItem>
-          <p>HomeworkHelp</p>
-          <p>Add Pamela#0006 on Discord</p>
-          <p>HwforCash</p>
-          <p>Link Here</p>
-          <p>06/04/2021 22:42</p>
-        </TableItem>
-        <TableItem>
-          <p>HomeworkHelp</p>
-          <p>Add Pamela#0006 on Discord</p>
-          <p>HwforCash</p>
-          <p>Link Here</p>
-          <p>06/04/2021 22:42</p>
-        </TableItem>
-        <TableItem>
-          <p>HomeworkHelp</p>
-          <p>Add Pamela#0006 on Discord</p>
-          <p>HwforCash</p>
-          <p>Link Here</p>
-          <p>06/04/2021 22:42</p>
-        </TableItem>
+        {logs.map((log) => (
+          <TableItem>
+            <a href={`https://reddit.com/u/${log.username}/`}>{log.username}</a>
+            <p>{log.message}</p>
+            <p>{log.subreddit}</p>
+            <a
+              href={`https://reddit.com/r/${log.subreddit}/comments/${log.subId}`}
+            >
+              Link Here
+            </a>
+            <p>{log.time}</p>
+          </TableItem>
+        ))}
       </Content>
     </TableStyle>
   );
@@ -78,5 +63,14 @@ const TableItem = styled.div`
   p {
     //margin: 0 18rem 0 0;
     //margin-right: 20%;
+  }
+  a {
+    text-decoration: none;
+    color: #0e48e9;
+    transition: all 0.2s;
+  }
+
+  a:hover {
+    color: #0ea4e9;
   }
 `;
