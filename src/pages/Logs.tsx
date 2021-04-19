@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ContainerStyle, BasePageStyle } from "../styles/Styles";
 import { PageHeader } from "../components/PageHeader";
-import { Switch } from "../components/Inputs/Switch";
-import { InputBox } from "../components/Inputs/InputBox";
 
 import styled from "styled-components";
 import { Table } from "../components/Table";
@@ -23,6 +21,7 @@ export const Logs = () => {
   return (
     <HomeStyle>
       <PageHeader title="Crimson Reddit Logs" subtitle="/u/HomeworkHelperr" />
+
       <BasePageStyle>
         <GeneralSettingContainer id="comboContainer">
           <h1>Logs</h1>
@@ -35,6 +34,11 @@ export const Logs = () => {
 
 const HomeStyle = styled.div`
   transition: all 5s ease-in-out;
+
+  table {
+    width: 100%;
+    text-align: center;
+  }
 `;
 
 const GeneralSettingContainer = styled(ContainerStyle)`
@@ -46,30 +50,5 @@ const GeneralSettingContainer = styled(ContainerStyle)`
     text-align: center;
     border-radius: 5px;
     width: 100%;
-  }
-`;
-
-const StatsContainer = styled(ContainerStyle)`
-  display: flex;
-  text-align: right;
-  align-content: right;
-  justify-content: right;
-  width: 100%;
-  h2 {
-    padding-left: 18%;
-    align-content: left;
-    text-align: right;
-  }
-  span {
-    font-weight: normal;
-    font-size: 15px;
-  }
-`;
-
-const ComboContainer = styled.div`
-  display: flex;
-  margin-left: 5px;
-  #comboContainer {
-    margin-left: 15px;
   }
 `;

@@ -1,4 +1,3 @@
-import React from "react";
 import { ContainerStyle } from "../styles/Styles";
 
 export const Container = () => {

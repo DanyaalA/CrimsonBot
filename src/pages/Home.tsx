@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ContainerStyle, BasePageStyle } from "../styles/Styles";
 import { PageHeader } from "../components/PageHeader";
 import { Switch } from "../components/Inputs/Switch";
@@ -203,26 +203,25 @@ const HomeStyle = styled.div`
 const GeneralSettingContainer = styled(ContainerStyle)`
   display: flex;
   flex-direction: column;
-  padding-left: 25px;
+  padding: 25px;
 
   h1 {
     text-align: center;
     border-radius: 5px;
     width: 100%;
   }
+
+  .inputBox {
+    width: 100%;
+    padding-bottom: 10px;
+  }
 `;
 
 const StatsContainer = styled(ContainerStyle)`
   display: flex;
-  text-align: right;
-  align-content: right;
-  justify-content: right;
+  justify-content: space-between;
   width: 100%;
-  h2 {
-    padding-left: 18%;
-    align-content: left;
-    text-align: right;
-  }
+
   span {
     font-weight: normal;
     font-size: 15px;
@@ -232,6 +231,7 @@ const StatsContainer = styled(ContainerStyle)`
 const ComboContainer = styled.div`
   display: flex;
   margin-left: 5px;
+
   #comboContainer {
     margin-left: 15px;
   }
