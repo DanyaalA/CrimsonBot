@@ -4,13 +4,13 @@ import { PageHeader } from "../components/PageHeader";
 
 import styled from "styled-components";
 import { Table } from "../components/Table";
-import { GetLogs, LogsDto } from "../utils/APIHelper";
+import APIHelper, { LogsDto } from "../utils/APIHelper";
 
 export const Logs = () => {
   const [logs, setLogs] = useState([new LogsDto({})]);
 
   const json = async () => {
-    let data = await GetLogs();
+    let data = await APIHelper.GetLogs();
     setLogs(data);
   };
 
