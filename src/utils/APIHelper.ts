@@ -23,6 +23,7 @@ export const GetLogs = async (): Promise<[LogsDto]> => {
       pmLogs.push(element);
     }
   });
+
   console.log(pmLogs);
   pmLogs.reverse();
   return pmLogs;
