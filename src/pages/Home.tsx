@@ -3,7 +3,7 @@ import { ContainerStyle, BasePageStyle } from "../styles/Styles";
 import { PageHeader } from "../components/PageHeader";
 import { Switch } from "../components/Inputs/Switch";
 import { InputBox } from "../components/Inputs/InputBox";
-import { Config, GetConfig, PostConfig } from "../utils/APIHelper";
+import APIHelper, { Config } from "../utils/APIHelper";
 
 import styled from "styled-components";
 
@@ -19,7 +19,7 @@ export const Home = () => {
   }; */
 
   const json = async () => {
-    let data = await GetConfig();
+    let data = await APIHelper.GetConfig();
     setConfig(data);
     console.log(data.title);
   };
@@ -29,7 +29,7 @@ export const Home = () => {
   }, []);
 
   const saveData = () => {
-    PostConfig(config);
+    APIHelper.PostConfig(config);
   };
 
   return (
