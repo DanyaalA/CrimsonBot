@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-let domain = "https://reddit-api-bot.herokuapp.com/bot/";
+let domain = "https://reddit-api-bot2.herokuapp.com/bot/";
 const devMode = false;
 
 if (devMode) {
