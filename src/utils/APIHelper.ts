@@ -1,37 +1,39 @@
-const axios = require("axios");
+import axios from "axios";
 
-let domain = "https://reddit-api-bot2.herokuapp.com/bot/";
-const devMode = false;
+export default class APIHelper {
+  private static readonly devMode = true;
+  private static domain = APIHelper.devMode
+    ? "http://localhost:3000/bot/"
+    : "https://reddit-api-bot2.herokuapp.com/bot/";
 
-if (devMode) {
-  domain = "http://localhost:3000/bot/";
+  public static GetConfig = async (): Promise<Config> => {
+    let response = await fetch(APIHelper.domain + "config");
+    let data = await response.json();
+    return data[0];
+  };
+
+  public static GetLogs = async (): Promise<[LogsDto]> => {
+    let response = await fetch(APIHelper.domain + "logs");
+
+    let data = await response.json();
+    console.log("data", data);
+
+    let pmLogs: [LogsDto] = [new LogsDto({})];
+    data.forEach((element: LogsDto) => {
+      if (element.pm) {
+        pmLogs.push(element);
+      }
+    });
+
+    console.log(pmLogs);
+    pmLogs.reverse();
+    return pmLogs;
+  };
+
+  public static PostConfig = async (config: Config) => {
+    axios.post(APIHelper.domain + "updateConfig", config).catch();
+  };
 }
-
-export const GetConfig = async (): Promise<Config> => {
-  let response = await fetch(domain + "config");
-  let data = await response.json();
-  return data[0];
-};
-
-export const GetLogs = async (): Promise<[LogsDto]> => {
-  let response = await fetch(domain + "logs");
-  let data = await response.json();
-  console.log(data);
-  let pmLogs: [LogsDto] = [new LogsDto({})];
-  data.forEach((element: LogsDto) => {
-    if (element.pm) {
-      pmLogs.push(element);
-    }
-  });
-
-  console.log(pmLogs);
-  pmLogs.reverse();
-  return pmLogs;
-};
-
-export const PostConfig = async (config: Config) => {
-  axios.post(domain + "updateConfig", config).catch();
-};
 
 export class LogsDto {
   id: number;
@@ -41,6 +43,7 @@ export class LogsDto {
   time: string;
   subId: string;
   pm: boolean;
+
   constructor(data: any) {
     this.id = data.id;
     this.username = data.id;
@@ -63,6 +66,7 @@ export class Config {
   pmBody: string;
   subreddits: string;
   forbiddenWords: string;
+
   constructor(data: any) {
     this.id = data.id;
     this.clientId = data.clientId;
