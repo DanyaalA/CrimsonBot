@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default class APIHelper {
-  private static readonly devMode = false;
+  private static readonly devMode = true;
   private static domain = APIHelper.devMode
     ? "http://localhost:3000/bot/"
     : "https://reddit-api-bot2.herokuapp.com/bot/";
@@ -65,6 +65,13 @@ export class Config {
   pmBody: string;
   subreddits: string;
   forbiddenWords: string;
+  activity: string;
+  type: string;
+  status: string;
+  imageUrl: string;
+  autoSwitch: boolean;
+  autoTicket: boolean;
+  autoReact: boolean;
 
   constructor(data: any) {
     this.id = data.id;
@@ -77,5 +84,12 @@ export class Config {
     this.pmBody = data.pmBody;
     this.subreddits = data.subreddits;
     this.forbiddenWords = data.forbiddenwords;
+    this.activity = data.activity;
+    this.type = data.type;
+    this.status = data.status;
+    this.imageUrl = data.imageUrl;
+    this.autoSwitch = data.autoSwitch;
+    this.autoTicket = data.autoTicket;
+    this.autoReact = data.autoReact;
   }
 }

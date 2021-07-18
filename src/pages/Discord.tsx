@@ -1,13 +1,30 @@
-import { useState } from "react";
-import { ContainerStyle, BasePageStyle } from "../styles/Styles";
+import { useEffect, useState } from "react";
+import {
+  ContainerStyle,
+  BasePageStyle,
+  CenterDiv,
+  CustomButton,
+} from "../styles/Styles";
 import { PageHeader } from "../components/PageHeader";
 import { Switch } from "../components/Inputs/Switch";
 import { InputBox } from "../components/Inputs/InputBox";
+import APIHelper, { Config } from "../utils/APIHelper";
 
 import styled from "styled-components";
 
 export const Discord = () => {
   const [isToggled, setIsToggled] = useState(false);
+  const [config, setConfig] = useState(new Config({}));
+
+  const json = async () => {
+    let data = await APIHelper.GetConfig();
+    setConfig(data);
+    console.log(data.title);
+  };
+
+  useEffect(() => {
+    json();
+  }, []);
 
   /*
   const boxTogle = () => {
@@ -15,6 +32,9 @@ export const Discord = () => {
     setIsToggled(newToggle);
     console.log("New Toggle: " + newToggle);
   }; */
+  const saveData = () => {
+    APIHelper.PostConfig(config);
+  };
 
   return (
     <HomeStyle>
@@ -22,40 +42,94 @@ export const Discord = () => {
       <BasePageStyle>
         <StatsContainer>
           <h2>
-            DM's <span>500</span>
+            Users <span>500</span>
           </h2>
           <h2>
-            Posts <span>800</span>
+            Online <span>800</span>
           </h2>
           <h2>
-            Filtered Posts <span>600</span>
+            Open Tickets <span>600</span>
           </h2>
         </StatsContainer>
         <ComboContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>General</h1>
             <InputBox
-              message="Discord Bot Token"
-              value="7PsadJasKWdfgEhhjPtyOAWEIA94fsd"
+              message="Activity"
+              value={config.activity}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  activity: e.target.value,
+                });
+              }}
             />
-            <InputBox message="Discord Server ID" value="Work Lab" />
             <InputBox
-              message="Auto Respond Message"
-              value="Please Join My server and create a ticket a tutor will contact you shortly and help you with your message"
+              message="Type"
+              value={config.type}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  type: e.target.value,
+                });
+              }}
+            />
+            <InputBox
+              message="status"
+              value={config.status}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  status: e.target.value,
+                });
+              }}
+            />
+            <InputBox
+              message="Bot Image URL"
+              value={config.imageUrl}
+              onChange={(e: any) => {
+                setConfig({
+                  ...config,
+                  imageUrl: e.target.value,
+                });
+              }}
             />
             <Switch
-              message="Auto Log"
-              isToggled={isToggled}
-              onToggle={() => setIsToggled(!isToggled)}
+              message="Advance User Switcher"
+              isToggled={config.autoSwitch}
+              onToggle={(e: any) => {
+                setConfig({
+                  ...config,
+                  autoSwitch: !config.autoSwitch,
+                });
+              }}
             />
             <Switch
-              message="Auto DM"
-              isToggled={isToggled}
-              onToggle={() => setIsToggled(!isToggled)}
+              message="Auto Create Ticket"
+              isToggled={config.autoTicket}
+              onToggle={(e: any) => {
+                setConfig({
+                  ...config,
+                  autoTicket: !config.autoTicket,
+                });
+              }}
             />
+            <Switch
+              message="Auto Reacter"
+              isToggled={config.autoReact}
+              onToggle={(e: any) => {
+                setConfig({
+                  ...config,
+                  autoReact: !config.autoReact,
+                });
+              }}
+            />
+            <CenterDiv>
+              <CustomButton onClick={saveData}>Save</CustomButton>
+            </CenterDiv>
           </GeneralSettingContainer>
           <GeneralSettingContainer id="comboContainer">
-            <h1>Logs</h1>
+            <h1>Payment</h1>
             <InputBox message="Log Server" value="Talk here" />
             <InputBox message="New Ticket Channel" value="Updates" />
             <Switch

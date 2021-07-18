@@ -26,3 +26,32 @@ export const ContainerStyle = styled.div`
   background-color: ${(props) => props.theme.base.container};
   //141617
 `;
+
+export const CenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+export const CustomButton = styled.button`
+  width: 50%;
+  height: 28px;
+  border: none;
+  background-color: #313c4b;
+  border-radius: 5px;
+  justify-content: center;
+  color: white;
+  font-family: "Lexend Deca";
+  font-size: 18px;
+  outline: none;
+  :active {
+    border: none;
+  }
+
+  :hover {
+    background-color: #455366;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+  transition: 0.5s;
+`;
