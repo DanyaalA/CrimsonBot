@@ -105,7 +105,7 @@ export const Discord = () => {
               }}
             />
             <Switch
-              message="Auto Create Ticket"
+              message="Auto Creete Ticket"
               isToggled={config.autoTicket}
               onToggle={(e: any) => {
                 setConfig({
