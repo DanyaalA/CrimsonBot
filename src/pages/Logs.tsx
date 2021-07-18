@@ -11,6 +11,7 @@ export const Logs = () => {
 
   const json = async () => {
     let data = await APIHelper.GetLogs();
+    data.shift(); //First Item is Undefined.
     setLogs(data);
   };
 
