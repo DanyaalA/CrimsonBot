@@ -26,7 +26,6 @@ export default class APIHelper {
     });
 
     console.log(pmLogs);
-    pmLogs.reverse();
     return pmLogs;
   };
 
