@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default class APIHelper {
-  private static readonly devMode = true;
+  private static readonly devMode = false;
   private static domain = APIHelper.devMode
     ? "http://localhost:3000/bot/"
     : "https://reddit-api-bot2.herokuapp.com/bot/";
