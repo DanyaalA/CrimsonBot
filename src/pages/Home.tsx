@@ -26,7 +26,6 @@ export const Home = () => {
   const json = async () => {
     let data = await APIHelper.GetConfig();
     setConfig(data);
-    console.log(data.title);
   };
 
   useEffect(() => {

@@ -8,18 +8,18 @@ import {
 import { PageHeader } from "../components/PageHeader";
 import { Switch } from "../components/Inputs/Switch";
 import { InputBox } from "../components/Inputs/InputBox";
-import APIHelper, { Config } from "../utils/APIHelper";
-
+import { Payment } from "../components/Payment";
+import APIHelper, { Config, Payments } from "../utils/APIHelper";
 import styled from "styled-components";
 
 export const Discord = () => {
-  const [isToggled, setIsToggled] = useState(false);
   const [config, setConfig] = useState(new Config({}));
-
+  const [payments, setPayments] = useState([new Payments({})]);
   const json = async () => {
-    let data = await APIHelper.GetConfig();
-    setConfig(data);
-    console.log(data.title);
+    let config = await APIHelper.GetConfig();
+    let payments = await APIHelper.GetPayments();
+    setConfig(config);
+    setPayments(payments);
   };
 
   useEffect(() => {
@@ -32,8 +32,25 @@ export const Discord = () => {
     setIsToggled(newToggle);
     console.log("New Toggle: " + newToggle);
   }; */
+
   const saveData = () => {
     APIHelper.PostConfig(config);
+  };
+
+  const addPayment = () => {
+    let newId = 0;
+    if (payments.length > 0) {
+      newId = payments[payments.length - 1].id + 1;
+    }
+
+    setPayments([
+      ...payments,
+      { id: newId, name: "", value: "", type: "FIAT" },
+    ]);
+  };
+
+  const savePayments = () => {
+    APIHelper.PostPayments(payments);
   };
 
   return (
@@ -130,18 +147,21 @@ export const Discord = () => {
           </GeneralSettingContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>Payment</h1>
-            <InputBox message="Log Server" value="Talk here" />
-            <InputBox message="New Ticket Channel" value="Updates" />
-            <Switch
-              message="DM Dan"
-              isToggled={isToggled}
-              onToggle={() => setIsToggled(!isToggled)}
-            />
-            <Switch
-              message="DM Aroma"
-              isToggled={isToggled}
-              onToggle={() => setIsToggled(!isToggled)}
-            />
+            <div>
+              {payments.map((payment, index) => (
+                <Payment
+                  payments={payments}
+                  payment={payment}
+                  setPayments={setPayments}
+                  key={index}
+                />
+              ))}
+            </div>
+
+            <CenterDiv>
+              <CustomButton onClick={addPayment}>Add</CustomButton>
+              <CustomButton onClick={savePayments}>Save</CustomButton>
+            </CenterDiv>
           </GeneralSettingContainer>
         </ComboContainer>
       </BasePageStyle>
@@ -162,6 +182,7 @@ const GeneralSettingContainer = styled(ContainerStyle)`
     text-align: center;
     border-radius: 5px;
     width: 100%;
+    padding-bottom: 10px;
   }
 
   .inputBox {
