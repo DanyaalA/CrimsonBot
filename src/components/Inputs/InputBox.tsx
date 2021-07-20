@@ -29,12 +29,14 @@ export const InputBox = ({ message, value, onChange, type }: InputProps) => {
 
 const StyledSpan = styled.span`
   padding-right: 5px;
+  margin-left: 2px;
 `;
 
 const InputContainer = styled.div`
   display: flex;
   height: 23px;
   padding-bottom: 10px;
+  margin-top: 3px;
 
   span {
     padding-right: 5px;

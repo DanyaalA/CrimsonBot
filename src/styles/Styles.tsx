@@ -31,6 +31,10 @@ export const CenterDiv = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+
+  button {
+    margin-right: 25px;
+  }
 `;
 
 export const CustomButton = styled.button`
@@ -44,6 +48,7 @@ export const CustomButton = styled.button`
   font-family: "Lexend Deca";
   font-size: 18px;
   outline: none;
+
   :active {
     border: none;
   }
