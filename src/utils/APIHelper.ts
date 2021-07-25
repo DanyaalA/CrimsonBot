@@ -39,7 +39,35 @@ export default class APIHelper {
   };
 
   public static PostPayments = async (payments: Payments[]) => {
-    axios.post(APIHelper.domain + "updatePayments", payments).catch();
+    const currentPayments = await APIHelper.GetPayments();
+    let filteredPayments: Payments[] = [];
+    console.log(currentPayments);
+    console.log(payments);
+    payments.forEach((newPayment) => {
+      let found = false;
+      currentPayments.forEach((oldPayment) => {
+        if (
+          (newPayment.name !== oldPayment.name ||
+            newPayment.value !== oldPayment.value ||
+            newPayment.type !== oldPayment.type) &&
+          newPayment.id === oldPayment.id
+        ) {
+          filteredPayments.push(newPayment);
+        }
+
+        if (newPayment.id === oldPayment.id) {
+          found = true;
+        }
+      });
+
+      if (!found) {
+        filteredPayments.push(newPayment);
+      }
+    });
+
+    console.log(filteredPayments);
+
+    axios.post(APIHelper.domain + "updatePayments", filteredPayments).catch();
   };
 }
 
