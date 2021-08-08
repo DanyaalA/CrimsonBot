@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   ContainerStyle,
   BasePageStyle,
   CenterDiv,
   CustomButton,
-} from "../styles/Styles";
-import { PageHeader } from "../components/PageHeader";
-import { Switch } from "../components/Inputs/Switch";
-import { InputBox } from "../components/Inputs/InputBox";
-import { Payment } from "../components/Payment";
-import APIHelper, { Config, Payments } from "../utils/APIHelper";
-import styled from "styled-components";
+} from '../styles/Styles';
+import { PageHeader } from '../components/PageHeader';
+import { Switch } from '../components/Inputs/Switch';
+import { InputBox } from '../components/Inputs/InputBox';
+import { Payment } from '../components/Payment';
+import APIHelper, { Config, Payments } from '../utils/APIHelper';
+import styled from 'styled-components';
 
 export const Discord = () => {
   const [config, setConfig] = useState(new Config({}));
@@ -45,7 +45,7 @@ export const Discord = () => {
 
     setPayments([
       ...payments,
-      { id: newId, name: "", value: "", type: "FIAT" },
+      { id: newId, name: '', value: '', type: 'FIAT' },
     ]);
   };
 
@@ -56,6 +56,10 @@ export const Discord = () => {
   return (
     <HomeStyle>
       <PageHeader title="" subtitle="" />
+      <PageHeader
+        title="LabMaker Discord Settings"
+        subtitle={`/u/${config.username}`}
+      />
       <BasePageStyle>
         <StatsContainer>
           <h2>

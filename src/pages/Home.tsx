@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   ContainerStyle,
   BasePageStyle,
   CenterDiv,
   CustomButton,
-} from "../styles/Styles";
-import { PageHeader } from "../components/PageHeader";
-import { Switch } from "../components/Inputs/Switch";
-import { InputBox } from "../components/Inputs/InputBox";
-import APIHelper, { Config } from "../utils/APIHelper";
+} from '../styles/Styles';
+import { PageHeader } from '../components/PageHeader';
+import { Switch } from '../components/Inputs/Switch';
+import { InputBox } from '../components/Inputs/InputBox';
+import APIHelper, { Config } from '../utils/APIHelper';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Home = () => {
   const [isLogging, setIsLogging] = useState(false);
@@ -38,8 +38,11 @@ export const Home = () => {
 
   return (
     <HomeStyle>
+      {/* Accidently added to headers and saw that is adds an extra Layer and
+      looks better. Implement this without having to use two page headers */}
+      <PageHeader title="" subtitle="" />
       <PageHeader
-        title="CrimsonBot Reddit Settings"
+        title="LabMaker Reddit Settings"
         subtitle={`/u/${config.username}`}
       />
       <BasePageStyle>
@@ -140,7 +143,7 @@ export const Home = () => {
               onChange={(e: any) => {
                 setConfig({
                   ...config,
-                  subreddits: e.target.value.split(","),
+                  subreddits: e.target.value.split(','),
                 });
               }}
             />
@@ -150,7 +153,7 @@ export const Home = () => {
               onChange={(e: any) => {
                 setConfig({
                   ...config,
-                  forbiddenWords: e.target.value.split(","),
+                  forbiddenWords: e.target.value.split(','),
                 });
               }}
             />

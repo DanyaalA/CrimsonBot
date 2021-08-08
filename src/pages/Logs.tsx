@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { ContainerStyle, BasePageStyle } from "../styles/Styles";
-import { PageHeader } from "../components/PageHeader";
+import { useEffect, useState } from 'react';
+import { ContainerStyle, BasePageStyle } from '../styles/Styles';
+import { PageHeader } from '../components/PageHeader';
 
-import styled from "styled-components";
-import { Table } from "../components/Table";
-import APIHelper, { LogsDto } from "../utils/APIHelper";
+import styled from 'styled-components';
+import { Table } from '../components/Table';
+import APIHelper, { LogsDto } from '../utils/APIHelper';
 
 export const Logs = () => {
   const [logs, setLogs] = useState([new LogsDto({})]);
@@ -21,7 +21,8 @@ export const Logs = () => {
 
   return (
     <HomeStyle>
-      <PageHeader title="Crimson Reddit Logs" subtitle="/u/HomeworkHelperr" />
+      <PageHeader title="" subtitle="" />
+      <PageHeader title="LabMaker Logs" subtitle="/u/HomeworkHelperr" />
 
       <BasePageStyle>
         <GeneralSettingContainer id="comboContainer">
