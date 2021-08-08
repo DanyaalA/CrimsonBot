@@ -1,7 +1,6 @@
-import { InputBox } from "../components/Inputs/InputBox";
-import styled from "styled-components";
-import { Payments } from "../utils/APIHelper";
-import { v4 as uuidv4 } from "uuid";
+import { InputBox } from '../components/Inputs/InputBox';
+import styled from 'styled-components';
+import { Payments } from '../utils/APIHelper';
 
 interface PaymentProps {
   payment: any;
