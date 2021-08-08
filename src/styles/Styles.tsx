@@ -1,14 +1,17 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const BasePageStyle = styled.div`
   padding: 0px 50px;
   height: 100%;
   width: calc(100% - 85px);
   margin-left: 85px;
-  margin-top: 85px;
+  margin-top: 10px;
   color: white;
   position: absolute;
   box-sizing: border-box;
+  @media (max-width: 812px) {
+    width: 80%;
+  }
 `;
 
 export const ContainerStyle = styled.div`
@@ -24,6 +27,7 @@ export const ContainerStyle = styled.div`
   width: 100%;
   border-radius: 5px;
   background-color: ${(props) => props.theme.base.container};
+
   //141617
 `;
 
@@ -45,7 +49,7 @@ export const CustomButton = styled.button`
   border-radius: 5px;
   justify-content: center;
   color: white;
-  font-family: "Lexend Deca";
+  font-family: 'Lexend Deca';
   font-size: 18px;
   outline: none;
 

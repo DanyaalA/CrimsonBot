@@ -38,9 +38,6 @@ export const Home = () => {
 
   return (
     <HomeStyle>
-      {/* Accidently added to headers and saw that is adds an extra Layer and
-      looks better. Implement this without having to use two page headers */}
-      <PageHeader title="" subtitle="" />
       <PageHeader
         title="LabMaker Reddit Settings"
         subtitle={`/u/${config.username}`}
@@ -193,6 +190,9 @@ const GeneralSettingContainer = styled(ContainerStyle)`
     width: 100%;
     padding-bottom: 10px;
   }
+  @media (max-width: 812px) {
+    display: block;
+  }
 `;
 
 const StatsContainer = styled(ContainerStyle)`
@@ -204,6 +204,10 @@ const StatsContainer = styled(ContainerStyle)`
     font-weight: normal;
     font-size: 15px;
   }
+
+  @media (max-width: 812px) {
+    width: 110%;
+  }
 `;
 
 const ComboContainer = styled.div`
@@ -212,5 +216,9 @@ const ComboContainer = styled.div`
 
   #comboContainer {
     margin-left: 15px;
+  }
+
+  @media (max-width: 812px) {
+    display: inline;
   }
 `;

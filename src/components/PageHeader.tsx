@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 type PageProps = {
   title: String;
@@ -32,7 +32,7 @@ const PageHeaderStyle = styled.header`
   background-color: ${(props) => props.theme.base.content};
   justify-content: center;
   h2 {
-    font-family: "Lexend Deca";
+    font-family: 'Lexend Deca';
   }
   span {
     display: flex;
@@ -42,5 +42,9 @@ const PageHeaderStyle = styled.header`
     font-weight: normal;
     font-size: 15px;
     padding-left: 5px;
+  }
+  @media (max-width: 812px) {
+    position: unset;
+    margin-top: 15px;
   }
 `;

@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { faDiscord } from "@fortawesome/free-brands-svg-icons";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 
 export const Menu = () => {
   return (
@@ -45,15 +45,10 @@ export const Menu = () => {
 const IconStyle = styled.img`
   height: 55px;
   width: 55px;
-  background-color: ${(props) => props.theme.base.menuHover};
-  border-radius: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.4s all;
-  :hover {
-    border-radius: 5px;
-  }
+  transition: 0.2s all;
 `;
 
 const MenuStyle = styled.div`
@@ -62,6 +57,13 @@ const MenuStyle = styled.div`
   background-color: ${(props) => props.theme.base.menu};
   position: fixed;
   box-sizing: border-box;
+  @media (max-width: 812px) {
+    position: unset;
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    width: 100%;
+  }
 `;
 
 const MenuHeader = styled.header`
@@ -73,6 +75,12 @@ const MenuHeader = styled.header`
   font-size: 20px;
   font-weight: bold;
   height: ${(props) => props.theme.height.topContent};
+
+  @media (max-width: 812px) {
+    position: unset;
+    display: flex;
+    flex-flow: row;
+  }
 `;
 
 const MenuContent = styled.div`
@@ -81,6 +89,11 @@ const MenuContent = styled.div`
   }
   a {
   }
+  @media (max-width: 812px) {
+    position: unset;
+    display: flex;
+    flex-flow: row;
+  }
 `;
 
 const MenuItem = styled.div`
@@ -88,9 +101,16 @@ const MenuItem = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px 0;
-  transition: 0.5s all;
+  transition: 250ms all;
   :hover {
     background-color: ${(props) => props.theme.base.menuHover};
     cursor: pointer;
+  }
+  @media (max-width: 812px) {
+    width: 50px;
+    height: 45px;
+    svg {
+      padding-top: 10px;
+    }
   }
 `;

@@ -21,7 +21,6 @@ export const Logs = () => {
 
   return (
     <HomeStyle>
-      <PageHeader title="" subtitle="" />
       <PageHeader title="LabMaker Logs" subtitle="/u/HomeworkHelperr" />
 
       <BasePageStyle>

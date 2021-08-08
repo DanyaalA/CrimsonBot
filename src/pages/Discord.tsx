@@ -55,7 +55,6 @@ export const Discord = () => {
 
   return (
     <HomeStyle>
-      <PageHeader title="" subtitle="" />
       <PageHeader
         title="LabMaker Discord Settings"
         subtitle={`/u/${config.username}`}
