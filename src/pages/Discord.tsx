@@ -9,52 +9,24 @@ import { PageHeader } from '../components/PageHeader';
 import { Switch } from '../components/Inputs/Switch';
 import { InputBox } from '../components/Inputs/InputBox';
 import { Payment } from '../components/Payment';
-import APIHelper, { Config, Payments } from '../utils/APIHelper';
 import styled from 'styled-components';
-import { RedditConfigAPI } from '../utils/data/RedditConfig';
 import { DiscordConfigAPI } from '../utils/data/DiscordConfig';
 import {
   GuildConfigDto,
   PaymentDto,
   RedditConfigDto,
 } from '../utils/data/types';
-import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, updateDiscord, updatePayemnts, addPayment } from '../store';
 
 export const Discord = () => {
-  const loadingTemplate: RedditConfigDto = {
-    _id: '0',
-    clientId: '0',
-    clientSecret: 'Client Secret',
-    username: 'Username',
-    password: 'Password',
-    userAgent: 'Firefox',
-    title: 'Hey',
-    pmBody: 'I Saw Your Post...',
-    delay: 0,
-    subreddits: ['Subreddit1', 'Subreddit2'],
-    forbiddenWords: ['ForbiddenWord1', 'Forbidden String 1'],
-  };
+  const dispatch = useDispatch();
+  const discordConfig = useSelector(
+    (state: RootState) => state.discordConfig.value
+  );
+  const payments = useSelector((state: RootState) => state.payments.value);
 
-  const loadingDiscordConfig: GuildConfigDto = {
-    _id: '0',
-    paymentConfigId: '0',
-    prefix: '?',
-    embedImageUrl: 'http://www.image.com/image.png',
-    autoSwitcher: false,
-    autoReact: false,
-    autoTicket: false,
-  };
-
-  const loadingPayment: PaymentDto = {
-    _id: '0',
-    nodeId: '0',
-    name: 'Loading Payments...',
-    value: 'Loading...',
-    type: 'Loading...',
-  };
-
-  const [payments, setPayments] = useState([loadingPayment]);
-  const [discordConfig, setDiscordConfig] = useState(loadingDiscordConfig);
+  // const [payments, setPayments] = useState([loadingPayment]);
 
   const discordAPI = new DiscordConfigAPI();
 
@@ -65,11 +37,9 @@ export const Discord = () => {
       discordConfig.paymentConfigId
     );
 
-    setPayments(payments);
-    setDiscordConfig(discordConfig);
-
-    console.log(payments);
-    console.log(discordConfig);
+    // setPayments(payments);
+    dispatch(updateDiscord(discordConfig));
+    dispatch(updatePayemnts(payments));
   };
 
   useEffect(() => {
@@ -80,7 +50,7 @@ export const Discord = () => {
     await discordAPI.update(discordConfig);
   };
 
-  const addPayment = async () => {
+  const createPayment = async () => {
     const newPayment: PaymentDto = {
       _id: '0',
       name: 'Payment Name',
@@ -91,8 +61,9 @@ export const Discord = () => {
     };
 
     const savedPayment = await discordAPI.createPayments([newPayment]);
+    console.log(savedPayment);
 
-    setPayments([...payments, savedPayment[0]]);
+    dispatch(addPayment(savedPayment[0]));
   };
 
   const savePayments = async () => {
@@ -111,7 +82,7 @@ export const Discord = () => {
     if (deletedIds.length > 0) await discordAPI.deletePayments(deletedIds);
 
     if (updatedPayments.status != 200) {
-      setPayments(updatedPayments);
+      //setPayments(updatedPayments);
     }
 
     console.log(newPayments);
@@ -142,50 +113,60 @@ export const Discord = () => {
               message="Payment Config"
               value={discordConfig.paymentConfigId}
               onChange={(e: any) => {
-                setDiscordConfig({
-                  ...discordConfig,
-                  paymentConfigId: e.target.value,
-                });
+                dispatch(
+                  updateDiscord({
+                    ...discordConfig,
+                    paymentConfigId: e.target.value,
+                  })
+                );
               }}
             />
             <InputBox
               message="Bot Image URL"
               value={discordConfig.embedImageUrl}
               onChange={(e: any) => {
-                setDiscordConfig({
-                  ...discordConfig,
-                  embedImageUrl: e.target.value,
-                });
+                dispatch(
+                  updateDiscord({
+                    ...discordConfig,
+                    embedImageUrl: e.target.value,
+                  })
+                );
               }}
             />
             <Switch
               message="Advance User Switcher"
               isToggled={discordConfig.autoSwitcher}
               onToggle={(e: any) => {
-                setDiscordConfig({
-                  ...discordConfig,
-                  autoSwitcher: !discordConfig.autoSwitcher,
-                });
+                dispatch(
+                  updateDiscord({
+                    ...discordConfig,
+                    autoSwitcher: !discordConfig.autoSwitcher,
+                  })
+                );
               }}
             />
             <Switch
               message="Auto Creete Ticket"
               isToggled={discordConfig.autoTicket}
               onToggle={(e: any) => {
-                setDiscordConfig({
-                  ...discordConfig,
-                  autoTicket: !discordConfig.autoTicket,
-                });
+                dispatch(
+                  updateDiscord({
+                    ...discordConfig,
+                    autoTicket: !discordConfig.autoTicket,
+                  })
+                );
               }}
             />
             <Switch
               message="Auto Reacter"
               isToggled={discordConfig.autoReact}
               onToggle={(e: any) => {
-                setDiscordConfig({
-                  ...discordConfig,
-                  autoReact: !discordConfig.autoReact,
-                });
+                dispatch(
+                  updateDiscord({
+                    ...discordConfig,
+                    autoReact: !discordConfig.autoReact,
+                  })
+                );
               }}
             />
             <CenterDiv>
@@ -197,20 +178,13 @@ export const Discord = () => {
             <div>
               {payments.map((payment: PaymentDto, index) => {
                 if (!payment.deletedPayment) {
-                  return (
-                    <Payment
-                      payments={payments}
-                      payment={payment}
-                      setPayments={setPayments}
-                      key={index}
-                    />
-                  );
+                  return <Payment payment={payment} key={index} />;
                 }
               })}
             </div>
 
             <CenterDiv>
-              <CustomButton onClick={addPayment}>Add</CustomButton>
+              <CustomButton onClick={createPayment}>Add</CustomButton>
               <CustomButton onClick={savePayments}>Save</CustomButton>
             </CenterDiv>
           </GeneralSettingContainer>

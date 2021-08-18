@@ -12,7 +12,7 @@ import { RedditConfigDto } from '../utils/data/types';
 import styled from 'styled-components';
 import { RedditConfigAPI } from '../utils/data/RedditConfig';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, update } from '../store';
+import { RootState, updateReddit } from '../store';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ export const Home = () => {
       '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'
     );
 
-    dispatch(update(config));
+    dispatch(updateReddit(config));
   };
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const Home = () => {
               value={redditConfig.clientId}
               onChange={(e: any) => {
                 dispatch(
-                  update({
+                  updateReddit({
                     ...redditConfig,
                     clientId: e.target.value,
                   })
@@ -85,7 +85,7 @@ export const Home = () => {
               value={redditConfig.clientSecret}
               onChange={(e: any) => {
                 dispatch(
-                  update({
+                  updateReddit({
                     ...redditConfig,
                     clientSecret: e.target.value,
                   })
@@ -97,7 +97,7 @@ export const Home = () => {
               value={redditConfig.username}
               onChange={(e: any) => {
                 dispatch(
-                  update({
+                  updateReddit({
                     ...redditConfig,
                     username: e.target.value,
                   })
@@ -110,7 +110,7 @@ export const Home = () => {
               type="password"
               onChange={(e: any) => {
                 dispatch(
-                  update({
+                  updateReddit({
                     ...redditConfig,
                     password: e.target.value,
                   })
@@ -122,7 +122,7 @@ export const Home = () => {
               value={redditConfig.userAgent}
               onChange={(e: any) => {
                 dispatch(
-                  update({
+                  updateReddit({
                     ...redditConfig,
                     userAgent: e.target.value,
                   })
@@ -140,7 +140,7 @@ export const Home = () => {
               value={redditConfig.title}
               onChange={(e: any) => {
                 dispatch(
-                  update({
+                  updateReddit({
                     ...redditConfig,
                     title: e.target.value,
                   })
@@ -152,7 +152,7 @@ export const Home = () => {
               value={redditConfig.pmBody}
               onChange={(e: any) => {
                 dispatch(
-                  update({
+                  updateReddit({
                     ...redditConfig,
                     pmBody: e.target.value,
                   })

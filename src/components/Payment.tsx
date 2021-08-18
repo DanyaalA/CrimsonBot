@@ -2,11 +2,11 @@ import { InputBox } from '../components/Inputs/InputBox';
 import styled from 'styled-components';
 import { Payments } from '../utils/APIHelper';
 import { PaymentDto } from '../utils/data/types';
+import { useDispatch } from 'react-redux';
+import { editPayment } from '../store';
 
 interface PaymentProps {
   payment: PaymentDto;
-  payments: PaymentDto[];
-  setPayments: any;
 }
 enum InputType {
   Name,
@@ -14,40 +14,25 @@ enum InputType {
   Type,
 }
 
-export const Payment = ({ payments, payment, setPayments }: PaymentProps) => {
-  const removeItem = () => {
-    payment.deletedPayment = true;
-
-    const updatedPayments = payments.map((item: PaymentDto) => {
-      if (item._id === payment._id) {
-        payment.deletedPayment = true;
-        return payment;
-      } else {
-        return item;
-      }
-    });
-
-    setPayments(updatedPayments);
-  };
+export const Payment = ({ payment }: PaymentProps) => {
+  const dispatch = useDispatch();
 
   const updatePayments = (e: any, inputType: InputType) => {
+    let newName = payment.name;
+    let newValue = payment.value;
+    let newType = payment.type;
+
     if (inputType === InputType.Name) {
-      payment.name = e.target.value;
+      newName = e.target.value;
     } else if (inputType === InputType.Value) {
-      payment.value = e.target.value;
+      newValue = e.target.value;
     } else if (inputType === InputType.Type) {
-      payment.type = e.target.value;
+      newType = e.target.value;
     }
 
-    const updatedPayments = payments.map((item: PaymentDto) => {
-      if (item._id === payment._id) {
-        return payment;
-      } else {
-        return item;
-      }
-    });
-
-    setPayments(updatedPayments);
+    dispatch(
+      editPayment({ ...payment, name: newName, value: newValue, type: newType })
+    );
   };
 
   return (
@@ -68,7 +53,13 @@ export const Payment = ({ payments, payment, setPayments }: PaymentProps) => {
         onChange={(e: any) => updatePayments(e, InputType.Type)}
       />
 
-      <button onClick={removeItem}>X</button>
+      <button
+        onClick={() =>
+          dispatch(editPayment({ ...payment, deletedPayment: true }))
+        }
+      >
+        X
+      </button>
     </PaymentStyle>
   );
 };
