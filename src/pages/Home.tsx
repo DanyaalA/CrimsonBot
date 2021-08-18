@@ -8,37 +8,21 @@ import {
 import { PageHeader } from '../components/PageHeader';
 import { Switch } from '../components/Inputs/Switch';
 import { InputBox } from '../components/Inputs/InputBox';
-import APIHelper, { Config } from '../utils/APIHelper';
 import { RedditConfigDto } from '../utils/data/types';
-
 import styled from 'styled-components';
 import { RedditConfigAPI } from '../utils/data/RedditConfig';
-import { config } from '@fortawesome/fontawesome-svg-core';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, update } from '../store';
 
 export const Home = () => {
-  const loadingTemplate: RedditConfigDto = {
-    _id: '0',
-    clientId: '0',
-    clientSecret: 'Client Secret',
-    username: 'Username',
-    password: 'Password',
-    userAgent: 'Firefox',
-    title: 'Hey',
-    pmBody: 'I Saw Your Post...',
-    delay: 0,
-    subreddits: ['Subreddit1', 'Subreddit2'],
-    forbiddenWords: ['ForbiddenWord1', 'Forbidden String 1'],
-  };
   const dispatch = useDispatch();
 
   const [isLogging, setIsLogging] = useState(false);
-  const [config, setConfig] = useState(new Config({}));
-  const [redditConfig, setRedditConfig] = useState(loadingTemplate);
   const redditAPI = new RedditConfigAPI();
 
-  const getConfig = useSelector((state: RootState) => state.redditConfig.value);
+  const redditConfig = useSelector(
+    (state: RootState) => state.redditConfig.value
+  );
 
   /*
   const boxTogle = () => {
@@ -47,39 +31,27 @@ export const Home = () => {
     console.log("New Toggle: " + newToggle);
   }; */
 
-  const json = async () => {
-    let data = await APIHelper.GetConfig();
-
-    setConfig(data);
-  };
-
   const loadConfig = async () => {
     const config: RedditConfigDto = await redditAPI.getOne(
       '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'
     );
 
-    setRedditConfig(config);
     dispatch(update(config));
-
-    console.log(config);
-    console.log(getConfig);
   };
 
   useEffect(() => {
-    json();
     loadConfig();
   }, []);
 
   const saveData = async () => {
     await redditAPI.update(redditConfig);
-    //APIHelper.PostConfig(config);
   };
 
   return (
     <HomeStyle>
       <PageHeader
         title="LabMaker Reddit Settings"
-        subtitle={`/u/${getConfig.username}`}
+        subtitle={`/u/${redditConfig.username}`}
       />
       <BasePageStyle>
         <StatsContainer>
@@ -100,30 +72,36 @@ export const Home = () => {
               message="Client ID"
               value={redditConfig.clientId}
               onChange={(e: any) => {
-                setRedditConfig({
-                  ...redditConfig,
-                  clientId: e.target.value,
-                });
+                dispatch(
+                  update({
+                    ...redditConfig,
+                    clientId: e.target.value,
+                  })
+                );
               }}
             />
             <InputBox
               message="Client Secret"
               value={redditConfig.clientSecret}
               onChange={(e: any) => {
-                setRedditConfig({
-                  ...redditConfig,
-                  clientSecret: e.target.value,
-                });
+                dispatch(
+                  update({
+                    ...redditConfig,
+                    clientSecret: e.target.value,
+                  })
+                );
               }}
             />
             <InputBox
               message="Username"
               value={redditConfig.username}
               onChange={(e: any) => {
-                setRedditConfig({
-                  ...redditConfig,
-                  username: e.target.value,
-                });
+                dispatch(
+                  update({
+                    ...redditConfig,
+                    username: e.target.value,
+                  })
+                );
               }}
             />
             <InputBox
@@ -131,20 +109,24 @@ export const Home = () => {
               value={redditConfig.password}
               type="password"
               onChange={(e: any) => {
-                setRedditConfig({
-                  ...redditConfig,
-                  password: e.target.value,
-                });
+                dispatch(
+                  update({
+                    ...redditConfig,
+                    password: e.target.value,
+                  })
+                );
               }}
             />
             <InputBox
               message="User Agent"
               value={redditConfig.userAgent}
               onChange={(e: any) => {
-                setRedditConfig({
-                  ...redditConfig,
-                  userAgent: e.target.value,
-                });
+                dispatch(
+                  update({
+                    ...redditConfig,
+                    userAgent: e.target.value,
+                  })
+                );
               }}
             />
             <CenterDiv>
@@ -157,41 +139,49 @@ export const Home = () => {
               message="Title"
               value={redditConfig.title}
               onChange={(e: any) => {
-                setRedditConfig({
-                  ...redditConfig,
-                  title: e.target.value,
-                });
+                dispatch(
+                  update({
+                    ...redditConfig,
+                    title: e.target.value,
+                  })
+                );
               }}
             />
             <InputBox
               message="Body"
               value={redditConfig.pmBody}
               onChange={(e: any) => {
-                setRedditConfig({
-                  ...redditConfig,
-                  pmBody: e.target.value,
-                });
+                dispatch(
+                  update({
+                    ...redditConfig,
+                    pmBody: e.target.value,
+                  })
+                );
               }}
             />
             <InputBox
               message="Subreddits"
-              value={config.subreddits}
-              onChange={(e: any) => {
-                setConfig({
-                  ...config,
-                  subreddits: e.target.value.split(','),
-                });
-              }}
+              value={'test'}
+              // onChange={(e: any) => {
+              //   dispatch(
+              //     update({
+              //       ...config,
+              //       subreddits: e.target.value.split(','),
+              //     })
+              //   );
+              // }}
             />
             <InputBox
               message="Forbidden Words"
-              value={config.forbiddenWords}
-              onChange={(e: any) => {
-                setConfig({
-                  ...config,
-                  forbiddenWords: e.target.value.split(','),
-                });
-              }}
+              value={'Forbidden'}
+              //   onChange={(e: any) => {
+              //     dispatch(
+              //       update({
+              //         ...config,
+              //         forbiddenWords: e.target.value.split(','),
+              //       })
+              //     );
+              //   }}
             />
             <Switch
               message="Log Bot Activity"
