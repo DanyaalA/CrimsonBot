@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 type RadioProps = {
   isSquare?: boolean;
@@ -68,7 +68,7 @@ const Slider = styled.span<any>`
         `}
   :before {
     position: absolute;
-    content: "";
+    content: '';
     height: 15px;
     width: 15px;
     left: 4px;

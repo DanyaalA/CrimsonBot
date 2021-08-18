@@ -11,53 +11,117 @@ import { InputBox } from '../components/Inputs/InputBox';
 import { Payment } from '../components/Payment';
 import APIHelper, { Config, Payments } from '../utils/APIHelper';
 import styled from 'styled-components';
+import { RedditConfigAPI } from '../utils/data/RedditConfig';
+import { DiscordConfigAPI } from '../utils/data/DiscordConfig';
+import {
+  GuildConfigDto,
+  PaymentDto,
+  RedditConfigDto,
+} from '../utils/data/types';
+import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
 
 export const Discord = () => {
-  const [config, setConfig] = useState(new Config({}));
-  const [payments, setPayments] = useState([new Payments({})]);
-  const json = async () => {
-    let config = await APIHelper.GetConfig();
-    let payments = await APIHelper.GetPayments();
-    setConfig(config);
+  const loadingTemplate: RedditConfigDto = {
+    _id: '0',
+    clientId: '0',
+    clientSecret: 'Client Secret',
+    username: 'Username',
+    password: 'Password',
+    userAgent: 'Firefox',
+    title: 'Hey',
+    pmBody: 'I Saw Your Post...',
+    delay: 0,
+    subreddits: ['Subreddit1', 'Subreddit2'],
+    forbiddenWords: ['ForbiddenWord1', 'Forbidden String 1'],
+  };
+
+  const loadingDiscordConfig: GuildConfigDto = {
+    _id: '0',
+    paymentConfigId: '0',
+    prefix: '?',
+    embedImageUrl: 'http://www.image.com/image.png',
+    autoSwitcher: false,
+    autoReact: false,
+    autoTicket: false,
+  };
+
+  const loadingPayment: PaymentDto = {
+    _id: '0',
+    nodeId: '0',
+    name: 'Loading Payments...',
+    value: 'Loading...',
+    type: 'Loading...',
+  };
+
+  const [payments, setPayments] = useState([loadingPayment]);
+  const [discordConfig, setDiscordConfig] = useState(loadingDiscordConfig);
+
+  const discordAPI = new DiscordConfigAPI();
+
+  const loadConfig = async () => {
+    const discordConfig = await discordAPI.getOne('869998649952833578');
+
+    const payments = await discordAPI.getPayments(
+      discordConfig.paymentConfigId
+    );
+
     setPayments(payments);
+    setDiscordConfig(discordConfig);
+
+    console.log(payments);
+    console.log(discordConfig);
   };
 
   useEffect(() => {
-    json();
+    loadConfig();
   }, []);
 
-  /*
-  const boxTogle = () => {
-    const newToggle = !isToggled;
-    setIsToggled(newToggle);
-    console.log("New Toggle: " + newToggle);
-  }; */
-
-  const saveData = () => {
-    APIHelper.PostConfig(config);
+  const saveData = async () => {
+    await discordAPI.update(discordConfig);
   };
 
-  const addPayment = () => {
-    let newId = 0;
-    if (payments.length > 0) {
-      newId = payments[payments.length - 1].id + 1;
+  const addPayment = async () => {
+    const newPayment: PaymentDto = {
+      _id: '0',
+      name: 'Payment Name',
+      value: 'Payment Value',
+      type: 'FIAT',
+      nodeId: discordConfig.paymentConfigId,
+      newPayment: true,
+    };
+
+    const savedPayment = await discordAPI.createPayments([newPayment]);
+
+    setPayments([...payments, savedPayment[0]]);
+  };
+
+  const savePayments = async () => {
+    const updatedPayments = await discordAPI.updatePayments(payments);
+    const deletedIds: string[] = [];
+    const newPayments = await Promise.all(
+      payments.map((payment) => {
+        if (payment.deletedPayment && payment._id) {
+          deletedIds.push(payment._id);
+        } else {
+          return payment;
+        }
+      })
+    );
+
+    if (deletedIds.length > 0) await discordAPI.deletePayments(deletedIds);
+
+    if (updatedPayments.status != 200) {
+      setPayments(updatedPayments);
     }
 
-    setPayments([
-      ...payments,
-      { id: newId, name: '', value: '', type: 'FIAT' },
-    ]);
-  };
-
-  const savePayments = () => {
-    APIHelper.PostPayments(payments);
+    console.log(newPayments);
   };
 
   return (
     <HomeStyle>
       <PageHeader
         title="LabMaker Discord Settings"
-        subtitle={`/u/${config.username}`}
+        subtitle={`Server/${discordConfig._id}`}
       />
       <BasePageStyle>
         <StatsContainer>
@@ -75,72 +139,52 @@ export const Discord = () => {
           <GeneralSettingContainer id="comboContainer">
             <h1>General</h1>
             <InputBox
-              message="Activity"
-              value={config.activity}
+              message="Payment Config"
+              value={discordConfig.paymentConfigId}
               onChange={(e: any) => {
-                setConfig({
-                  ...config,
-                  activity: e.target.value,
-                });
-              }}
-            />
-            <InputBox
-              message="Type"
-              value={config.type}
-              onChange={(e: any) => {
-                setConfig({
-                  ...config,
-                  type: e.target.value,
-                });
-              }}
-            />
-            <InputBox
-              message="status"
-              value={config.status}
-              onChange={(e: any) => {
-                setConfig({
-                  ...config,
-                  status: e.target.value,
+                setDiscordConfig({
+                  ...discordConfig,
+                  paymentConfigId: e.target.value,
                 });
               }}
             />
             <InputBox
               message="Bot Image URL"
-              value={config.imageUrl}
+              value={discordConfig.embedImageUrl}
               onChange={(e: any) => {
-                setConfig({
-                  ...config,
-                  imageUrl: e.target.value,
+                setDiscordConfig({
+                  ...discordConfig,
+                  embedImageUrl: e.target.value,
                 });
               }}
             />
             <Switch
               message="Advance User Switcher"
-              isToggled={config.autoSwitch}
+              isToggled={discordConfig.autoSwitcher}
               onToggle={(e: any) => {
-                setConfig({
-                  ...config,
-                  autoSwitch: !config.autoSwitch,
+                setDiscordConfig({
+                  ...discordConfig,
+                  autoSwitcher: !discordConfig.autoSwitcher,
                 });
               }}
             />
             <Switch
               message="Auto Creete Ticket"
-              isToggled={config.autoTicket}
+              isToggled={discordConfig.autoTicket}
               onToggle={(e: any) => {
-                setConfig({
-                  ...config,
-                  autoTicket: !config.autoTicket,
+                setDiscordConfig({
+                  ...discordConfig,
+                  autoTicket: !discordConfig.autoTicket,
                 });
               }}
             />
             <Switch
               message="Auto Reacter"
-              isToggled={config.autoReact}
+              isToggled={discordConfig.autoReact}
               onToggle={(e: any) => {
-                setConfig({
-                  ...config,
-                  autoReact: !config.autoReact,
+                setDiscordConfig({
+                  ...discordConfig,
+                  autoReact: !discordConfig.autoReact,
                 });
               }}
             />
@@ -151,14 +195,18 @@ export const Discord = () => {
           <GeneralSettingContainer id="comboContainer">
             <h1>Payment</h1>
             <div>
-              {payments.map((payment, index) => (
-                <Payment
-                  payments={payments}
-                  payment={payment}
-                  setPayments={setPayments}
-                  key={index}
-                />
-              ))}
+              {payments.map((payment: PaymentDto, index) => {
+                if (!payment.deletedPayment) {
+                  return (
+                    <Payment
+                      payments={payments}
+                      payment={payment}
+                      setPayments={setPayments}
+                      key={index}
+                    />
+                  );
+                }
+              })}
             </div>
 
             <CenterDiv>
@@ -195,6 +243,7 @@ const GeneralSettingContainer = styled(ContainerStyle)`
 `;
 
 const StatsContainer = styled(ContainerStyle)`
+  margin-top: 100px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -202,6 +251,11 @@ const StatsContainer = styled(ContainerStyle)`
   span {
     font-weight: normal;
     font-size: 15px;
+  }
+
+  @media (max-width: 812px) {
+    width: 110%;
+    margin-top: 50px;
   }
 `;
 

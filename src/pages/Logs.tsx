@@ -43,6 +43,7 @@ const HomeStyle = styled.div`
 `;
 
 const GeneralSettingContainer = styled(ContainerStyle)`
+  margin-top: 90px;
   display: flex;
   flex-direction: column;
   padding-left: 25px;

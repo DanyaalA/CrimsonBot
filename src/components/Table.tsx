@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { LogsDto } from "../utils/APIHelper";
+import styled from 'styled-components';
+import { LogsDto } from '../utils/APIHelper';
 
 type LogProps = {
   logs: LogsDto[];

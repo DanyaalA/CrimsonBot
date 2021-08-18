@@ -1,10 +1,11 @@
 import { InputBox } from '../components/Inputs/InputBox';
 import styled from 'styled-components';
 import { Payments } from '../utils/APIHelper';
+import { PaymentDto } from '../utils/data/types';
 
 interface PaymentProps {
-  payment: any;
-  payments: any;
+  payment: PaymentDto;
+  payments: PaymentDto[];
   setPayments: any;
 }
 enum InputType {
@@ -15,7 +16,18 @@ enum InputType {
 
 export const Payment = ({ payments, payment, setPayments }: PaymentProps) => {
   const removeItem = () => {
-    setPayments(payments.filter((item: any) => item !== payment));
+    payment.deletedPayment = true;
+
+    const updatedPayments = payments.map((item: PaymentDto) => {
+      if (item._id === payment._id) {
+        payment.deletedPayment = true;
+        return payment;
+      } else {
+        return item;
+      }
+    });
+
+    setPayments(updatedPayments);
   };
 
   const updatePayments = (e: any, inputType: InputType) => {
@@ -27,15 +39,15 @@ export const Payment = ({ payments, payment, setPayments }: PaymentProps) => {
       payment.type = e.target.value;
     }
 
-    setPayments(
-      payments.map((item: Payments) => {
-        if (item.id === payment.id) {
-          return payment;
-        } else {
-          return item;
-        }
-      })
-    );
+    const updatedPayments = payments.map((item: PaymentDto) => {
+      if (item._id === payment._id) {
+        return payment;
+      } else {
+        return item;
+      }
+    });
+
+    setPayments(updatedPayments);
   };
 
   return (
