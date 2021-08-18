@@ -9,12 +9,36 @@ import { PageHeader } from '../components/PageHeader';
 import { Switch } from '../components/Inputs/Switch';
 import { InputBox } from '../components/Inputs/InputBox';
 import APIHelper, { Config } from '../utils/APIHelper';
+import { RedditConfigDto } from '../utils/data/types';
 
 import styled from 'styled-components';
+import { RedditConfigAPI } from '../utils/data/RedditConfig';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, update } from '../store';
 
 export const Home = () => {
+  const loadingTemplate: RedditConfigDto = {
+    _id: '0',
+    clientId: '0',
+    clientSecret: 'Client Secret',
+    username: 'Username',
+    password: 'Password',
+    userAgent: 'Firefox',
+    title: 'Hey',
+    pmBody: 'I Saw Your Post...',
+    delay: 0,
+    subreddits: ['Subreddit1', 'Subreddit2'],
+    forbiddenWords: ['ForbiddenWord1', 'Forbidden String 1'],
+  };
+  const dispatch = useDispatch();
+
   const [isLogging, setIsLogging] = useState(false);
   const [config, setConfig] = useState(new Config({}));
+  const [redditConfig, setRedditConfig] = useState(loadingTemplate);
+  const redditAPI = new RedditConfigAPI();
+
+  const getConfig = useSelector((state: RootState) => state.redditConfig.value);
 
   /*
   const boxTogle = () => {
@@ -25,22 +49,37 @@ export const Home = () => {
 
   const json = async () => {
     let data = await APIHelper.GetConfig();
+
     setConfig(data);
+  };
+
+  const loadConfig = async () => {
+    const config: RedditConfigDto = await redditAPI.getOne(
+      '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'
+    );
+
+    setRedditConfig(config);
+    dispatch(update(config));
+
+    console.log(config);
+    console.log(getConfig);
   };
 
   useEffect(() => {
     json();
+    loadConfig();
   }, []);
 
-  const saveData = () => {
-    APIHelper.PostConfig(config);
+  const saveData = async () => {
+    await redditAPI.update(redditConfig);
+    //APIHelper.PostConfig(config);
   };
 
   return (
     <HomeStyle>
       <PageHeader
         title="LabMaker Reddit Settings"
-        subtitle={`/u/${config.username}`}
+        subtitle={`/u/${getConfig.username}`}
       />
       <BasePageStyle>
         <StatsContainer>
@@ -59,51 +98,51 @@ export const Home = () => {
             <h1>Account</h1>
             <InputBox
               message="Client ID"
-              value={config.clientId}
+              value={redditConfig.clientId}
               onChange={(e: any) => {
-                setConfig({
-                  ...config,
+                setRedditConfig({
+                  ...redditConfig,
                   clientId: e.target.value,
                 });
               }}
             />
             <InputBox
               message="Client Secret"
-              value={config.clientSecret}
+              value={redditConfig.clientSecret}
               onChange={(e: any) => {
-                setConfig({
-                  ...config,
+                setRedditConfig({
+                  ...redditConfig,
                   clientSecret: e.target.value,
                 });
               }}
             />
             <InputBox
               message="Username"
-              value={config.username}
+              value={redditConfig.username}
               onChange={(e: any) => {
-                setConfig({
-                  ...config,
+                setRedditConfig({
+                  ...redditConfig,
                   username: e.target.value,
                 });
               }}
             />
             <InputBox
               message="Password"
-              value={config.password}
+              value={redditConfig.password}
               type="password"
               onChange={(e: any) => {
-                setConfig({
-                  ...config,
+                setRedditConfig({
+                  ...redditConfig,
                   password: e.target.value,
                 });
               }}
             />
             <InputBox
               message="User Agent"
-              value={config.userAgent}
+              value={redditConfig.userAgent}
               onChange={(e: any) => {
-                setConfig({
-                  ...config,
+                setRedditConfig({
+                  ...redditConfig,
                   userAgent: e.target.value,
                 });
               }}
@@ -116,20 +155,20 @@ export const Home = () => {
             <h1>Main</h1>
             <InputBox
               message="Title"
-              value={config.title}
+              value={redditConfig.title}
               onChange={(e: any) => {
-                setConfig({
-                  ...config,
+                setRedditConfig({
+                  ...redditConfig,
                   title: e.target.value,
                 });
               }}
             />
             <InputBox
               message="Body"
-              value={config.pmBody}
+              value={redditConfig.pmBody}
               onChange={(e: any) => {
-                setConfig({
-                  ...config,
+                setRedditConfig({
+                  ...redditConfig,
                   pmBody: e.target.value,
                 });
               }}
@@ -196,6 +235,7 @@ const GeneralSettingContainer = styled(ContainerStyle)`
 `;
 
 const StatsContainer = styled(ContainerStyle)`
+  margin-top: 100px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -207,6 +247,7 @@ const StatsContainer = styled(ContainerStyle)`
 
   @media (max-width: 812px) {
     width: 110%;
+    margin-top: 50px;
   }
 `;
 
