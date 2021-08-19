@@ -40,6 +40,7 @@ export const Home = () => {
       '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'
     );
 
+    if (!config) return;
     dispatch(updateReddit(config));
   };
 
