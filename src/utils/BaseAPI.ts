@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class API {
-  private APIUrl = 'http://localhost:3000';
+  private APIUrl = 'https://reddit-api-bot2.herokuapp.com/';
 
   constructor(private APIBase: string) {
     this.APIUrl = `${this.APIUrl}/${this.APIBase}/`;

@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default class APIHelper {
   private static readonly devMode = false;
   private static domain = APIHelper.devMode
-    ? "http://localhost:3000/bot/"
-    : "https://reddit-api-bot2.herokuapp.com/bot/";
+    ? 'http://localhost:3000/bot/'
+    : 'https://reddit-api-bot2.herokuapp.com/';
 
   private static GetData = async (url: string) => {
     let response = await fetch(APIHelper.domain + url);
@@ -12,15 +12,15 @@ export default class APIHelper {
   };
 
   public static GetConfig = async (): Promise<Config> => {
-    return (await APIHelper.GetData("config"))[0] as Promise<Config>;
+    return (await APIHelper.GetData('config'))[0] as Promise<Config>;
   };
 
   public static GetPayments = async (): Promise<[Payments]> => {
-    return await APIHelper.GetData("payments");
+    return await APIHelper.GetData('payments');
   };
 
   public static GetLogs = async (): Promise<[LogsDto]> => {
-    let response = await fetch(APIHelper.domain + "logs");
+    let response = await fetch(APIHelper.domain + 'logs');
 
     let data = await response.json();
 
@@ -35,7 +35,7 @@ export default class APIHelper {
   };
 
   public static PostConfig = async (config: Config) => {
-    axios.post(APIHelper.domain + "updateConfig", config).catch();
+    axios.post(APIHelper.domain + 'updateConfig', config).catch();
   };
 
   public static PostPayments = async (payments: Payments[]) => {
@@ -67,7 +67,7 @@ export default class APIHelper {
 
     console.log(filteredPayments);
 
-    axios.post(APIHelper.domain + "updatePayments", filteredPayments).catch();
+    axios.post(APIHelper.domain + 'updatePayments', filteredPayments).catch();
   };
 }
 
