@@ -1,9 +1,8 @@
 import { InputBox } from '../components/Inputs/InputBox';
 import styled from 'styled-components';
-import { Payments } from '../utils/APIHelper';
 import { PaymentDto } from '../utils/data/types';
 import { useDispatch } from 'react-redux';
-import { editPayment } from '../store';
+import { editPayment } from '../utils/slices/paymentSlice';
 
 interface PaymentProps {
   payment: PaymentDto;

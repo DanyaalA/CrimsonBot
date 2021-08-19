@@ -12,13 +12,17 @@ import { RedditConfigDto } from '../utils/data/types';
 import styled from 'styled-components';
 import { RedditConfigAPI } from '../utils/data/RedditConfig';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, updateReddit } from '../store';
+import { RootState } from '../store';
+import { updateReddit } from '../utils/slices/configSlices';
+import { TagInputBox } from '../components/Inputs/TagInput';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 export const Home = () => {
   const dispatch = useDispatch();
-
-  const [isLogging, setIsLogging] = useState(false);
   const redditAPI = new RedditConfigAPI();
+  const [isLogging, setIsLogging] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
 
   const redditConfig = useSelector(
     (state: RootState) => state.redditConfig.value
@@ -45,6 +49,51 @@ export const Home = () => {
 
   const saveData = async () => {
     await redditAPI.update(redditConfig);
+  };
+
+  const TagBox = () => {
+    if (isHidden)
+      return (
+        <div>
+          <ButtonIcon onClick={() => setIsHidden(!isHidden)}>
+            <FontAwesomeIcon icon={faCaretRight} /> Subreddits | Forbidden Words
+          </ButtonIcon>
+        </div>
+      );
+
+    return (
+      <div>
+        <TagBoxMiniContainer>
+          <ButtonIcon onClick={() => setIsHidden(!isHidden)}>
+            <FontAwesomeIcon icon={faCaretDown} /> Subreddits | Forbidden Words
+          </ButtonIcon>
+          <TagInputBox
+            message="Subreddits"
+            items={redditConfig.subreddits}
+            onChange={(updatedValues: any) => {
+              dispatch(
+                updateReddit({
+                  ...redditConfig,
+                  subreddits: updatedValues,
+                })
+              );
+            }}
+          />
+          <TagInputBox
+            message="Forbidden Words"
+            items={redditConfig.forbiddenWords}
+            onChange={(updatedValues: any) => {
+              dispatch(
+                updateReddit({
+                  ...redditConfig,
+                  forbiddenWords: updatedValues,
+                })
+              );
+            }}
+          />
+        </TagBoxMiniContainer>
+      </div>
+    );
   };
 
   return (
@@ -129,6 +178,7 @@ export const Home = () => {
                 );
               }}
             />
+
             <CenterDiv>
               <CustomButton onClick={saveData}>Save</CustomButton>
             </CenterDiv>
@@ -159,30 +209,8 @@ export const Home = () => {
                 );
               }}
             />
-            <InputBox
-              message="Subreddits"
-              value={'test'}
-              // onChange={(e: any) => {
-              //   dispatch(
-              //     update({
-              //       ...config,
-              //       subreddits: e.target.value.split(','),
-              //     })
-              //   );
-              // }}
-            />
-            <InputBox
-              message="Forbidden Words"
-              value={'Forbidden'}
-              //   onChange={(e: any) => {
-              //     dispatch(
-              //       update({
-              //         ...config,
-              //         forbiddenWords: e.target.value.split(','),
-              //       })
-              //     );
-              //   }}
-            />
+            <div>{TagBox()}</div>
+
             <Switch
               message="Log Bot Activity"
               isToggled={isLogging}
@@ -200,8 +228,31 @@ export const Home = () => {
 
 export default Home;
 
+const ButtonIcon = styled.div`
+  width: 100%;
+  background-color: #202225;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  @media (max-width: 812px) {
+    position: unset;
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    width: 100%;
+  }
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const HomeStyle = styled.div`
   transition: all 5s ease-in-out;
+`;
+
+const TagBoxMiniContainer = styled.div`
+  * {
+    transition: all 15s;
+  }
 `;
 
 const GeneralSettingContainer = styled(ContainerStyle)`
@@ -252,4 +303,9 @@ const ComboContainer = styled.div`
   @media (max-width: 812px) {
     display: inline;
   }
+`;
+
+const StyledSpan = styled.span`
+  padding-right: 5px;
+  margin-left: 2px;
 `;

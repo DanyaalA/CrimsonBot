@@ -1,22 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ContainerStyle, BasePageStyle } from '../styles/Styles';
 import { PageHeader } from '../components/PageHeader';
-
 import styled from 'styled-components';
 import { Table } from '../components/Table';
-import APIHelper, { LogsDto } from '../utils/APIHelper';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store';
+import { LogAPI } from '../utils/data/Log';
+import { updateLogs } from '../utils/slices/logsSlice';
 
 export const Logs = () => {
-  const [logs, setLogs] = useState([new LogsDto({})]);
+  const dispatch = useDispatch();
+  const logAPI = new LogAPI();
+  const logs = useSelector((state: RootState) => state.logs.value);
+  const redditConfig = useSelector(
+    (state: RootState) => state.redditConfig.value
+  );
 
-  const json = async () => {
-    let data = await APIHelper.GetLogs();
-    data.shift(); //First Item is Undefined.
-    setLogs(data);
+  const loadLogs = async () => {
+    let id = '0';
+    if (redditConfig._id === '0') {
+      id = '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0';
+    }
+    const data = await logAPI.getLogs(id);
+    console.log(data);
+    dispatch(updateLogs(data));
   };
 
   useEffect(() => {
-    json();
+    loadLogs();
   }, []);
 
   return (

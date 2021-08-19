@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   ContainerStyle,
   BasePageStyle,
@@ -11,13 +11,11 @@ import { InputBox } from '../components/Inputs/InputBox';
 import { Payment } from '../components/Payment';
 import styled from 'styled-components';
 import { DiscordConfigAPI } from '../utils/data/DiscordConfig';
-import {
-  GuildConfigDto,
-  PaymentDto,
-  RedditConfigDto,
-} from '../utils/data/types';
+import { PaymentDto } from '../utils/data/types';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, updateDiscord, updatePayemnts, addPayment } from '../store';
+import { RootState } from '../store';
+import { addPayment, updatePayemnts } from '../utils/slices/paymentSlice';
+import { updateDiscord } from '../utils/slices/configSlices';
 
 export const Discord = () => {
   const dispatch = useDispatch();
@@ -25,24 +23,16 @@ export const Discord = () => {
     (state: RootState) => state.discordConfig.value
   );
   const payments = useSelector((state: RootState) => state.payments.value);
-
-  // const [payments, setPayments] = useState([loadingPayment]);
-
   const discordAPI = new DiscordConfigAPI();
 
-  const loadConfig = async () => {
-    const discordConfig = await discordAPI.getOne('869998649952833578');
-
-    const payments = await discordAPI.getPayments(
-      discordConfig.paymentConfigId
-    );
-
-    // setPayments(payments);
-    dispatch(updateDiscord(discordConfig));
-    dispatch(updatePayemnts(payments));
-  };
-
   useEffect(() => {
+    const loadConfig = async () => {
+      const dc = await discordAPI.getOne('869998649952833578');
+      const payments = await discordAPI.getPayments(dc.paymentConfigId);
+
+      dispatch(updateDiscord(dc));
+      dispatch(updatePayemnts(payments));
+    };
     loadConfig();
   }, []);
 
@@ -67,9 +57,10 @@ export const Discord = () => {
   };
 
   const savePayments = async () => {
-    const updatedPayments = await discordAPI.updatePayments(payments);
+    await discordAPI.updatePayments(payments);
+
     const deletedIds: string[] = [];
-    const newPayments = await Promise.all(
+    await Promise.all(
       payments.map((payment) => {
         if (payment.deletedPayment && payment._id) {
           deletedIds.push(payment._id);
@@ -80,12 +71,6 @@ export const Discord = () => {
     );
 
     if (deletedIds.length > 0) await discordAPI.deletePayments(deletedIds);
-
-    if (updatedPayments.status != 200) {
-      //setPayments(updatedPayments);
-    }
-
-    console.log(newPayments);
   };
 
   return (
