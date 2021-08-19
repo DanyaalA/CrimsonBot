@@ -45,6 +45,7 @@ export const Home = () => {
 
   useEffect(() => {
     loadConfig();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveData = async () => {
@@ -303,9 +304,4 @@ const ComboContainer = styled.div`
   @media (max-width: 812px) {
     display: inline;
   }
-`;
-
-const StyledSpan = styled.span`
-  padding-right: 5px;
-  margin-left: 2px;
 `;

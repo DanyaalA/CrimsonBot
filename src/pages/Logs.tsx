@@ -16,18 +16,19 @@ export const Logs = () => {
     (state: RootState) => state.redditConfig.value
   );
 
-  const loadLogs = async () => {
-    let id = '0';
-    if (redditConfig._id === '0') {
-      id = '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0';
-    }
-    const data = await logAPI.getLogs(id);
-    console.log(data);
-    dispatch(updateLogs(data));
-  };
-
   useEffect(() => {
+    const loadLogs = async () => {
+      let id = '0';
+      if (redditConfig._id === '0') {
+        id = '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0';
+      }
+      const data = await logAPI.getLogs(id);
+      dispatch(updateLogs(data));
+    };
+
     loadLogs();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -34,6 +34,7 @@ export const Discord = () => {
       dispatch(updatePayemnts(payments));
     };
     loadConfig();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveData = async () => {
@@ -61,13 +62,15 @@ export const Discord = () => {
 
     const deletedIds: string[] = [];
     await Promise.all(
-      payments.map((payment) => {
-        if (payment.deletedPayment && payment._id) {
-          deletedIds.push(payment._id);
-        } else {
+      payments
+        .filter((payment) => payment.deletedPayment)
+        .map((payment) => {
+          if (payment.deletedPayment && payment._id) {
+            deletedIds.push(payment._id);
+          }
+
           return payment;
-        }
-      })
+        })
     );
 
     if (deletedIds.length > 0) await discordAPI.deletePayments(deletedIds);
@@ -164,6 +167,8 @@ export const Discord = () => {
               {payments.map((payment: PaymentDto, index) => {
                 if (!payment.deletedPayment) {
                   return <Payment payment={payment} key={index} />;
+                } else {
+                  return <div></div>;
                 }
               })}
             </div>
