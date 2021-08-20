@@ -253,7 +253,7 @@ const HomeStyle = styled.div`
 
 const TagBoxMiniContainer = styled.div`
   * {
-    transition: all 15s;
+    transition: all 0.35s;
   }
 `;
 

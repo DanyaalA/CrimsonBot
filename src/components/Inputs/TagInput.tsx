@@ -58,7 +58,6 @@ const InputTag = styled.div`
   background: #141617;
   border: 2px solid #1f1f1f;
   border-radius: 5px;
-
   padding: 5px 5px 0px;
 
   span {
@@ -101,10 +100,10 @@ const InputTag = styled.div`
     padding-left: 4px;
     padding-bottom: 1px;
     font-family: 'Lexend Deca';
-
     :hover {
       color: #e31919;
       cursor: pointer;
+      font-family: 'Lexend Deca';
     }
   }
 
