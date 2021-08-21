@@ -1,5 +1,5 @@
+import { LogDto } from 'labmaker-api-wrapper';
 import styled from 'styled-components';
-import { LogDto } from '../utils/data/types';
 
 type LogProps = {
   logs: LogDto[];

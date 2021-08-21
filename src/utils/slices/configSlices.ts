@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GuildConfigDto, RedditConfigDto } from '../data/types';
+import { GuildConfigDto, RedditConfigDto } from 'labmaker-api-wrapper';
 
 const loadingRedditConfig: RedditConfigDto = {
   _id: '0',

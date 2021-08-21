@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LogDto } from '../data/types';
+import { LogDto } from 'labmaker-api-wrapper';
 
 const loadingLogs: LogDto = {
   _id: '0',

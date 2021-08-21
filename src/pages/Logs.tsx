@@ -5,12 +5,11 @@ import styled from 'styled-components';
 import { Table } from '../components/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { LogAPI } from '../utils/data/Log';
 import { updateLogs } from '../utils/slices/logsSlice';
+import LabmakerAPI from '../utils/APIHandler';
 
 export const Logs = () => {
   const dispatch = useDispatch();
-  const logAPI = new LogAPI();
   const logs = useSelector((state: RootState) => state.logs.value);
   const redditConfig = useSelector(
     (state: RootState) => state.redditConfig.value
@@ -22,15 +21,13 @@ export const Logs = () => {
       if (redditConfig._id === '0') {
         id = '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0';
       }
-      const data = await logAPI.getLogs(id);
+      const data = await LabmakerAPI.Log.getLogs(id);
 
       dispatch(updateLogs(data));
     };
 
     loadLogs();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return (
     <HomeStyle>

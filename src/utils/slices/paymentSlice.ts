@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PaymentDto } from '../data/types';
+import { PaymentDto } from 'labmaker-api-wrapper';
 
 const loadingPayment: PaymentDto = {
   _id: '0',

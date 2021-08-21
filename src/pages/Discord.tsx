@@ -10,12 +10,12 @@ import { Switch } from '../components/Inputs/Switch';
 import { InputBox } from '../components/Inputs/InputBox';
 import { Payment } from '../components/Payment';
 import styled from 'styled-components';
-import { DiscordConfigAPI } from '../utils/data/DiscordConfig';
-import { PaymentDto } from '../utils/data/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { addPayment, updatePayemnts } from '../utils/slices/paymentSlice';
 import { updateDiscord } from '../utils/slices/configSlices';
+import LabmakerAPI from '../utils/APIHandler';
+import { PaymentDto } from 'labmaker-api-wrapper';
 
 export const Discord = () => {
   const dispatch = useDispatch();
@@ -23,22 +23,22 @@ export const Discord = () => {
     (state: RootState) => state.discordConfig.value
   );
   const payments = useSelector((state: RootState) => state.payments.value);
-  const discordAPI = new DiscordConfigAPI();
 
   useEffect(() => {
     const loadConfig = async () => {
-      const dc = await discordAPI.getOne('869998649952833578');
-      const payments = await discordAPI.getPayments(dc.paymentConfigId);
+      const dc = await LabmakerAPI.Discord.getOne('869998649952833578');
+      const payments = await LabmakerAPI.Discord.getPayments(
+        dc.paymentConfigId
+      );
 
       dispatch(updateDiscord(dc));
       dispatch(updatePayemnts(payments));
     };
     loadConfig();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   const saveData = async () => {
-    await discordAPI.update(discordConfig);
+    await LabmakerAPI.Discord.update(discordConfig);
   };
 
   const createPayment = async () => {
@@ -51,14 +51,14 @@ export const Discord = () => {
       newPayment: true,
     };
 
-    const savedPayment = await discordAPI.createPayments([newPayment]);
+    const savedPayment = await LabmakerAPI.Discord.createPayments([newPayment]);
     console.log(savedPayment);
 
     dispatch(addPayment(savedPayment[0]));
   };
 
   const savePayments = async () => {
-    await discordAPI.updatePayments(payments);
+    await LabmakerAPI.Discord.updatePayments(payments);
 
     const deletedIds: string[] = [];
     await Promise.all(
@@ -73,7 +73,8 @@ export const Discord = () => {
         })
     );
 
-    if (deletedIds.length > 0) await discordAPI.deletePayments(deletedIds);
+    if (deletedIds.length > 0)
+      await LabmakerAPI.Discord.deletePayments(deletedIds);
   };
 
   return (

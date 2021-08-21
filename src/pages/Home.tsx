@@ -8,19 +8,18 @@ import {
 import { PageHeader } from '../components/PageHeader';
 import { Switch } from '../components/Inputs/Switch';
 import { InputBox } from '../components/Inputs/InputBox';
-import { RedditConfigDto } from '../utils/data/types';
 import styled from 'styled-components';
-import { RedditConfigAPI } from '../utils/data/RedditConfig';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { updateReddit } from '../utils/slices/configSlices';
 import { TagInputBox } from '../components/Inputs/TagInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import LabmakerAPI from '../utils/APIHandler';
+import { RedditConfigDto } from 'labmaker-api-wrapper';
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const redditAPI = new RedditConfigAPI();
   const [isLogging, setIsLogging] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
 
@@ -36,7 +35,7 @@ export const Home = () => {
   }; */
 
   const loadConfig = async () => {
-    const config: RedditConfigDto = await redditAPI.getOne(
+    const config: RedditConfigDto = await LabmakerAPI.Reddit.getOne(
       '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'
     );
 
@@ -46,11 +45,10 @@ export const Home = () => {
 
   useEffect(() => {
     loadConfig();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveData = async () => {
-    await redditAPI.update(redditConfig);
+    await LabmakerAPI.Reddit.update(redditConfig);
   };
 
   const TagBox = () => {
