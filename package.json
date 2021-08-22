@@ -1,7 +1,6 @@
 {
   "engines": {
-    "node": "16.6.1",
-    "node2": "14.17.5"
+    "node": "14.17.5"
   },
   "name": "redditbot-frontend",
   "version": "0.1.0",
@@ -26,7 +25,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.12",
     "axios": "^0.21.1",
-    "labmaker-api-wrapper": "^1.6.4",
+    "labmaker-api-wrapper": "^1.6.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",

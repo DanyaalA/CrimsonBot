@@ -35,7 +35,7 @@ export const Discord = () => {
       dispatch(updatePayemnts(payments));
     };
     loadConfig();
-  });
+  }, [dispatch]);
 
   const saveData = async () => {
     await LabmakerAPI.Discord.update(discordConfig);

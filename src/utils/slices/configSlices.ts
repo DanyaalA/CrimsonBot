@@ -13,6 +13,7 @@ const loadingRedditConfig: RedditConfigDto = {
   delay: 0,
   subreddits: ['Subreddit1', 'Subreddit2'],
   forbiddenWords: ['ForbiddenWord1', 'Forbidden String 1'],
+  blockedUsers: ['Blocked_User1', 'Blocked_User2'],
 };
 
 const loadingDiscordConfig: GuildConfigDto = {

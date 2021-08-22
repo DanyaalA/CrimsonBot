@@ -13,15 +13,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { updateReddit } from '../utils/slices/configSlices';
 import { TagInputBox } from '../components/Inputs/TagInput';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import LabmakerAPI from '../utils/APIHandler';
 import { RedditConfigDto } from 'labmaker-api-wrapper';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const [isLogging, setIsLogging] = useState(false);
-  const [isHidden, setIsHidden] = useState(true);
 
   const redditConfig = useSelector(
     (state: RootState) => state.redditConfig.value
@@ -34,66 +31,20 @@ export const Home = () => {
     console.log("New Toggle: " + newToggle);
   }; */
 
-  const loadConfig = async () => {
-    const config: RedditConfigDto = await LabmakerAPI.Reddit.getOne(
-      '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'
-    );
-
-    if (!config) return;
-    dispatch(updateReddit(config));
-  };
-
   useEffect(() => {
+    const loadConfig = async () => {
+      const config: RedditConfigDto = await LabmakerAPI.Reddit.getOne(
+        '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'
+      );
+
+      if (!config) return;
+      dispatch(updateReddit(config));
+    };
     loadConfig();
-  }, []);
+  }, [dispatch]);
 
   const saveData = async () => {
     await LabmakerAPI.Reddit.update(redditConfig);
-  };
-
-  const TagBox = () => {
-    if (isHidden)
-      return (
-        <div>
-          <ButtonIcon onClick={() => setIsHidden(!isHidden)}>
-            <FontAwesomeIcon icon={faCaretRight} /> Subreddits | Forbidden Words
-          </ButtonIcon>
-        </div>
-      );
-
-    return (
-      <div>
-        <TagBoxMiniContainer>
-          <ButtonIcon onClick={() => setIsHidden(!isHidden)}>
-            <FontAwesomeIcon icon={faCaretDown} /> Subreddits | Forbidden Words
-          </ButtonIcon>
-          <TagInputBox
-            message="Subreddits"
-            items={redditConfig.subreddits}
-            onChange={(updatedValues: any) => {
-              dispatch(
-                updateReddit({
-                  ...redditConfig,
-                  subreddits: updatedValues,
-                })
-              );
-            }}
-          />
-          <TagInputBox
-            message="Forbidden Words"
-            items={redditConfig.forbiddenWords}
-            onChange={(updatedValues: any) => {
-              dispatch(
-                updateReddit({
-                  ...redditConfig,
-                  forbiddenWords: updatedValues,
-                })
-              );
-            }}
-          />
-        </TagBoxMiniContainer>
-      </div>
-    );
   };
 
   return (
@@ -209,13 +160,53 @@ export const Home = () => {
                 );
               }}
             />
-            <div>{TagBox()}</div>
+            <TagBoxMiniContainer>
+              <TagInputBox
+                message="Subreddits"
+                items={redditConfig.subreddits}
+                onChange={(updatedValues: any) => {
+                  dispatch(
+                    updateReddit({
+                      ...redditConfig,
+                      subreddits: updatedValues,
+                    })
+                  );
+                }}
+              />
+
+              <TagInputBox
+                message="Forbidden Words"
+                items={redditConfig.forbiddenWords}
+                onChange={(updatedValues: any) => {
+                  dispatch(
+                    updateReddit({
+                      ...redditConfig,
+                      forbiddenWords: updatedValues,
+                    })
+                  );
+                }}
+              />
+
+              <TagInputBox
+                message="Blocked Users"
+                items={redditConfig.blockedUsers}
+                onChange={(updatedValues: any) => {
+                  dispatch(
+                    updateReddit({
+                      ...redditConfig,
+                      blockedUsers: updatedValues,
+                    })
+                  );
+                }}
+              />
+            </TagBoxMiniContainer>
 
             <Switch
               message="Log Bot Activity"
               isToggled={isLogging}
               onToggle={() => setIsLogging(!isLogging)}
             />
+
             <CenterDiv>
               <CustomButton onClick={saveData}>Save</CustomButton>
             </CenterDiv>
@@ -228,30 +219,14 @@ export const Home = () => {
 
 export default Home;
 
-const ButtonIcon = styled.div`
-  width: 100%;
-  background-color: #202225;
-  box-sizing: border-box;
-  margin-bottom: 15px;
-  @media (max-width: 812px) {
-    position: unset;
-    display: flex;
-    flex-flow: row;
-    flex-direction: row;
-    width: 100%;
-  }
-  :hover {
-    cursor: pointer;
-  }
-`;
-
 const HomeStyle = styled.div`
   transition: all 5s ease-in-out;
 `;
 
 const TagBoxMiniContainer = styled.div`
   * {
-    transition: all 0.35s;
+    /* transition: all 0.35s; */
+    transition: all 350ms ease-out;
   }
 `;
 

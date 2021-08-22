@@ -7,6 +7,7 @@ import {
 
 export default class LabmakerAPI {
   private static API = 'https://reddit-api-bot2.herokuapp.com';
+  // private static API = 'http://localhost:3000';
 
   public static Discord = new DiscordConfigAPI(LabmakerAPI.API);
   public static Log = new LogAPI(LabmakerAPI.API);

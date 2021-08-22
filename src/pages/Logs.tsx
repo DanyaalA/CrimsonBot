@@ -11,23 +11,20 @@ import LabmakerAPI from '../utils/APIHandler';
 export const Logs = () => {
   const dispatch = useDispatch();
   const logs = useSelector((state: RootState) => state.logs.value);
-  const redditConfig = useSelector(
-    (state: RootState) => state.redditConfig.value
-  );
+  // const redditConfig = useSelector(
+  //   (state: RootState) => state.redditConfig.value
+  // );
 
   useEffect(() => {
     const loadLogs = async () => {
       let id = '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0';
-      if (redditConfig._id === '0') {
-        id = '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0';
-      }
       const data = await LabmakerAPI.Log.getLogs(id);
 
       dispatch(updateLogs(data));
     };
 
     loadLogs();
-  });
+  }, [dispatch]);
 
   return (
     <HomeStyle>

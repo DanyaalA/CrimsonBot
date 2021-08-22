@@ -1,3 +1,6 @@
+import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 type TagInputProps = {
@@ -8,6 +11,8 @@ type TagInputProps = {
 };
 
 export const TagInputBox = ({ message, onChange, items }: TagInputProps) => {
+  const [isHidden, setIsHidden] = useState(true);
+
   const handleKeyDown = (event: any) => {
     const value = event.target.value;
 
@@ -29,28 +34,53 @@ export const TagInputBox = ({ message, onChange, items }: TagInputProps) => {
     onChange(tagsArray);
   };
 
-  return (
-    <div className="inputBox">
-      <StyledSpan>{message}</StyledSpan>
-      <InputTag>
-        <ul className="tags">
-          {items.map((tag, i) => {
-            return (
-              <li className="tags-li">
-                {tag} <button onClick={(e) => removeTag(e, i)}> x </button>
-              </li>
-            );
-          })}
-        </ul>
-        <input type="text" onKeyDown={handleKeyDown} />
-      </InputTag>
-    </div>
-  );
+  if (isHidden) {
+    return (
+      <div>
+        <ButtonIcon onClick={() => setIsHidden(!isHidden)}>
+          <FontAwesomeIcon icon={faCaretRight} /> {message}
+        </ButtonIcon>
+      </div>
+    );
+  } else {
+    return (
+      <div className="inputBox">
+        <ButtonIcon onClick={() => setIsHidden(!isHidden)}>
+          <FontAwesomeIcon icon={faCaretDown} /> {message}
+        </ButtonIcon>
+
+        <InputTag>
+          <ul className="tags">
+            {items.map((tag, i) => {
+              return (
+                <li className="tags-li">
+                  {tag} <button onClick={(e) => removeTag(e, i)}> x </button>
+                </li>
+              );
+            })}
+          </ul>
+          <input type="text" onKeyDown={handleKeyDown} />
+        </InputTag>
+      </div>
+    );
+  }
 };
 
-const StyledSpan = styled.span`
-  padding-right: 5px;
-  margin-left: 2px;
+const ButtonIcon = styled.div`
+  width: 100%;
+  background-color: #202225;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  @media (max-width: 812px) {
+    position: unset;
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    width: 100%;
+  }
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const InputTag = styled.div`
@@ -59,6 +89,7 @@ const InputTag = styled.div`
   border: 2px solid #1f1f1f;
   border-radius: 5px;
   padding: 5px 5px 0px;
+  transition: all 1s;
 
   span {
     padding-right: 5px;
