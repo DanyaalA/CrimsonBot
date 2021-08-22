@@ -15,6 +15,8 @@ import { updateReddit } from '../utils/slices/configSlices';
 import { TagInputBox } from '../components/Inputs/TagInput';
 import LabmakerAPI from '../utils/APIHandler';
 import { RedditConfigDto } from 'labmaker-api-wrapper';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { InputBoxToggle } from '../components/Inputs/InputBoxToggle';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -104,10 +106,11 @@ export const Home = () => {
                 );
               }}
             />
-            <InputBox
+            <InputBoxToggle
               message="Password"
               value={redditConfig.password}
-              type="password"
+              visibleIcon={faEye}
+              hiddenIcon={faEyeSlash}
               onChange={(e: any) => {
                 dispatch(
                   updateReddit({

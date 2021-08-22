@@ -1,18 +1,17 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 type InputProps = {
   message: String;
   value: string | [string];
   onChange?: any;
-  type?: string;
 };
 
-export const InputBox = ({ message, value, onChange, type }: InputProps) => {
+export const InputBox = ({ message, value, onChange }: InputProps) => {
   const handleChange = (event: any) => {
     value = event.target.value;
 
     //onChange.ev = event;
-    if (typeof onChange === "function") {
+    if (typeof onChange === 'function') {
       onChange(event);
     }
   };
@@ -21,7 +20,7 @@ export const InputBox = ({ message, value, onChange, type }: InputProps) => {
     <div className="inputBox">
       <StyledSpan>{message}</StyledSpan>
       <InputContainer>
-        <input value={value} onChange={handleChange} type={type} />
+        <input value={value} onChange={handleChange} />
       </InputContainer>
     </div>
   );
@@ -45,7 +44,7 @@ const InputContainer = styled.div`
   input {
     padding-left: 10px;
     color: white;
-    font-family: "Lexend Deca";
+    font-family: 'Lexend Deca';
     width: 100%;
     height: 30px;
     background: #141617;
