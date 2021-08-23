@@ -16,6 +16,7 @@ import { addPayment, updatePayemnts } from '../utils/slices/paymentSlice';
 import { updateDiscord } from '../utils/slices/configSlices';
 import LabmakerAPI from '../utils/APIHandler';
 import { PaymentDto } from 'labmaker-api-wrapper';
+import { Spinner } from '../components/Spinner';
 
 export const Discord = () => {
   const dispatch = useDispatch();
@@ -79,6 +80,7 @@ export const Discord = () => {
 
   return (
     <HomeStyle>
+      <Spinner loading={discordConfig.loading} message={'Discord Config'} />
       <PageHeader
         title="LabMaker Discord Settings"
         subtitle={`Server/${discordConfig._id}`}

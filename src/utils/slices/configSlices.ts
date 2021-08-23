@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GuildConfigDto, RedditConfigDto } from 'labmaker-api-wrapper';
 
-const loadingRedditConfig: RedditConfigDto = {
+const loadingRedditConfig: RedditConfigDto & { loading?: boolean } = {
   _id: '0',
   clientId: '0',
   clientSecret: 'Client Secret',
@@ -14,9 +14,10 @@ const loadingRedditConfig: RedditConfigDto = {
   subreddits: ['Subreddit1', 'Subreddit2'],
   forbiddenWords: ['ForbiddenWord1', 'Forbidden String 1'],
   blockedUsers: ['Blocked_User1', 'Blocked_User2'],
+  loading: true,
 };
 
-const loadingDiscordConfig: GuildConfigDto = {
+const loadingDiscordConfig: GuildConfigDto & { loading?: boolean } = {
   _id: '0',
   paymentConfigId: '0',
   prefix: '?',
@@ -24,6 +25,7 @@ const loadingDiscordConfig: GuildConfigDto = {
   autoSwitcher: false,
   autoReact: false,
   autoTicket: false,
+  loading: true,
 };
 
 export const discordConfigSlice = createSlice({
@@ -42,6 +44,7 @@ export const redditConfigSlice = createSlice({
   name: 'redditConfig',
   initialState: {
     value: loadingRedditConfig,
+    // value: LabmakerAPI.Reddit.getOne('3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'),
   },
   reducers: {
     updateReddit: (state, action: PayloadAction<RedditConfigDto>) => {

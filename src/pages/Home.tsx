@@ -17,6 +17,7 @@ import LabmakerAPI from '../utils/APIHandler';
 import { RedditConfigDto } from 'labmaker-api-wrapper';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { InputBoxToggle } from '../components/Inputs/InputBoxToggle';
+import { Spinner } from '../components/Spinner';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export const Home = () => {
     setIsToggled(newToggle);
     console.log("New Toggle: " + newToggle);
   }; */
+  console.log(process.env.REACT_APP_NOT_SECRET_CODE);
 
   useEffect(() => {
     const loadConfig = async () => {
@@ -51,10 +53,12 @@ export const Home = () => {
 
   return (
     <HomeStyle>
+      <Spinner loading={redditConfig.loading} message={'Reddit Config'} />
       <PageHeader
         title="LabMaker Reddit Settings"
         subtitle={`/u/${redditConfig.username}`}
       />
+
       <BasePageStyle>
         <StatsContainer>
           <h2>
@@ -67,6 +71,7 @@ export const Home = () => {
             Filtered Posts <span>600</span>
           </h2>
         </StatsContainer>
+
         <ComboContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>Account</h1>

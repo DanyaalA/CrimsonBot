@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { updateLogs } from '../utils/slices/logsSlice';
 import LabmakerAPI from '../utils/APIHandler';
+import { Spinner } from '../components/Spinner';
 
 export const Logs = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,11 @@ export const Logs = () => {
 
   return (
     <HomeStyle>
+      <Spinner
+        loading={logs.length > 0 ? logs[0].loading : false}
+        message={'Logs'}
+      />
+
       <PageHeader title="LabMaker Logs" subtitle="/u/HomeworkHelperr" />
 
       <BasePageStyle>

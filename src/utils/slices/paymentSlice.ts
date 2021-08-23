@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PaymentDto } from 'labmaker-api-wrapper';
 
-const loadingPayment: PaymentDto = {
+const loadingPayment: PaymentDto & { loading?: boolean } = {
   _id: '0',
   nodeId: '0',
   name: 'Loading Payments...',
   value: 'Loading...',
   type: 'Loading...',
+  loading: true,
 };
 
 export const paymentsSlice = createSlice({
