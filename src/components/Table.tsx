@@ -1,4 +1,5 @@
 import { LogDto } from 'labmaker-api-wrapper';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 type LogProps = {
@@ -6,12 +7,15 @@ type LogProps = {
 };
 
 export const Table = ({ logs }: LogProps) => {
+  const [isHidden, setIsHidden] = useState(true);
   return (
     <StyledTable>
       <tbody>
         <tr>
           <th>User</th>
-          <th>Message</th>
+          <th>
+            <span onClick={() => setIsHidden(!isHidden)}>Message</span>
+          </th>
           <th>Subreddit</th>
           <th>Post</th>
           <th>Time</th>
@@ -23,8 +27,22 @@ export const Table = ({ logs }: LogProps) => {
                 {log.username}
               </a>
             </td>
-            <td>{log.message}</td>
-            <td>{log.subreddit}</td>
+            <td>
+              {isHidden ? (
+                <span onClick={() => setIsHidden(!isHidden)}>
+                  Click To View
+                </span>
+              ) : (
+                <span onClick={() => setIsHidden(!isHidden)}>
+                  {log.message}
+                </span>
+              )}
+            </td>
+            <td>
+              <a href={`https://reddit.com/r/${log.subreddit}`}>
+                {log.subreddit}
+              </a>
+            </td>
             <td>
               <a
                 href={`https://reddit.com/r/${log.subreddit}/comments/${log.subId}`}
@@ -39,6 +57,7 @@ export const Table = ({ logs }: LogProps) => {
     </StyledTable>
   );
 };
+
 const StyledTable = styled.table`
   a {
     text-decoration: none;
@@ -49,4 +68,10 @@ const StyledTable = styled.table`
   a:hover {
     color: #0ea4e9;
   }
+  span {
+    :hover {
+      cursor: pointer;
+    }
+  }
+  transition: all 1.5s ease-in-out;
 `;
