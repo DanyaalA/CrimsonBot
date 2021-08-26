@@ -14,9 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { addPayment, updatePayemnts } from '../utils/slices/paymentSlice';
 import { updateDiscord } from '../utils/slices/configSlices';
-import LabmakerAPI from '../utils/APIHandler';
 import { PaymentDto } from 'labmaker-api-wrapper';
 import { Spinner } from '../components/Spinner';
+import { Labmaker } from '../utils/APIHandler';
 
 export const Discord = () => {
   const dispatch = useDispatch();
@@ -27,10 +27,8 @@ export const Discord = () => {
 
   useEffect(() => {
     const loadConfig = async () => {
-      const dc = await LabmakerAPI.Discord.getOne('869998649952833578');
-      const payments = await LabmakerAPI.Discord.getPayments(
-        dc.paymentConfigId
-      );
+      const dc = await Labmaker.Discord.getOne('869998649952833578');
+      const payments = await Labmaker.Discord.getPayments(dc.paymentConfigId);
 
       dispatch(updateDiscord(dc));
       dispatch(updatePayemnts(payments));
@@ -39,7 +37,7 @@ export const Discord = () => {
   }, [dispatch]);
 
   const saveData = async () => {
-    await LabmakerAPI.Discord.update(discordConfig);
+    await Labmaker.Discord.update(discordConfig);
   };
 
   const createPayment = async () => {
@@ -52,14 +50,14 @@ export const Discord = () => {
       newPayment: true,
     };
 
-    const savedPayment = await LabmakerAPI.Discord.createPayments([newPayment]);
+    const savedPayment = await Labmaker.Discord.createPayments([newPayment]);
     console.log(savedPayment);
 
     dispatch(addPayment(savedPayment[0]));
   };
 
   const savePayments = async () => {
-    await LabmakerAPI.Discord.updatePayments(payments);
+    await Labmaker.Discord.updatePayments(payments);
 
     const deletedIds: string[] = [];
     await Promise.all(
@@ -75,12 +73,15 @@ export const Discord = () => {
     );
 
     if (deletedIds.length > 0)
-      await LabmakerAPI.Discord.deletePayments(deletedIds);
+      await Labmaker.Discord.deletePayments(deletedIds);
   };
 
   return (
     <HomeStyle>
-      <Spinner loading={discordConfig.loading} message={'Discord Config'} />
+      <Spinner
+        loading={discordConfig.loading}
+        message={'Loading Discord Config'}
+      />
       <PageHeader
         title="LabMaker Discord Settings"
         subtitle={`Server/${discordConfig._id}`}

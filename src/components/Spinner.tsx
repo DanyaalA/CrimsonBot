@@ -1,26 +1,33 @@
 import { SizeProp } from '@fortawesome/fontawesome-svg-core';
 import { faSpinner, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
 import styled from 'styled-components';
 
 type SpinnerProps = {
   loading: boolean | undefined;
-  message?: string;
+  message?: React.ReactElement | string | Element;
   icon?: IconDefinition;
   size?: SizeProp;
+  fixed?: boolean;
 };
 
-export const Spinner = ({ loading, message, icon, size }: SpinnerProps) => {
+export const Spinner = ({
+  loading,
+  message,
+  icon,
+  size,
+  fixed,
+}: SpinnerProps) => {
   if (loading) {
     return (
       <LoadingStyle>
         <FontAwesomeIcon
           icon={icon ? icon : faSpinner}
-          title={'Loading Reddit Config'}
-          className={'fa-spin'}
+          className={fixed ? '' : 'fa-spin'}
           size={size ? size : '2x'}
         />
-        <h1>Loading {message}</h1>
+        <h1>{message}</h1>
       </LoadingStyle>
     );
   } else {
@@ -44,5 +51,8 @@ const LoadingStyle = styled.div`
     justify-content: center;
     align-items: center;
     margin-left: 10px;
+  }
+  a {
+    color: white;
   }
 `;

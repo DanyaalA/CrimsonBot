@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { updateReddit } from '../utils/slices/configSlices';
 import { TagInputBox } from '../components/Inputs/TagInput';
-import LabmakerAPI from '../utils/APIHandler';
+import { Labmaker } from '../utils/APIHandler';
 import { RedditConfigDto } from 'labmaker-api-wrapper';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { InputBoxToggle } from '../components/Inputs/InputBoxToggle';
@@ -33,11 +33,10 @@ export const Home = () => {
     setIsToggled(newToggle);
     console.log("New Toggle: " + newToggle);
   }; */
-  console.log(process.env.REACT_APP_NOT_SECRET_CODE);
 
   useEffect(() => {
     const loadConfig = async () => {
-      const config: RedditConfigDto = await LabmakerAPI.Reddit.getOne(
+      const config: RedditConfigDto = await Labmaker.Reddit.getOne(
         '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'
       );
 
@@ -48,12 +47,15 @@ export const Home = () => {
   }, [dispatch]);
 
   const saveData = async () => {
-    await LabmakerAPI.Reddit.update(redditConfig);
+    await Labmaker.Reddit.update(redditConfig);
   };
 
   return (
     <HomeStyle>
-      <Spinner loading={redditConfig.loading} message={'Reddit Config'} />
+      <Spinner
+        loading={redditConfig.loading}
+        message={'Loading Reddit Config'}
+      />
       <PageHeader
         title="LabMaker Reddit Settings"
         subtitle={`/u/${redditConfig.username}`}

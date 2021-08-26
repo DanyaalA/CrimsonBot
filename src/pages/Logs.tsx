@@ -6,20 +6,17 @@ import { Table } from '../components/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { updateLogs } from '../utils/slices/logsSlice';
-import LabmakerAPI from '../utils/APIHandler';
+import { Labmaker } from '../utils/APIHandler';
 import { Spinner } from '../components/Spinner';
 
 export const Logs = () => {
   const dispatch = useDispatch();
   const logs = useSelector((state: RootState) => state.logs.value);
-  // const redditConfig = useSelector(
-  //   (state: RootState) => state.redditConfig.value
-  // );
 
   useEffect(() => {
     const loadLogs = async () => {
       let id = '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0';
-      const data = await LabmakerAPI.Log.getLogs(id);
+      const data = await Labmaker.Log.getLogs(id);
 
       dispatch(updateLogs(data));
     };
@@ -31,7 +28,7 @@ export const Logs = () => {
     <HomeStyle>
       <Spinner
         loading={logs.length > 0 ? logs[0].loading : false}
-        message={'Logs'}
+        message={'Loading Logs'}
       />
 
       <PageHeader title="LabMaker Logs" subtitle="/u/HomeworkHelperr" />
