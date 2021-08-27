@@ -1,12 +1,11 @@
 import { SizeProp } from '@fortawesome/fontawesome-svg-core';
 import { faSpinner, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 import styled from 'styled-components';
 
 type SpinnerProps = {
   loading: boolean | undefined;
-  message?: React.ReactElement | string | Element;
+  message?: string;
   icon?: IconDefinition;
   size?: SizeProp;
   fixed?: boolean;

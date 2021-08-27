@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu } from './components/Menu';
 import { Home } from './pages/Home';
 import { Discord } from './pages/Discord';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Logs } from './pages/Logs';
 import { Labmaker } from './utils/APIHandler';
 import { Spinner } from './components/Spinner';
-import { faTimes, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import { updateUser } from './utils/slices/userSlice';
 function App() {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     Labmaker.refreshAccesToken().then((result) => {
+      console.log(result.accessToken);
       if (!result.ok) {
-        console.log('RESULT IS FALSe');
         setLoggedIn(false);
-      } else setLoading(false);
+      } else {
+        Labmaker.User.getUser().then((userDetails) => {
+          dispatch(updateUser(userDetails));
+          setLoading(false);
+        });
+      }
     });
-  }, []);
+  }, [dispatch]);
 
   if (!loggedIn) window.location.href = Labmaker.loginURL();
 

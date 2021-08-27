@@ -64,3 +64,11 @@ export const CustomButton = styled.button`
   }
   transition: 0.5s;
 `;
+
+export const DisableDrag = styled.div`
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+`;

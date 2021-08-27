@@ -23,6 +23,8 @@ export const Discord = () => {
   const discordConfig = useSelector(
     (state: RootState) => state.discordConfig.value
   );
+
+  // const user = useSelector((state: RootState) => state.user.value);
   const payments = useSelector((state: RootState) => state.payments.value);
 
   useEffect(() => {

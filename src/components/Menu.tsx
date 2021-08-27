@@ -15,7 +15,6 @@ export const Menu = () => {
           />
         </MenuHeader>
       </Link>
-      <a href="http://localhost:3000/auth/login">Login</a>
 
       <MenuContent>
         <Link to="/">

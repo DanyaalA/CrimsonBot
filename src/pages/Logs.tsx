@@ -12,17 +12,16 @@ import { Spinner } from '../components/Spinner';
 export const Logs = () => {
   const dispatch = useDispatch();
   const logs = useSelector((state: RootState) => state.logs.value);
+  const user = useSelector((state: RootState) => state.user.value);
 
   useEffect(() => {
     const loadLogs = async () => {
-      let id = '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0';
-      const data = await Labmaker.Log.getLogs(id);
-
+      const data = await Labmaker.Log.getLogs(user.nodes[0]);
       dispatch(updateLogs(data));
     };
 
     loadLogs();
-  }, [dispatch]);
+  }, [dispatch, user.nodes]);
 
   return (
     <HomeStyle>

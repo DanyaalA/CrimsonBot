@@ -11,18 +11,21 @@ import { InputBox } from '../components/Inputs/InputBox';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { updateReddit } from '../utils/slices/configSlices';
+import { Node, updateReddit } from '../utils/slices/configSlices';
 import { TagInputBox } from '../components/Inputs/TagInput';
 import { Labmaker } from '../utils/APIHandler';
-import { RedditConfigDto } from 'labmaker-api-wrapper';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { InputBoxToggle } from '../components/Inputs/InputBoxToggle';
 import { Spinner } from '../components/Spinner';
+import { Selector } from '../components/Selector';
+import { updateUser } from '../utils/slices/userSlice';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const [isLogging, setIsLogging] = useState(false);
+  const [reload, setReload] = useState(true);
 
+  const user = useSelector((state: RootState) => state.user.value);
   const redditConfig = useSelector(
     (state: RootState) => state.redditConfig.value
   );
@@ -34,20 +37,94 @@ export const Home = () => {
     console.log("New Toggle: " + newToggle);
   }; */
 
+  const handleClick = async (node: string) => {
+    if (node === 'Create') {
+      const newNode: Node = {
+        _id: '0',
+        clientId: '',
+        clientSecret: '',
+        username: '',
+        password: '',
+        userAgent: '',
+        title: '',
+        pmBody: '',
+        delay: 5000,
+        subreddits: ['Subreddit'],
+        forbiddenWords: [],
+        blockedUsers: [],
+        newNode: true,
+      };
+
+      dispatch(updateReddit(newNode));
+
+      // await Labmaker.Reddit.create(loadingRedditConfig);
+    } else {
+      const config: Node = await Labmaker.Reddit.getOne(node);
+
+      if (!config) {
+        console.log('Invalid Id');
+        return;
+      }
+      dispatch(updateReddit(config));
+    }
+  };
+
   useEffect(() => {
     const loadConfig = async () => {
-      const config: RedditConfigDto = await Labmaker.Reddit.getOne(
-        '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'
-      );
+      if (user.nodes.length === 0) {
+        dispatch(updateReddit({ ...redditConfig, loading: false }));
+        return;
+      }
+
+      const config: Node = await Labmaker.Reddit.getOne(user.nodes[0]);
+
+      const hasCreate = user.nodes.find((n) => n === 'Create');
+
+      if (!hasCreate) {
+        const nodes = [...user.nodes, 'Create'];
+        dispatch(updateUser({ ...user, nodes: nodes }));
+      } else {
+        const nodes = [...user.nodes];
+        nodes.push(nodes.splice(nodes.indexOf(hasCreate), 1)[0]);
+        dispatch(updateUser({ ...user, nodes }));
+      }
 
       if (!config) return;
       dispatch(updateReddit(config));
+
+      setReload(false);
     };
-    loadConfig();
-  }, [dispatch]);
+    if (reload) {
+      loadConfig();
+    }
+  }, [dispatch, reload]);
 
   const saveData = async () => {
-    await Labmaker.Reddit.update(redditConfig);
+    if (redditConfig.newNode) {
+      const newNode = await Labmaker.Reddit.create(redditConfig);
+      console.log(newNode);
+      if (newNode) {
+        dispatch(updateReddit(newNode));
+        dispatch(updateUser({ ...user, nodes: [...user.nodes, newNode._id] }));
+        setReload(true);
+      }
+    } else {
+      await Labmaker.Reddit.update(redditConfig);
+    }
+  };
+
+  const deleteData = async () => {
+    if (redditConfig._id === '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0') return;
+
+    await Labmaker.Reddit.deleteConfig(redditConfig._id);
+    const nodes = [...user.nodes];
+    const index = nodes.indexOf(redditConfig._id);
+
+    if (index > -1) {
+      nodes.splice(index, 1);
+      dispatch(updateUser({ ...user, nodes }));
+      setReload(true);
+    }
   };
 
   return (
@@ -74,6 +151,20 @@ export const Home = () => {
           </h2>
         </StatsContainer>
 
+        <SelectorContainer>
+          {user.nodes.map((node) => {
+            return (
+              <Selector
+                key={node}
+                clickEvent={() => handleClick(node)}
+                message={node}
+              />
+            );
+          })}
+        </SelectorContainer>
+        <CenterDiv>
+          <CustomButton onClick={deleteData}>Delete</CustomButton>
+        </CenterDiv>
         <ComboContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>Account</h1>
@@ -139,10 +230,6 @@ export const Home = () => {
                 );
               }}
             />
-
-            <CenterDiv>
-              <CustomButton onClick={saveData}>Save</CustomButton>
-            </CenterDiv>
           </GeneralSettingContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>Main</h1>
@@ -216,12 +303,13 @@ export const Home = () => {
               isToggled={isLogging}
               onToggle={() => setIsLogging(!isLogging)}
             />
-
-            <CenterDiv>
-              <CustomButton onClick={saveData}>Save</CustomButton>
-            </CenterDiv>
           </GeneralSettingContainer>
         </ComboContainer>
+        <ButtonContainer>
+          <CenterDiv>
+            <CustomButton onClick={saveData}>Save</CustomButton>
+          </CenterDiv>
+        </ButtonContainer>
       </BasePageStyle>
     </HomeStyle>
   );
@@ -237,6 +325,24 @@ const TagBoxMiniContainer = styled.div`
   * {
     /* transition: all 0.35s; */
     transition: all 350ms ease-out;
+  }
+`;
+
+const SelectorContainer = styled(ContainerStyle)`
+  display: flex;
+  justify-content: center;
+
+  .selector {
+    margin: 0px 15px;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  /* padding: 25px; */
+  padding-top: 15px;
+
+  button {
+    margin-left: 35px;
   }
 `;
 

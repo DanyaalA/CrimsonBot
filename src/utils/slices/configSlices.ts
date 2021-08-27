@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GuildConfigDto, RedditConfigDto } from 'labmaker-api-wrapper';
 
-const loadingRedditConfig: RedditConfigDto & { loading?: boolean } = {
+export type Node = RedditConfigDto & {
+  loading?: boolean;
+  newNode?: boolean;
+};
+
+export const loadingRedditConfig: Node = {
   _id: '0',
   clientId: '0',
   clientSecret: 'Client Secret',
@@ -47,7 +52,7 @@ export const redditConfigSlice = createSlice({
     // value: LabmakerAPI.Reddit.getOne('3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0'),
   },
   reducers: {
-    updateReddit: (state, action: PayloadAction<RedditConfigDto>) => {
+    updateReddit: (state, action: PayloadAction<Node>) => {
       state.value = action.payload;
     },
   },
