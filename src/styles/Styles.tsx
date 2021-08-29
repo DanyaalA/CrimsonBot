@@ -27,8 +27,15 @@ export const ContainerStyle = styled.div`
   width: 100%;
   border-radius: 5px;
   background-color: ${(props) => props.theme.base.container};
+`;
 
-  //141617
+export const SelectorContainer = styled(ContainerStyle)`
+  display: flex;
+  justify-content: center;
+
+  .selector {
+    margin: 0px 15px;
+  }
 `;
 
 export const CenterDiv = styled.div`
@@ -71,4 +78,9 @@ export const DisableDrag = styled.div`
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+`;
+
+export const StyledSpan = styled.span`
+  padding-right: 5px;
+  margin-left: 2px;
 `;

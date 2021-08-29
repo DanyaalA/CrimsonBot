@@ -6,6 +6,10 @@ export type Node = RedditConfigDto & {
   newNode?: boolean;
 };
 
+export type GuildConfig = GuildConfigDto & {
+  loading?: boolean;
+};
+
 export const loadingRedditConfig: Node = {
   _id: '0',
   clientId: '0',
@@ -22,7 +26,7 @@ export const loadingRedditConfig: Node = {
   loading: true,
 };
 
-const loadingDiscordConfig: GuildConfigDto & { loading?: boolean } = {
+const loadingDiscordConfig: GuildConfig = {
   _id: '0',
   paymentConfigId: '0',
   prefix: '?',
@@ -39,7 +43,7 @@ export const discordConfigSlice = createSlice({
     value: loadingDiscordConfig,
   },
   reducers: {
-    updateDiscord: (state, action: PayloadAction<GuildConfigDto>) => {
+    updateDiscord: (state, action: PayloadAction<GuildConfig>) => {
       state.value = action.payload;
     },
   },

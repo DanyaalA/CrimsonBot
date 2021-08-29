@@ -4,6 +4,7 @@ import {
   BasePageStyle,
   CenterDiv,
   CustomButton,
+  SelectorContainer,
 } from '../styles/Styles';
 import { PageHeader } from '../components/PageHeader';
 import { Switch } from '../components/Inputs/Switch';
@@ -38,6 +39,10 @@ export const Home = () => {
   }; */
 
   const handleClick = async (node: string) => {
+    if (node === redditConfig._id) {
+      return;
+    }
+
     if (node === 'Create') {
       const newNode: Node = {
         _id: '0',
@@ -325,15 +330,6 @@ const TagBoxMiniContainer = styled.div`
   * {
     /* transition: all 0.35s; */
     transition: all 350ms ease-out;
-  }
-`;
-
-const SelectorContainer = styled(ContainerStyle)`
-  display: flex;
-  justify-content: center;
-
-  .selector {
-    margin: 0px 15px;
   }
 `;
 

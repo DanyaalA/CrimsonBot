@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ContainerStyle,
   BasePageStyle,
   CenterDiv,
   CustomButton,
+  SelectorContainer,
+  StyledSpan,
 } from '../styles/Styles';
 import { PageHeader } from '../components/PageHeader';
 import { Switch } from '../components/Inputs/Switch';
@@ -14,9 +16,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { addPayment, updatePayemnts } from '../utils/slices/paymentSlice';
 import { updateDiscord } from '../utils/slices/configSlices';
-import { PaymentDto } from 'labmaker-api-wrapper';
+import { Guild, PaymentDto } from 'labmaker-api-wrapper';
 import { Spinner } from '../components/Spinner';
 import { Labmaker } from '../utils/APIHandler';
+import { Selector } from '../components/Selector';
+import ReactDropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+
+// import { DropDown } from '../components/Inputs/DropDown';
+
+type DDProps = {
+  value: string;
+  label: string;
+};
 
 export const Discord = () => {
   const dispatch = useDispatch();
@@ -24,22 +36,58 @@ export const Discord = () => {
     (state: RootState) => state.discordConfig.value
   );
 
-  // const user = useSelector((state: RootState) => state.user.value);
+  const loadingServer: Guild = {
+    id: '0',
+    name: 'Name',
+    icon: 'Icon',
+    owner: false,
+    permissions: '1234',
+    features: [],
+  };
+
+  const [guilds, setGuilds] = useState([loadingServer]);
+  const [parsedGuilds, setParsedGuilds] = useState([
+    { value: 'Loading...', label: 'Loading' },
+  ]);
+  const [samePayment, setSamePayment] = useState(false);
+
+  const user = useSelector((state: RootState) => state.user.value);
   const payments = useSelector((state: RootState) => state.payments.value);
 
   useEffect(() => {
     const loadConfig = async () => {
-      const dc = await Labmaker.Discord.getOne('869998649952833578');
+      dispatch(updateDiscord({ ...discordConfig, loading: true }));
+      const fetchedGuilds = await Labmaker.Guild.Guilds();
+      setGuilds(fetchedGuilds);
+      setParsedGuilds(parseGuilds(fetchedGuilds));
+
+      const dc = await Labmaker.Discord.getOne(fetchedGuilds[0].id);
       const payments = await Labmaker.Discord.getPayments(dc.paymentConfigId);
 
       dispatch(updateDiscord(dc));
       dispatch(updatePayemnts(payments));
     };
+
     loadConfig();
   }, [dispatch]);
 
   const saveData = async () => {
     await Labmaker.Discord.update(discordConfig);
+  };
+
+  const handleClick = async (server: string) => {
+    const dc = await Labmaker.Discord.getOne(server);
+
+    if (dc) {
+      const payments = await Labmaker.Discord.getPayments(dc.paymentConfigId);
+
+      dispatch(updateDiscord(dc));
+      dispatch(updatePayemnts(payments));
+    } else {
+      window.open(
+        'https://discord.com/api/oauth2/authorize?client_id=863403711422660648&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fredirect&scope=bot'
+      );
+    }
   };
 
   const createPayment = async () => {
@@ -48,7 +96,7 @@ export const Discord = () => {
       name: 'Payment Name',
       value: 'Payment Value',
       type: 'FIAT',
-      nodeId: discordConfig.paymentConfigId,
+      nodeId: discordConfig._id,
       newPayment: true,
     };
 
@@ -78,6 +126,47 @@ export const Discord = () => {
       await Labmaker.Discord.deletePayments(deletedIds);
   };
 
+  const parseGuilds = (guilds: Guild[]) => {
+    let parsedGuilds: string[] = [];
+    let parsed: DDProps[] = [];
+
+    guilds.forEach((guild: Guild & { joined?: boolean }) => {
+      if (guild.joined) {
+        parsedGuilds.push(guild.name);
+        parsed.push({ value: guild.id, label: guild.name });
+      }
+    });
+    return parsed;
+  };
+
+  const handleChange = async (item: any) => {
+    const payments = await Labmaker.Discord.getPayments(item.value);
+
+    dispatch(updatePayemnts(payments));
+    dispatch(updateDiscord({ ...discordConfig, paymentConfigId: item.value }));
+  };
+
+  const renderPayments = () => {
+    console.log('Running');
+
+    if (discordConfig._id === discordConfig.paymentConfigId) {
+      return payments.map((payment: PaymentDto, index) => {
+        if (!payment.deletedPayment) {
+          return <Payment payment={payment} key={index} />;
+        } else {
+          return <div></div>;
+        }
+      });
+    } else {
+      return (
+        <p>
+          To edit payments go to the correct server settings or change the
+          payment config to use your own payments.
+        </p>
+      );
+    }
+  };
+
   return (
     <HomeStyle>
       <Spinner
@@ -100,6 +189,22 @@ export const Discord = () => {
             Open Tickets <span>600</span>
           </h2>
         </StatsContainer>
+        <SelectorContainer>
+          {guilds.map((guild) => {
+            return (
+              <Selector
+                key={guild.id}
+                clickEvent={() => handleClick(guild.id)}
+                message={guild.name}
+                imageUrl={
+                  guild.icon
+                    ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
+                    : `https://i.imgur.com/0RwfUbB.jpeg`
+                }
+              />
+            );
+          })}
+        </SelectorContainer>
         <ComboContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>General</h1>
@@ -114,6 +219,12 @@ export const Discord = () => {
                   })
                 );
               }}
+            />
+            <StyledSpan>Payment Config</StyledSpan>
+            <ReactDropdown
+              options={parsedGuilds}
+              value={discordConfig.paymentConfigId}
+              onChange={(e) => handleChange(e)}
             />
             <InputBox
               message="Bot Image URL"
@@ -169,15 +280,7 @@ export const Discord = () => {
           </GeneralSettingContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>Payment</h1>
-            <div>
-              {payments.map((payment: PaymentDto, index) => {
-                if (!payment.deletedPayment) {
-                  return <Payment payment={payment} key={index} />;
-                } else {
-                  return <div></div>;
-                }
-              })}
-            </div>
+            <div>{renderPayments()}</div>
 
             <CenterDiv>
               <CustomButton onClick={createPayment}>Add</CustomButton>

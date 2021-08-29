@@ -1,5 +1,9 @@
 import { useEffect } from 'react';
-import { ContainerStyle, BasePageStyle } from '../styles/Styles';
+import {
+  ContainerStyle,
+  BasePageStyle,
+  SelectorContainer,
+} from '../styles/Styles';
 import { PageHeader } from '../components/PageHeader';
 import styled from 'styled-components';
 import { Table } from '../components/Table';
@@ -8,11 +12,17 @@ import { RootState } from '../store';
 import { updateLogs } from '../utils/slices/logsSlice';
 import { Labmaker } from '../utils/APIHandler';
 import { Spinner } from '../components/Spinner';
+import { Selector } from '../components/Selector';
 
 export const Logs = () => {
   const dispatch = useDispatch();
   const logs = useSelector((state: RootState) => state.logs.value);
   const user = useSelector((state: RootState) => state.user.value);
+
+  const handleClick = async (node: string) => {
+    const data = await Labmaker.Log.getLogs(node);
+    dispatch(updateLogs(data));
+  };
 
   useEffect(() => {
     const loadLogs = async () => {
@@ -33,6 +43,17 @@ export const Logs = () => {
       <PageHeader title="LabMaker Logs" subtitle="/u/HomeworkHelperr" />
 
       <BasePageStyle>
+        <SelectorContainer>
+          {user.nodes.map((node) => {
+            return (
+              <Selector
+                key={node}
+                clickEvent={() => handleClick(node)}
+                message={node}
+              />
+            );
+          })}
+        </SelectorContainer>
         <GeneralSettingContainer id="comboContainer">
           <h1>Logs</h1>
           <Table logs={logs}></Table>

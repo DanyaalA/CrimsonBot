@@ -4,10 +4,13 @@ import { DisableDrag } from '../styles/Styles';
 type SelectorProps = {
   message?: string;
   clickEvent: any;
+  imageUrl?: string;
 };
 
-export const Selector = ({ message, clickEvent }: SelectorProps) => {
-  let imageUrl = `https://avatars.dicebear.com/api/micah/${message}.svg`;
+export const Selector = ({ message, clickEvent, imageUrl }: SelectorProps) => {
+  if (!imageUrl) {
+    imageUrl = `https://avatars.dicebear.com/api/micah/${message}.svg`;
+  }
 
   if (message === 'Create') {
     imageUrl = 'https://i.imgur.com/lHnsAwX.png';
