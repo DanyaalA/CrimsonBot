@@ -28,6 +28,8 @@ export const loadingRedditConfig: Node = {
 
 const loadingDiscordConfig: GuildConfig = {
   _id: '0',
+  name: 'Loading Server',
+  icon: null,
   paymentConfigId: '0',
   prefix: '?',
   embedImageUrl: 'http://www.image.com/image.png',

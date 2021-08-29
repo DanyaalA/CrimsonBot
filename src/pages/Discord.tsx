@@ -43,13 +43,13 @@ export const Discord = () => {
     owner: false,
     permissions: '1234',
     features: [],
+    joined: false,
   };
 
   const [guilds, setGuilds] = useState([loadingServer]);
   const [parsedGuilds, setParsedGuilds] = useState([
     { value: 'Loading...', label: 'Loading' },
   ]);
-  const [samePayment, setSamePayment] = useState(false);
 
   const user = useSelector((state: RootState) => state.user.value);
   const payments = useSelector((state: RootState) => state.payments.value);
@@ -130,7 +130,7 @@ export const Discord = () => {
     let parsedGuilds: string[] = [];
     let parsed: DDProps[] = [];
 
-    guilds.forEach((guild: Guild & { joined?: boolean }) => {
+    guilds.forEach((guild: Guild) => {
       if (guild.joined) {
         parsedGuilds.push(guild.name);
         parsed.push({ value: guild.id, label: guild.name });
@@ -147,8 +147,6 @@ export const Discord = () => {
   };
 
   const renderPayments = () => {
-    console.log('Running');
-
     if (discordConfig._id === discordConfig.paymentConfigId) {
       return payments.map((payment: PaymentDto, index) => {
         if (!payment.deletedPayment) {
@@ -175,7 +173,7 @@ export const Discord = () => {
       />
       <PageHeader
         title="LabMaker Discord Settings"
-        subtitle={`Server/${discordConfig._id}`}
+        subtitle={discordConfig.name}
       />
       <BasePageStyle>
         <StatsContainer>
@@ -195,11 +193,11 @@ export const Discord = () => {
               <Selector
                 key={guild.id}
                 clickEvent={() => handleClick(guild.id)}
-                message={guild.name}
+                message={guild.joined ? guild.name : `${guild.name} - Invite`}
                 imageUrl={
                   guild.icon
                     ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
-                    : `https://i.imgur.com/0RwfUbB.jpeg`
+                    : `https://i.imgur.com/t5JIZ1M.png`
                 }
               />
             );
@@ -208,24 +206,13 @@ export const Discord = () => {
         <ComboContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>General</h1>
-            <InputBox
-              message="Payment Config"
-              value={discordConfig.paymentConfigId}
-              onChange={(e: any) => {
-                dispatch(
-                  updateDiscord({
-                    ...discordConfig,
-                    paymentConfigId: e.target.value,
-                  })
-                );
-              }}
-            />
             <StyledSpan>Payment Config</StyledSpan>
             <ReactDropdown
               options={parsedGuilds}
               value={discordConfig.paymentConfigId}
               onChange={(e) => handleChange(e)}
             />
+            <br />
             <InputBox
               message="Bot Image URL"
               value={discordConfig.embedImageUrl}

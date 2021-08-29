@@ -29,6 +29,8 @@ export const Selector = ({ message, clickEvent, imageUrl }: SelectorProps) => {
 const SelectorStyle = styled(DisableDrag)`
   width: 100px;
   height: 150px;
+  width: 6%;
+  height: 9%;
   border: 2px solid black;
   img {
     -webkit-user-drag: none;
@@ -37,8 +39,8 @@ const SelectorStyle = styled(DisableDrag)`
     -webkit-user-select: none;
     -ms-user-select: none;
     /* background: rgba(0, 0, 0, 0.3); */
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
   }
   span {
     display: flex;

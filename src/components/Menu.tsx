@@ -3,14 +3,22 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 export const Menu = () => {
+  const user = useSelector((state: RootState) => state.user.value);
+
   return (
     <MenuStyle>
       <Link to="/">
         <MenuHeader>
           <IconStyle
-            src="https://i.redd.it/snoovatar/avatars/9bd82046-d7f2-4527-a466-316122a6ea7a.png"
+            src={
+              user.avatar
+                ? `https://cdn.discordapp.com/avatars/${user._id}/${user.avatar}`
+                : 'https://i.imgur.com/yrZKnwI.png'
+            }
             alt="Reddit Avatar"
           />
         </MenuHeader>
@@ -49,6 +57,7 @@ const IconStyle = styled.img`
   justify-content: center;
   align-items: center;
   transition: 0.2s all;
+  border-radius: 50%;
 `;
 
 const MenuStyle = styled.div`
