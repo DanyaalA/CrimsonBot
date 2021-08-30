@@ -102,7 +102,7 @@ export const Home = () => {
     if (reload) {
       loadConfig();
     }
-  }, [dispatch, reload]);
+  }, [dispatch, reload, redditConfig, user]);
 
   const saveData = async () => {
     if (redditConfig.newNode) {

@@ -50,26 +50,36 @@ export const Discord = () => {
   const [parsedGuilds, setParsedGuilds] = useState([
     { value: 'Loading...', label: 'Loading' },
   ]);
+  const [reload, setReload] = useState(true);
 
-  const user = useSelector((state: RootState) => state.user.value);
+  // const user = useSelector((state: RootState) => state.user.value);
   const payments = useSelector((state: RootState) => state.payments.value);
 
   useEffect(() => {
     const loadConfig = async () => {
-      dispatch(updateDiscord({ ...discordConfig, loading: true }));
+      setReload(false);
       const fetchedGuilds = await Labmaker.Guild.Guilds();
+      if (!fetchedGuilds) return;
+
+      // dispatch(updateDiscord({ ...discordConfig, loading: true }));
       setGuilds(fetchedGuilds);
       setParsedGuilds(parseGuilds(fetchedGuilds));
 
       const dc = await Labmaker.Discord.getOne(fetchedGuilds[0].id);
       const payments = await Labmaker.Discord.getPayments(dc.paymentConfigId);
 
+      if (!dc) return;
       dispatch(updateDiscord(dc));
+
+      if (!payments) return;
+
       dispatch(updatePayemnts(payments));
     };
 
-    loadConfig();
-  }, [dispatch]);
+    if (reload) {
+      loadConfig();
+    }
+  }, [dispatch, discordConfig, reload]);
 
   const saveData = async () => {
     await Labmaker.Discord.update(discordConfig);
@@ -130,6 +140,8 @@ export const Discord = () => {
     let parsedGuilds: string[] = [];
     let parsed: DDProps[] = [];
 
+    if (!guilds) return parsed;
+
     guilds.forEach((guild: Guild) => {
       if (guild.joined) {
         parsedGuilds.push(guild.name);
@@ -165,6 +177,25 @@ export const Discord = () => {
     }
   };
 
+  const GenerateGuilds = () => {
+    if (!guilds) return <div></div>;
+
+    return guilds.map((guild) => {
+      return (
+        <Selector
+          key={guild.id}
+          clickEvent={() => handleClick(guild.id)}
+          message={guild.joined ? guild.name : `${guild.name} - Invite`}
+          imageUrl={
+            guild.icon
+              ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
+              : `https://i.imgur.com/t5JIZ1M.png`
+          }
+        />
+      );
+    });
+  };
+
   return (
     <HomeStyle>
       <Spinner
@@ -188,7 +219,7 @@ export const Discord = () => {
           </h2>
         </StatsContainer>
         <SelectorContainer>
-          {guilds.map((guild) => {
+          {/* {guilds.map((guild) => {
             return (
               <Selector
                 key={guild.id}
@@ -201,14 +232,19 @@ export const Discord = () => {
                 }
               />
             );
-          })}
+          })} */}
+          {GenerateGuilds()}
         </SelectorContainer>
         <ComboContainer>
           <GeneralSettingContainer id="comboContainer">
             <h1>General</h1>
             <StyledSpan>Payment Config</StyledSpan>
             <ReactDropdown
-              options={parsedGuilds}
+              options={
+                parsedGuilds
+                  ? parsedGuilds
+                  : [{ value: 'Empty', label: 'Empty' }]
+              }
               value={discordConfig.paymentConfigId}
               onChange={(e) => handleChange(e)}
             />

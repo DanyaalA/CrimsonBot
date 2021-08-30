@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 type InputProps = {
   message: String;
@@ -7,14 +7,14 @@ type InputProps = {
 };
 
 export const ListBox = ({ message, value, onChange }: InputProps) => {
-  const handleChange = (event: any) => {
-    value = event.target.value;
+  // const handleChange = (event: any) => {
+  //   value = event.target.value;
 
-    //onChange.ev = event;
-    if (typeof onChange === "function") {
-      onChange(event);
-    }
-  };
+  //   //onChange.ev = event;
+  //   if (typeof onChange === "function") {
+  //     onChange(event);
+  //   }
+  // };
 
   return (
     <>
@@ -44,7 +44,7 @@ const InputContainer = styled.div`
   input {
     padding-left: 10px;
     color: white;
-    font-family: "Lexend Deca";
+    font-family: 'Lexend Deca';
     width: 300px;
     height: 30px;
     background: #141617;
