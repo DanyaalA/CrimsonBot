@@ -28,8 +28,7 @@ function App() {
   }, [dispatch]);
 
   if (!loggedIn) {
-    console.log(Labmaker.loginURL());
-    // window.location.href = Labmaker.loginURL();
+    window.location.href = Labmaker.loginURL();
   }
 
   if (loading)
