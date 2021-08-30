@@ -42,6 +42,7 @@ const SelectorStyle = styled(DisableDrag)`
     width: 100%;
     height: 100%;
   }
+
   span {
     display: flex;
     justify-content: center;
@@ -49,6 +50,9 @@ const SelectorStyle = styled(DisableDrag)`
     height: 44px;
     vertical-align: middle;
     width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: anywhere;
   }
 
   div {
