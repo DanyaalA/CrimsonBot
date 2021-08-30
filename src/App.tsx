@@ -27,7 +27,10 @@ function App() {
     });
   }, [dispatch]);
 
-  if (!loggedIn) window.location.href = Labmaker.loginURL();
+  if (!loggedIn) {
+    console.log(Labmaker.loginURL());
+    // window.location.href = Labmaker.loginURL();
+  }
 
   if (loading)
     return (
