@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Menu } from 'components/Menu';
-import { Home } from 'pages/Home';
 import { Discord } from 'pages/Discord';
+import { Discord as Discord2 } from 'pages/Discord/Discord';
 import { Route, Switch } from 'react-router-dom';
 import { Logs } from 'pages/Logs';
 import { Labmaker } from 'utils/APIHandler';
 import { Spinner } from 'components/Spinner';
 import { useDispatch } from 'react-redux';
 import { updateUser } from 'utils/slices/userSlice';
+import { Home } from 'pages/Home/Home';
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(true);
@@ -49,6 +51,7 @@ function App() {
         <Route path="/logs">
           <Logs />
         </Route>
+        <Route path="/homeNew" exact component={Discord2} />
       </Switch>
     </div>
   );

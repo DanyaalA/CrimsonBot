@@ -56,10 +56,11 @@ export const Discord = () => {
   useEffect(() => {
     const loadConfig = async () => {
       setReload(false);
+      dispatch(updateDiscord({ ...discordConfig, loading: true }));
+
       const fetchedGuilds = await Labmaker.Guild.Guilds();
       if (!fetchedGuilds) return;
 
-      // dispatch(updateDiscord({ ...discordConfig, loading: true }));
       setGuilds(fetchedGuilds);
       setParsedGuilds(parseGuilds(fetchedGuilds));
 

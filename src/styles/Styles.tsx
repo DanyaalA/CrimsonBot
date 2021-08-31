@@ -5,7 +5,7 @@ export const BasePageStyle = styled.div`
   height: 100%;
   width: calc(100% - 85px);
   margin-left: 85px;
-  margin-top: 10px;
+  margin-top: 100px;
   color: white;
   position: absolute;
   box-sizing: border-box;

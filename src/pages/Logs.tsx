@@ -12,7 +12,7 @@ import { RootState } from 'store';
 import { updateLogs } from 'utils/slices/logsSlice';
 import { Labmaker } from 'utils/APIHandler';
 import { Spinner } from 'components/Spinner';
-import { Selector } from 'components/Selector';
+import { NodeConfigList } from 'components/NodeConfigList';
 
 export const Logs = () => {
   const dispatch = useDispatch();
@@ -43,17 +43,7 @@ export const Logs = () => {
       <PageHeader title="LabMaker Logs" subtitle="/u/HomeworkHelperr" />
 
       <BasePageStyle>
-        <SelectorContainer>
-          {user.nodes.map((node) => {
-            return (
-              <Selector
-                key={node}
-                clickEvent={() => handleClick(node)}
-                message={node}
-              />
-            );
-          })}
-        </SelectorContainer>
+        <NodeConfigList onClick={handleClick} />
         <GeneralSettingContainer id="comboContainer">
           <h1>Logs</h1>
           <Table logs={logs}></Table>
