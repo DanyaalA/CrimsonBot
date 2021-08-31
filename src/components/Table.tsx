@@ -23,7 +23,7 @@ export const Table = ({ logs }: LogProps) => {
         {logs.map((log) => (
           <tr key={log._id}>
             <td>
-              <a href={`https://reddit.com/u/${log.username}/`}>
+              <a href={`https://reddit.com/u/${log.username}/`} target="_blank">
                 {log.username}
               </a>
             </td>
@@ -39,13 +39,14 @@ export const Table = ({ logs }: LogProps) => {
               )}
             </td>
             <td>
-              <a href={`https://reddit.com/r/${log.subreddit}`}>
+              <a href={`https://reddit.com/r/${log.subreddit}`} target="_blank">
                 {log.subreddit}
               </a>
             </td>
             <td>
               <a
                 href={`https://reddit.com/r/${log.subreddit}/comments/${log.subId}`}
+                target="_blank"
               >
                 Here
               </a>
