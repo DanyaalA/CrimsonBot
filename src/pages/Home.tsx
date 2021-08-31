@@ -305,7 +305,7 @@ export const Home = () => {
 
             <Switch
               message="Log Bot Activity"
-              isToggled={isLogging}
+              toggled={isLogging}
               onToggle={() => setIsLogging(!isLogging)}
             />
           </GeneralSettingContainer>

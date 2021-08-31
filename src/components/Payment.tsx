@@ -17,20 +17,34 @@ export const Payment = ({ payment }: PaymentProps) => {
   const dispatch = useDispatch();
 
   const updatePayments = (e: any, inputType: InputType) => {
-    let newName = payment.name;
-    let newValue = payment.value;
-    let newType = payment.type;
+    const details = {
+      name: payment.name,
+      value: payment.value,
+      type: payment.type,
+    };
 
-    if (inputType === InputType.Name) {
-      newName = e.target.value;
-    } else if (inputType === InputType.Value) {
-      newValue = e.target.value;
-    } else if (inputType === InputType.Type) {
-      newType = e.target.value;
+    switch (inputType) {
+      case InputType.Name: {
+        details.name = e.target.value;
+        break;
+      }
+      case InputType.Value: {
+        details.value = e.target.value;
+        break;
+      }
+      case InputType.Type: {
+        details.type = e.target.value;
+        break;
+      }
     }
 
     dispatch(
-      editPayment({ ...payment, name: newName, value: newValue, type: newType })
+      editPayment({
+        ...payment,
+        name: details.name,
+        value: details.value,
+        type: details.type,
+      })
     );
   };
 

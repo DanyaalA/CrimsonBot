@@ -263,8 +263,8 @@ export const Discord = () => {
             />
             <Switch
               message="Advance User Switcher"
-              isToggled={discordConfig.autoSwitcher}
-              onToggle={(e: any) => {
+              toggled={discordConfig.autoSwitcher}
+              onToggle={() => {
                 dispatch(
                   updateDiscord({
                     ...discordConfig,
@@ -275,8 +275,8 @@ export const Discord = () => {
             />
             <Switch
               message="Auto Creete Ticket"
-              isToggled={discordConfig.autoTicket}
-              onToggle={(e: any) => {
+              toggled={discordConfig.autoTicket}
+              onToggle={() => {
                 dispatch(
                   updateDiscord({
                     ...discordConfig,
@@ -287,8 +287,8 @@ export const Discord = () => {
             />
             <Switch
               message="Auto Reacter"
-              isToggled={discordConfig.autoReact}
-              onToggle={(e: any) => {
+              toggled={discordConfig.autoReact}
+              onToggle={() => {
                 dispatch(
                   updateDiscord({
                     ...discordConfig,

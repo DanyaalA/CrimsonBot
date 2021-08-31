@@ -1,27 +1,19 @@
 import styled, { css } from 'styled-components';
 
 type RadioProps = {
-  isSquare?: boolean;
-  isToggled: boolean;
+  square?: boolean;
+  toggled: boolean;
   onToggle: any;
   message?: String;
 };
 
-export const Switch = (props: RadioProps) => {
+export const Switch = ({ message, toggled, onToggle, square }: RadioProps) => {
   return (
     <>
-      <StyledSpan>{props.message}</StyledSpan>
+      <StyledSpan>{message}</StyledSpan>
       <SwitchStyle>
-        <input
-          type="checkbox"
-          checked={props.isToggled}
-          onChange={props.onToggle}
-        />
-        <Slider
-          rounded={props.isSquare}
-          checked={props.isToggled}
-          onChange={props.onToggle}
-        />
+        <input type="checkbox" checked={toggled} onChange={onToggle} />
+        <Slider rounded={square} checked={toggled} onChange={onToggle} />
       </SwitchStyle>
     </>
   );

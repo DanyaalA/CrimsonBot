@@ -5,12 +5,12 @@ type PageProps = {
   subtitle: String;
 };
 
-export const PageHeader = (props: PageProps) => {
+export const PageHeader = ({ title, subtitle }: PageProps) => {
   return (
     <PageHeaderStyle>
       <div>
         <h2>
-          {props.title} <span>{props.subtitle}</span>
+          {title} <span>{subtitle}</span>
         </h2>
       </div>
     </PageHeaderStyle>
