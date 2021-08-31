@@ -1,9 +1,5 @@
 import { useEffect } from 'react';
-import {
-  ContainerStyle,
-  BasePageStyle,
-  SelectorContainer,
-} from 'styles/Styles';
+import { ContainerStyle, BasePageStyle } from 'styles/Styles';
 import { PageHeader } from 'components/PageHeader';
 import styled from 'styled-components';
 import { Table } from 'components/Table';

@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  ContainerStyle,
-  BasePageStyle,
-  CenterDiv,
-  CustomButton,
-} from 'styles/Styles';
+import { BasePageStyle, CenterDiv, CustomButton } from 'styles/Styles';
 import { PageHeader } from 'components/PageHeader';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -166,43 +161,6 @@ const ButtonContainer = styled.div`
 
   button {
     margin-left: 35px;
-  }
-`;
-
-const GeneralSettingContainer = styled(ContainerStyle)`
-  display: flex;
-  flex-direction: column;
-  padding: 25px;
-
-  h1 {
-    text-align: center;
-    border-radius: 5px;
-    width: 100%;
-  }
-
-  .inputBox {
-    width: 100%;
-    padding-bottom: 10px;
-  }
-  @media (max-width: 812px) {
-    display: block;
-  }
-`;
-
-const StatsContainer = styled(ContainerStyle)`
-  margin-top: 100px;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-
-  span {
-    font-weight: normal;
-    font-size: 15px;
-  }
-
-  @media (max-width: 812px) {
-    width: 110%;
-    margin-top: 50px;
   }
 `;
 

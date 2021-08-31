@@ -1,5 +1,4 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { RedditConfigDto } from 'labmaker-api-wrapper';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { InputBox } from 'components/Inputs/InputBox';

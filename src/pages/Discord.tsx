@@ -309,23 +309,6 @@ const GeneralSettingContainer = styled(ContainerStyle)`
   }
 `;
 
-const StatsContainer = styled(ContainerStyle)`
-  margin-top: 100px;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-
-  span {
-    font-weight: normal;
-    font-size: 15px;
-  }
-
-  @media (max-width: 812px) {
-    width: 110%;
-    margin-top: 50px;
-  }
-`;
-
 const ComboContainer = styled.div`
   display: flex;
   margin-left: 5px;
