@@ -2,7 +2,7 @@ import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { handleInputChange } from '../utils/components';
+import { handleInputChange } from 'utils/components';
 
 type InputProps = {
   message: String;

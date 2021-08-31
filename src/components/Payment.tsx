@@ -1,7 +1,7 @@
-import { InputBox } from '../components/Inputs/InputBox';
+import { InputBox } from 'components/Inputs/InputBox';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { editPayment } from '../utils/slices/paymentSlice';
+import { editPayment } from 'utils/slices/paymentSlice';
 import { PaymentDto } from 'labmaker-api-wrapper';
 
 interface PaymentProps {

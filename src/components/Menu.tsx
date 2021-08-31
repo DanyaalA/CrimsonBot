@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { RootState } from 'store';
 
 export const Menu = () => {
   const user = useSelector((state: RootState) => state.user.value);

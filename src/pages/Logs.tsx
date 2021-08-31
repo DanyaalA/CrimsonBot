@@ -3,16 +3,16 @@ import {
   ContainerStyle,
   BasePageStyle,
   SelectorContainer,
-} from '../styles/Styles';
-import { PageHeader } from '../components/PageHeader';
+} from 'styles/Styles';
+import { PageHeader } from 'components/PageHeader';
 import styled from 'styled-components';
-import { Table } from '../components/Table';
+import { Table } from 'components/Table';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store';
-import { updateLogs } from '../utils/slices/logsSlice';
-import { Labmaker } from '../utils/APIHandler';
-import { Spinner } from '../components/Spinner';
-import { Selector } from '../components/Selector';
+import { RootState } from 'store';
+import { updateLogs } from 'utils/slices/logsSlice';
+import { Labmaker } from 'utils/APIHandler';
+import { Spinner } from 'components/Spinner';
+import { Selector } from 'components/Selector';
 
 export const Logs = () => {
   const dispatch = useDispatch();

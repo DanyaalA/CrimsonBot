@@ -6,24 +6,22 @@ import {
   CustomButton,
   SelectorContainer,
   StyledSpan,
-} from '../styles/Styles';
-import { PageHeader } from '../components/PageHeader';
-import { Switch } from '../components/Inputs/Switch';
-import { InputBox } from '../components/Inputs/InputBox';
-import { Payment } from '../components/Payment';
+} from 'styles/Styles';
+import { PageHeader } from 'components/PageHeader';
+import { Switch } from 'components/Inputs/Switch';
+import { InputBox } from 'components/Inputs/InputBox';
+import { Payment } from 'components/Payment';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store';
-import { addPayment, updatePayemnts } from '../utils/slices/paymentSlice';
-import { updateDiscord } from '../utils/slices/configSlices';
+import { RootState } from 'store';
+import { addPayment, updatePayemnts } from 'utils/slices/paymentSlice';
+import { updateDiscord } from 'utils/slices/configSlices';
 import { Guild, PaymentDto } from 'labmaker-api-wrapper';
-import { Spinner } from '../components/Spinner';
-import { Labmaker } from '../utils/APIHandler';
-import { Selector } from '../components/Selector';
+import { Spinner } from 'components/Spinner';
+import { Labmaker } from 'utils/APIHandler';
+import { Selector } from 'components/Selector';
 import ReactDropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-
-// import { DropDown } from '../components/Inputs/DropDown';
 
 type DDProps = {
   value: string;

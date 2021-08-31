@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DisableDrag } from '../styles/Styles';
+import { DisableDrag } from 'styles/Styles';
 
 type SelectorProps = {
   message?: string;

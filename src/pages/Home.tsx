@@ -6,20 +6,59 @@ import {
   CustomButton,
   SelectorContainer,
 } from '../styles/Styles';
-import { PageHeader } from '../components/PageHeader';
-import { Switch } from '../components/Inputs/Switch';
-import { InputBox } from '../components/Inputs/InputBox';
+import { PageHeader } from 'components/PageHeader';
+import { Switch } from 'components/Inputs/Switch';
+import { InputBox } from 'components/Inputs/InputBox';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store';
-import { Node, updateReddit } from '../utils/slices/configSlices';
-import { TagInputBox } from '../components/Inputs/TagInput';
-import { Labmaker } from '../utils/APIHandler';
+import { RootState } from 'store';
+import { Node, updateReddit } from 'utils/slices/configSlices';
+import { TagInputBox } from 'components/Inputs/TagInput';
+import { Labmaker } from 'utils/APIHandler';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { Toggle } from '../components/Toggle';
-import { Spinner } from '../components/Spinner';
-import { Selector } from '../components/Selector';
-import { updateUser } from '../utils/slices/userSlice';
+import { Toggle } from 'components/Toggle';
+import { Spinner } from 'components/Spinner';
+import { Selector } from 'components/Selector';
+import { updateUser } from 'utils/slices/userSlice';
+
+function useNodeLogic() {
+  const dispatch = useDispatch();
+  const [reload, setReload] = useState(true);
+  const user = useSelector((state: RootState) => state.user.value);
+  const redditConfig = useSelector(
+    (state: RootState) => state.redditConfig.value
+  );
+
+  useEffect(() => {
+    const loadConfig = async () => {
+      if (user.nodes.length === 0) {
+        dispatch(updateReddit({ ...redditConfig, loading: false }));
+        return;
+      }
+
+      const config: Node = await Labmaker.Reddit.getOne(user.nodes[0]);
+
+      const hasCreate = user.nodes.find((n) => n === 'Create');
+
+      if (!hasCreate) {
+        const nodes = [...user.nodes, 'Create'];
+        dispatch(updateUser({ ...user, nodes: nodes }));
+      } else {
+        const nodes = [...user.nodes];
+        nodes.push(nodes.splice(nodes.indexOf(hasCreate), 1)[0]);
+        dispatch(updateUser({ ...user, nodes }));
+      }
+
+      if (!config) return;
+      dispatch(updateReddit(config));
+
+      setReload(false);
+    };
+    if (reload) {
+      loadConfig();
+    }
+  }, [dispatch, reload, redditConfig, user]);
+}
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -30,13 +69,6 @@ export const Home = () => {
   const redditConfig = useSelector(
     (state: RootState) => state.redditConfig.value
   );
-
-  /*
-  const boxTogle = () => {
-    const newToggle = !isToggled;
-    setIsToggled(newToggle);
-    console.log("New Toggle: " + newToggle);
-  }; */
 
   const handleClick = async (node: string) => {
     if (node === redditConfig._id) {
