@@ -16,7 +16,7 @@ import { Node, updateReddit } from '../utils/slices/configSlices';
 import { TagInputBox } from '../components/Inputs/TagInput';
 import { Labmaker } from '../utils/APIHandler';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { InputBoxToggle } from '../components/Inputs/InputBoxToggle';
+import { Toggle } from '../components/Toggle';
 import { Spinner } from '../components/Spinner';
 import { Selector } from '../components/Selector';
 import { updateUser } from '../utils/slices/userSlice';
@@ -209,7 +209,7 @@ export const Home = () => {
                 );
               }}
             />
-            <InputBoxToggle
+            <Toggle
               message="Password"
               value={redditConfig.password}
               visibleIcon={faEye}

@@ -1,26 +1,21 @@
 import styled from 'styled-components';
+import { handleInputChange } from '../../utils/components';
 
 type InputProps = {
   message: String;
-  value: string | [string];
+  value: string | string[];
   onChange?: any;
 };
 
 export const InputBox = ({ message, value, onChange }: InputProps) => {
-  const handleChange = (event: any) => {
-    value = event.target.value;
-
-    //onChange.ev = event;
-    if (typeof onChange === 'function') {
-      onChange(event);
-    }
-  };
-
   return (
     <div className="inputBox">
       <StyledSpan>{message}</StyledSpan>
       <InputContainer>
-        <input value={value} onChange={handleChange} />
+        <input
+          value={value}
+          onChange={(e) => handleInputChange(e, value, onChange)}
+        />
       </InputContainer>
     </div>
   );

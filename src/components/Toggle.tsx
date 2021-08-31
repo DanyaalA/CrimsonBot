@@ -2,6 +2,7 @@ import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { handleInputChange } from '../utils/components';
 
 type InputProps = {
   message: String;
@@ -12,7 +13,7 @@ type InputProps = {
   hiddenIcon: IconDefinition;
 };
 
-export const InputBoxToggle = ({
+export const Toggle = ({
   message,
   value,
   onChange,
@@ -20,14 +21,6 @@ export const InputBoxToggle = ({
   hiddenIcon,
 }: InputProps) => {
   const [isHidden, setIsHidden] = useState(true);
-  const handleChange = (event: any) => {
-    value = event.target.value;
-
-    //onChange.ev = event;
-    if (typeof onChange === 'function') {
-      onChange(event);
-    }
-  };
 
   return (
     <div className="inputBox">
@@ -35,14 +28,21 @@ export const InputBoxToggle = ({
 
       {isHidden ? (
         <InputContainer>
-          <input value={value} onChange={handleChange} type="password" />
+          <input
+            value={value}
+            onChange={(e) => handleInputChange(e, value, onChange)}
+            type="password"
+          />
           <span onClick={() => setIsHidden(!isHidden)}>
             <FontAwesomeIcon icon={visibleIcon} />
           </span>
         </InputContainer>
       ) : (
         <InputContainer>
-          <input value={value} onChange={handleChange} />
+          <input
+            value={value}
+            onChange={(e) => handleInputChange(e, value, onChange)}
+          />
           <span onClick={() => setIsHidden(!isHidden)}>
             <FontAwesomeIcon icon={hiddenIcon} />
           </span>

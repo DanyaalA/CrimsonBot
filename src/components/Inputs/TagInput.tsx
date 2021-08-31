@@ -23,11 +23,11 @@ export const TagInputBox = ({ message, onChange, items }: TagInputProps) => {
       onChange([...items, value]);
       event.target.value = '';
     } else if (event.key === 'Backspace' && !value) {
-      removeTag(event, items.length - 1);
+      removeTag(items.length - 1);
     }
   };
 
-  const removeTag = (event: any, index: number) => {
+  const removeTag = (index: number) => {
     const tagsArray = [...items];
 
     tagsArray.splice(index, 1);
@@ -54,7 +54,7 @@ export const TagInputBox = ({ message, onChange, items }: TagInputProps) => {
             {items.map((tag, i) => {
               return (
                 <li className="tags-li">
-                  {tag} <button onClick={(e) => removeTag(e, i)}> x </button>
+                  {tag} <button onClick={() => removeTag(i)}> x </button>
                 </li>
               );
             })}
