@@ -1,21 +1,20 @@
 import { InputBox } from 'components/Inputs/InputBox';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { editPayment } from 'utils/slices/paymentSlice';
-import { PaymentDto } from 'labmaker-api-wrapper';
+import { PaymentType } from 'utils/types';
 
 interface PaymentProps {
-  payment: PaymentDto;
+  payment: PaymentType;
+  payments: PaymentType[];
+  setPayment: any;
 }
+
 enum InputType {
   Name,
   Value,
   Type,
 }
 
-export const Payment = ({ payment }: PaymentProps) => {
-  const dispatch = useDispatch();
-
+export const Payment = ({ payment, payments, setPayment }: PaymentProps) => {
   const updatePayments = (e: any, inputType: InputType) => {
     const details = {
       name: payment.name,
@@ -38,14 +37,31 @@ export const Payment = ({ payment }: PaymentProps) => {
       }
     }
 
-    dispatch(
-      editPayment({
+    const _payments = [...payments];
+    const index = _payments.findIndex((x) => x._id === payment._id);
+
+    if (index > -1) {
+      _payments[index] = {
         ...payment,
         name: details.name,
         value: details.value,
         type: details.type,
-      })
-    );
+      };
+      setPayment(_payments);
+    }
+  };
+
+  const deletePayment = () => {
+    const _payments = [...payments];
+    const index = _payments.findIndex((x) => x._id === payment._id);
+
+    if (index > -1) {
+      _payments[index] = {
+        ...payment,
+        deletedPayment: true,
+      };
+      setPayment(_payments);
+    }
   };
 
   return (
@@ -66,13 +82,7 @@ export const Payment = ({ payment }: PaymentProps) => {
         onChange={(e: any) => updatePayments(e, InputType.Type)}
       />
 
-      <button
-        onClick={() =>
-          dispatch(editPayment({ ...payment, deletedPayment: true }))
-        }
-      >
-        X
-      </button>
+      <button onClick={deletePayment}>X</button>
     </PaymentStyle>
   );
 };

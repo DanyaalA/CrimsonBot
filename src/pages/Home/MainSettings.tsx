@@ -5,7 +5,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { ContainerStyle } from 'styles/Styles';
-import { Node, updateReddit } from 'utils/slices/configSlices';
+import { updateReddit } from 'utils/slices/configSlices';
+import { Node } from 'utils/types';
 
 type SettingsProps = {
   config: Node;

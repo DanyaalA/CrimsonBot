@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Menu } from 'components/Menu';
-import { Discord } from 'pages/Discord';
-import { Discord as Discord2 } from 'pages/Discord/Discord';
+import { Discord } from 'pages/Discord/Discord';
 import { Route, Switch } from 'react-router-dom';
 import { Logs } from 'pages/Logs';
 import { Labmaker } from 'utils/APIHandler';
@@ -51,7 +50,7 @@ function App() {
         <Route path="/logs">
           <Logs />
         </Route>
-        <Route path="/homeNew" exact component={Discord2} />
+        {/* <Route path="/homeNew" exact component={Discord2} /> */}
       </Switch>
     </div>
   );

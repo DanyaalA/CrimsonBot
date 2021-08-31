@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { InputBox } from 'components/Inputs/InputBox';
 import { Toggle } from 'components/Toggle';
 import { ContainerStyle } from 'styles/Styles';
-import { Node, updateReddit } from 'utils/slices/configSlices';
+import { updateReddit } from 'utils/slices/configSlices';
+import { Node } from 'utils/types';
 
 type SettingsProp = {
   config: Node;

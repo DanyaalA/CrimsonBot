@@ -4,7 +4,6 @@ import {
   redditConfigSlice,
 } from 'utils/slices/configSlices';
 import { logsSlice } from 'utils/slices/logsSlice';
-import { paymentsSlice } from 'utils/slices/paymentSlice';
 import { userSlice } from 'utils/slices/userSlice';
 
 export const store = configureStore({
@@ -12,7 +11,6 @@ export const store = configureStore({
     user: userSlice.reducer,
     redditConfig: redditConfigSlice.reducer,
     discordConfig: discordConfigSlice.reducer,
-    payments: paymentsSlice.reducer,
     logs: logsSlice.reducer,
   },
 });

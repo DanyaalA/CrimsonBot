@@ -1,17 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LogDto } from 'labmaker-api-wrapper';
-
-const loadingLogs: LogDto & { loading?: boolean } = {
-  _id: '0',
-  nodeId: '0',
-  message: 'Loading Logs...',
-  subId: 'Loading...',
-  username: 'Loading...',
-  subreddit: 'Homework',
-  createdAt: new Date().toString(),
-  pm: true,
-  loading: true,
-};
+import { loadingLogs } from 'utils/LoadingTypes';
+import { LogType } from 'utils/types';
 
 export const logsSlice = createSlice({
   name: 'logs',
@@ -19,7 +8,7 @@ export const logsSlice = createSlice({
     value: [loadingLogs],
   },
   reducers: {
-    updateLogs: (state, action: PayloadAction<LogDto[]>) => {
+    updateLogs: (state, action: PayloadAction<LogType[]>) => {
       state.value = action.payload;
     },
   },

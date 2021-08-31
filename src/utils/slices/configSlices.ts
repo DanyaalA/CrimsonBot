@@ -1,43 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GuildConfigDto, RedditConfigDto } from 'labmaker-api-wrapper';
-
-export type Node = RedditConfigDto & {
-  loading?: boolean;
-  newNode?: boolean;
-};
-
-export type GuildConfig = GuildConfigDto & {
-  loading?: boolean;
-};
-
-export const loadingRedditConfig: Node = {
-  _id: '0',
-  clientId: '0',
-  clientSecret: 'Client Secret',
-  username: 'Username',
-  password: 'Password',
-  userAgent: 'Firefox',
-  title: 'Hey',
-  pmBody: 'I Saw Your Post...',
-  delay: 0,
-  subreddits: ['Subreddit1', 'Subreddit2'],
-  forbiddenWords: ['ForbiddenWord1', 'Forbidden String 1'],
-  blockedUsers: ['Blocked_User1', 'Blocked_User2'],
-  loading: true,
-};
-
-const loadingDiscordConfig: GuildConfig = {
-  _id: '0',
-  name: 'Loading Server',
-  icon: null,
-  paymentConfigId: '0',
-  prefix: '?',
-  embedImageUrl: 'http://www.image.com/image.png',
-  autoSwitcher: false,
-  autoReact: false,
-  autoTicket: false,
-  loading: true,
-};
+import { loadingDiscordConfig, loadingRedditConfig } from 'utils/LoadingTypes';
+import { GuildConfig, Node } from 'utils/types';
 
 export const discordConfigSlice = createSlice({
   name: 'discordConfig',

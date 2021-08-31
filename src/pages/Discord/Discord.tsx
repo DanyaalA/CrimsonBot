@@ -5,30 +5,27 @@ import {
   CenterDiv,
   CustomButton,
   SelectorContainer,
-  StyledSpan,
 } from 'styles/Styles';
 import { PageHeader } from 'components/PageHeader';
-import { Switch } from 'components/Inputs/Switch';
-import { InputBox } from 'components/Inputs/InputBox';
 import { Payment } from 'pages/Discord/Payment';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { addPayment, updatePayemnts } from 'utils/slices/paymentSlice';
 import { updateDiscord } from 'utils/slices/configSlices';
 import { Guild, PaymentDto } from 'labmaker-api-wrapper';
 import { Spinner } from 'components/Spinner';
 import { Labmaker } from 'utils/APIHandler';
 import { Selector } from 'components/Selector';
-import ReactDropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import { GeneralSettings } from 'pages/Discord/GeneralSettings';
+import { loadingPayment } from 'utils/LoadingTypes';
 
 type DDProps = {
   value: string;
   label: string;
 };
 
-export const Discord = () => {
+function useGuildLogic() {
   const dispatch = useDispatch();
   const discordConfig = useSelector(
     (state: RootState) => state.discordConfig.value
@@ -49,9 +46,9 @@ export const Discord = () => {
     { value: 'Loading...', label: 'Loading' },
   ]);
   const [reload, setReload] = useState(true);
+  const [payments, setPayments] = useState([loadingPayment]);
 
   // const user = useSelector((state: RootState) => state.user.value);
-  const payments = useSelector((state: RootState) => state.payments.value);
 
   useEffect(() => {
     const loadConfig = async () => {
@@ -65,14 +62,16 @@ export const Discord = () => {
       setParsedGuilds(parseGuilds(fetchedGuilds));
 
       const dc = await Labmaker.Discord.getOne(fetchedGuilds[0].id);
-      const payments = await Labmaker.Discord.getPayments(dc.paymentConfigId);
+      const fetchedPayments = await Labmaker.Discord.getPayments(
+        dc.paymentConfigId
+      );
 
       if (!dc) return;
       dispatch(updateDiscord(dc));
 
       if (!payments) return;
 
-      dispatch(updatePayemnts(payments));
+      setPayments(fetchedPayments);
     };
 
     if (reload) {
@@ -81,6 +80,7 @@ export const Discord = () => {
   }, [dispatch, discordConfig, reload]);
 
   const saveData = async () => {
+    await savePayments();
     await Labmaker.Discord.update(discordConfig);
   };
 
@@ -91,7 +91,7 @@ export const Discord = () => {
       const payments = await Labmaker.Discord.getPayments(dc.paymentConfigId);
 
       dispatch(updateDiscord(dc));
-      dispatch(updatePayemnts(payments));
+      setPayments(payments);
     } else {
       window.open(
         'https://discord.com/api/oauth2/authorize?client_id=863403711422660648&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fredirect&scope=bot'
@@ -112,7 +112,10 @@ export const Discord = () => {
     const savedPayment = await Labmaker.Discord.createPayments([newPayment]);
     console.log(savedPayment);
 
-    dispatch(addPayment(savedPayment[0]));
+    const _payments = [...payments];
+    _payments.push(savedPayment[0]);
+    console.log(savedPayment);
+    setPayments(_payments);
   };
 
   const savePayments = async () => {
@@ -151,30 +154,37 @@ export const Discord = () => {
   };
 
   const handleChange = async (item: any) => {
-    const payments = await Labmaker.Discord.getPayments(item.value);
+    const fetchedPayments = await Labmaker.Discord.getPayments(item.value);
 
-    dispatch(updatePayemnts(payments));
+    setPayments(fetchedPayments);
     dispatch(updateDiscord({ ...discordConfig, paymentConfigId: item.value }));
   };
 
-  const renderPayments = () => {
-    if (discordConfig._id === discordConfig.paymentConfigId) {
-      return payments.map((payment: PaymentDto, index) => {
-        if (!payment.deletedPayment) {
-          return <Payment payment={payment} key={index} />;
-        } else {
-          return <div></div>;
-        }
-      });
-    } else {
-      return (
-        <p>
-          To edit payments go to the correct server settings or change the
-          payment config to use your own payments.
-        </p>
-      );
-    }
+  return {
+    guilds,
+    parsedGuilds,
+    saveData,
+    handleClick,
+    createPayment,
+    handleChange,
+    discordConfig,
+    payments,
+    setPayments,
   };
+}
+
+export const Discord = () => {
+  const {
+    guilds,
+    parsedGuilds,
+    saveData,
+    handleClick,
+    createPayment,
+    handleChange,
+    discordConfig,
+    payments,
+    setPayments,
+  } = useGuildLogic();
 
   const GenerateGuilds = () => {
     if (!guilds) return <div></div>;
@@ -195,6 +205,32 @@ export const Discord = () => {
     });
   };
 
+  const renderPayments = (payments: PaymentDto[]) => {
+    if (discordConfig._id === discordConfig.paymentConfigId) {
+      return payments.map((payment: PaymentDto, index) => {
+        if (!payment.deletedPayment) {
+          return (
+            <Payment
+              payment={payment}
+              setPayment={setPayments}
+              payments={payments}
+              key={index}
+            />
+          );
+        } else {
+          return <div></div>;
+        }
+      });
+    } else {
+      return (
+        <p>
+          To edit payments go to the correct server settings or change the
+          payment config to use your own payments.
+        </p>
+      );
+    }
+  };
+
   return (
     <HomeStyle>
       <Spinner
@@ -208,85 +244,39 @@ export const Discord = () => {
       <BasePageStyle>
         <SelectorContainer>{GenerateGuilds()}</SelectorContainer>
         <ComboContainer>
-          <GeneralSettingContainer id="comboContainer">
-            <h1>General</h1>
-            <StyledSpan>Payment Config</StyledSpan>
-            <ReactDropdown
-              options={
-                parsedGuilds
-                  ? parsedGuilds
-                  : [{ value: 'Empty', label: 'Empty' }]
-              }
-              value={discordConfig.paymentConfigId}
-              onChange={(e) => handleChange(e)}
-            />
-            <br />
-            <InputBox
-              message="Bot Image URL"
-              value={discordConfig.embedImageUrl}
-              onChange={(e: any) => {
-                dispatch(
-                  updateDiscord({
-                    ...discordConfig,
-                    embedImageUrl: e.target.value,
-                  })
-                );
-              }}
-            />
-            <Switch
-              message="Advance User Switcher"
-              toggled={discordConfig.autoSwitcher}
-              onToggle={() => {
-                dispatch(
-                  updateDiscord({
-                    ...discordConfig,
-                    autoSwitcher: !discordConfig.autoSwitcher,
-                  })
-                );
-              }}
-            />
-            <Switch
-              message="Auto Creete Ticket"
-              toggled={discordConfig.autoTicket}
-              onToggle={() => {
-                dispatch(
-                  updateDiscord({
-                    ...discordConfig,
-                    autoTicket: !discordConfig.autoTicket,
-                  })
-                );
-              }}
-            />
-            <Switch
-              message="Auto Reacter"
-              toggled={discordConfig.autoReact}
-              onToggle={() => {
-                dispatch(
-                  updateDiscord({
-                    ...discordConfig,
-                    autoReact: !discordConfig.autoReact,
-                  })
-                );
-              }}
-            />
-            <CenterDiv>
-              <CustomButton onClick={saveData}>Save</CustomButton>
-            </CenterDiv>
-          </GeneralSettingContainer>
+          <GeneralSettings
+            config={discordConfig}
+            parsedGuilds={parsedGuilds}
+            changeEvent={handleChange}
+          />
           <GeneralSettingContainer id="comboContainer">
             <h1>Payment</h1>
-            <div>{renderPayments()}</div>
+            <div>{renderPayments(payments)}</div>
 
             <CenterDiv>
               <CustomButton onClick={createPayment}>Add</CustomButton>
-              <CustomButton onClick={savePayments}>Save</CustomButton>
             </CenterDiv>
           </GeneralSettingContainer>
         </ComboContainer>
+
+        <ButtonContainer>
+          <CenterDiv>
+            <CustomButton onClick={saveData}>Save</CustomButton>
+          </CenterDiv>
+        </ButtonContainer>
       </BasePageStyle>
     </HomeStyle>
   );
 };
+
+const ButtonContainer = styled.div`
+  /* padding: 25px; */
+  padding-top: 15px;
+
+  button {
+    margin-left: 35px;
+  }
+`;
 
 const HomeStyle = styled.div`
   transition: all 5s ease-in-out;

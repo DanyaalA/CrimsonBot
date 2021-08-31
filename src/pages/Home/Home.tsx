@@ -4,13 +4,14 @@ import { PageHeader } from 'components/PageHeader';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { Node, updateReddit } from 'utils/slices/configSlices';
+import { updateReddit } from 'utils/slices/configSlices';
 import { Labmaker } from 'utils/APIHandler';
 import { Spinner } from 'components/Spinner';
 import { updateUser } from 'utils/slices/userSlice';
 import { AccountSettings } from './AccountSettings';
 import { MainSettings } from 'pages/Home/MainSettings';
 import { NodeConfigList } from 'components/NodeConfigList';
+import { Node } from 'utils/types';
 
 function useNodeLogic() {
   const dispatch = useDispatch();
