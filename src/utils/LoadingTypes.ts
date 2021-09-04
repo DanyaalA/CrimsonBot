@@ -49,3 +49,19 @@ export const loadingDiscordConfig: GuildConfig = {
   autoTicket: false,
   loading: true,
 };
+
+export const nodeTemplate: Node = {
+  _id: '0',
+  clientId: '',
+  clientSecret: '',
+  username: '',
+  password: '',
+  userAgent: '',
+  title: '',
+  pmBody: '',
+  delay: 5000,
+  subreddits: ['Subreddit'],
+  forbiddenWords: [],
+  blockedUsers: [],
+  newNode: true,
+};

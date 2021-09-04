@@ -61,17 +61,13 @@ function useGuildLogic() {
       setGuilds(fetchedGuilds);
       setParsedGuilds(parseGuilds(fetchedGuilds));
 
-      const dc = await Labmaker.Discord.getOne(fetchedGuilds[0].id);
-      const fetchedPayments = await Labmaker.Discord.getPayments(
-        dc.paymentConfigId
-      );
+      const fetchedData = await Labmaker.Guild.Config(fetchedGuilds[0].id);
 
-      if (!dc) return;
-      dispatch(updateDiscord(dc));
+      if (!fetchedData.config) return;
+      dispatch(updateDiscord(fetchedData.config));
 
-      if (!payments) return;
-
-      setPayments(fetchedPayments);
+      if (!fetchedData.payments) return;
+      setPayments(fetchedData.payments);
     };
 
     if (reload) {
@@ -85,13 +81,11 @@ function useGuildLogic() {
   };
 
   const handleClick = async (server: string) => {
-    const dc = await Labmaker.Discord.getOne(server);
+    const fetchedData = await Labmaker.Guild.Config(server);
 
-    if (dc) {
-      const payments = await Labmaker.Discord.getPayments(dc.paymentConfigId);
-
-      dispatch(updateDiscord(dc));
-      setPayments(payments);
+    if (fetchedData.config) {
+      dispatch(updateDiscord(fetchedData.config));
+      setPayments(fetchedData.payments);
     } else {
       window.open(
         'https://discord.com/api/oauth2/authorize?client_id=863403711422660648&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fredirect&scope=bot'

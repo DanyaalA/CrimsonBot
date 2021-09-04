@@ -12,6 +12,7 @@ import { AccountSettings } from './AccountSettings';
 import { MainSettings } from 'pages/Home/MainSettings';
 import { NodeConfigList } from 'components/NodeConfigList';
 import { Node } from 'utils/types';
+import { nodeTemplate } from 'utils/LoadingTypes';
 
 function useNodeLogic() {
   const dispatch = useDispatch();
@@ -27,21 +28,7 @@ function useNodeLogic() {
     }
 
     if (node === 'Create') {
-      const newNode: Node = {
-        _id: '0',
-        clientId: '',
-        clientSecret: '',
-        username: '',
-        password: '',
-        userAgent: '',
-        title: '',
-        pmBody: '',
-        delay: 5000,
-        subreddits: ['Subreddit'],
-        forbiddenWords: [],
-        blockedUsers: [],
-        newNode: true,
-      };
+      const newNode: Node = nodeTemplate;
 
       dispatch(updateReddit(newNode));
     } else {

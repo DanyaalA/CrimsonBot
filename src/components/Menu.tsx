@@ -45,9 +45,6 @@ export const Menu = () => {
             <FontAwesomeIcon icon={faInfoCircle} size="2x" color="#FFF" />
           </MenuItem>
         </Link>
-        <Link to="/homeNew">
-          <span>New Home</span>
-        </Link>
       </MenuContent>
     </MenuStyle>
   );
