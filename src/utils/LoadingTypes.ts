@@ -14,7 +14,7 @@ export const loadingLogs: LogType = {
 
 export const loadingPayment: PaymentType = {
   _id: '0',
-  nodeId: '0',
+  serverId: '0',
   name: 'Loading Payments...',
   value: 'Loading...',
   type: 'Loading...',
