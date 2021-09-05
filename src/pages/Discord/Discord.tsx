@@ -99,7 +99,7 @@ function useGuildLogic() {
       name: 'Payment Name',
       value: 'Payment Value',
       type: 'FIAT',
-      nodeId: discordConfig._id,
+      serverId: discordConfig._id,
       newPayment: true,
     };
 
