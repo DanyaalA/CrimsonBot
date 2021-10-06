@@ -13,6 +13,7 @@ import { MainSettings } from 'pages/Home/MainSettings';
 import { NodeConfigList } from 'components/NodeConfigList';
 import { Node } from 'utils/types';
 import { nodeTemplate } from 'utils/LoadingTypes';
+import { SelectorContainer } from 'styles/Styles';
 
 function useNodeLogic() {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ function useNodeLogic() {
     if (node === 'Create') {
       const newNode: Node = nodeTemplate;
 
-      dispatch(updateReddit(newNode));
+      dispatch(updateReddit({ ...newNode, _id: '-2' }));
     } else {
       const config: Node = await Labmaker.Reddit.getOne(node);
 
@@ -45,12 +46,13 @@ function useNodeLogic() {
   useEffect(() => {
     const loadConfig = async () => {
       if (user.nodes.length === 0) {
+        const nodes = [...user.nodes, 'Create'];
+        dispatch(updateUser({ ...user, nodes: nodes }));
         dispatch(updateReddit({ ...redditConfig, loading: false }));
         return;
       }
 
       const config: Node = await Labmaker.Reddit.getOne(user.nodes[0]);
-
       const hasCreate = user.nodes.find((n) => n === 'Create');
 
       if (!hasCreate) {
@@ -98,11 +100,32 @@ function useNodeLogic() {
     }
   };
 
-  return { redditConfig, handleClick, saveNode, deleteNode };
+  return { redditConfig, handleClick, saveNode, deleteNode, user };
 }
 
 export const Home = () => {
   const { redditConfig, handleClick, saveNode, deleteNode } = useNodeLogic();
+
+  const renderSettings = () => {
+    if (redditConfig._id === '0') {
+      // return <SelectorContainer>Create a Config Above</SelectorContainer>;
+      return <div></div>;
+    } else {
+      return (
+        <div>
+          <ComboContainer>
+            <AccountSettings config={redditConfig} />
+            <MainSettings config={redditConfig} />
+          </ComboContainer>
+          <ButtonContainer>
+            <CenterDiv>
+              <CustomButton onClick={saveNode}>Save</CustomButton>
+            </CenterDiv>
+          </ButtonContainer>
+        </div>
+      );
+    }
+  };
 
   return (
     <HomeStyle>
@@ -117,21 +140,10 @@ export const Home = () => {
 
       <BasePageStyle>
         <NodeConfigList onClick={handleClick} />
-
         <CenterDiv>
           <CustomButton onClick={deleteNode}>Delete</CustomButton>
         </CenterDiv>
-
-        <ComboContainer>
-          <AccountSettings config={redditConfig} />
-          <MainSettings config={redditConfig} />
-        </ComboContainer>
-
-        <ButtonContainer>
-          <CenterDiv>
-            <CustomButton onClick={saveNode}>Save</CustomButton>
-          </CenterDiv>
-        </ButtonContainer>
+        {renderSettings()}
       </BasePageStyle>
     </HomeStyle>
   );
