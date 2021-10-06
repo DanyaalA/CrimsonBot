@@ -84,3 +84,21 @@ export const StyledSpan = styled.span`
   padding-right: 5px;
   margin-left: 2px;
 `;
+
+export const GeneralSettingContainer = styled(ContainerStyle)`
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+
+  h1 {
+    text-align: center;
+    border-radius: 5px;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+
+  .inputBox {
+    width: 100%;
+    padding-bottom: 10px;
+  }
+`;

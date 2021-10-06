@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
-  ContainerStyle,
   BasePageStyle,
   CenterDiv,
   CustomButton,
   SelectorContainer,
 } from 'styles/Styles';
 import { PageHeader } from 'components/PageHeader';
-import { Payment } from 'pages/Discord/Payment';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -19,6 +17,7 @@ import { Selector } from 'components/Selector';
 import 'react-dropdown/style.css';
 import { GeneralSettings } from 'pages/Discord/GeneralSettings';
 import { loadingPayment } from 'utils/LoadingTypes';
+import { PaymentSettings } from 'pages/Discord/PaymentSettings';
 
 type DDProps = {
   value: string;
@@ -56,7 +55,25 @@ function useGuildLogic() {
       dispatch(updateDiscord({ ...discordConfig, loading: true }));
 
       const fetchedGuilds = await Labmaker.Guild.Guilds();
-      if (!fetchedGuilds) return;
+      if (fetchedGuilds.length === 0) {
+        // dispatch(
+        //   updateDiscord({
+        //     ...discordConfig,
+        //     name: 'No Servers Found',
+        //     loading: false,
+        //   })
+        // );
+        dispatch(
+          updateDiscord({
+            ...discordConfig,
+            name: 'No Servers Found',
+            loading: false,
+          })
+        );
+        setGuilds([]);
+        setParsedGuilds(parseGuilds([]));
+        return;
+      }
 
       setGuilds(fetchedGuilds);
       setParsedGuilds(parseGuilds(fetchedGuilds));
@@ -181,7 +198,12 @@ export const Discord = () => {
   } = useGuildLogic();
 
   const GenerateGuilds = () => {
-    if (!guilds) return <div></div>;
+    if (guilds.length === 0)
+      return (
+        <div>
+          No Guilds with permissions found. Create a guild and come back!
+        </div>
+      );
 
     return guilds.map((guild) => {
       return (
@@ -197,32 +219,6 @@ export const Discord = () => {
         />
       );
     });
-  };
-
-  const renderPayments = (payments: PaymentDto[]) => {
-    if (discordConfig._id === discordConfig.paymentConfigId) {
-      return payments.map((payment: PaymentDto, index) => {
-        if (!payment.deletedPayment) {
-          return (
-            <Payment
-              payment={payment}
-              setPayment={setPayments}
-              payments={payments}
-              key={index}
-            />
-          );
-        } else {
-          return <div></div>;
-        }
-      });
-    } else {
-      return (
-        <p>
-          To edit payments go to the correct server settings or change the
-          payment config to use your own payments.
-        </p>
-      );
-    }
   };
 
   return (
@@ -243,14 +239,13 @@ export const Discord = () => {
             parsedGuilds={parsedGuilds}
             changeEvent={handleChange}
           />
-          <GeneralSettingContainer id="comboContainer">
-            <h1>Payment</h1>
-            <div>{renderPayments(payments)}</div>
-
-            <CenterDiv>
-              <CustomButton onClick={createPayment}>Add</CustomButton>
-            </CenterDiv>
-          </GeneralSettingContainer>
+          <PaymentSettings
+            payments={payments}
+            guilds={parsedGuilds}
+            config={discordConfig}
+            setPayments={setPayments}
+            createPayment={createPayment}
+          />
         </ComboContainer>
 
         <ButtonContainer>
@@ -274,24 +269,6 @@ const ButtonContainer = styled.div`
 
 const HomeStyle = styled.div`
   transition: all 5s ease-in-out;
-`;
-
-const GeneralSettingContainer = styled(ContainerStyle)`
-  display: flex;
-  flex-direction: column;
-  padding: 25px;
-
-  h1 {
-    text-align: center;
-    border-radius: 5px;
-    width: 100%;
-    padding-bottom: 10px;
-  }
-
-  .inputBox {
-    width: 100%;
-    padding-bottom: 10px;
-  }
 `;
 
 const ComboContainer = styled.div`
