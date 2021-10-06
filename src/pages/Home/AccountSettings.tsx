@@ -14,6 +14,8 @@ type SettingsProp = {
 export const AccountSettings = ({ config }: SettingsProp) => {
   const dispatch = useDispatch();
 
+  console.log(config);
+
   return (
     <GeneralSettingContainer id="comboContainer">
       <h1>Account</h1>
