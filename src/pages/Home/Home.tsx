@@ -13,7 +13,6 @@ import { MainSettings } from 'pages/Home/MainSettings';
 import { NodeConfigList } from 'components/NodeConfigList';
 import { Node } from 'utils/types';
 import { nodeTemplate } from 'utils/LoadingTypes';
-import { SelectorContainer } from 'styles/Styles';
 
 function useNodeLogic() {
   const dispatch = useDispatch();
