@@ -28,7 +28,7 @@ export const PaymentSettings = ({
     if (guilds.length === 0) {
       return <div></div>;
     }
-    if (config._id === config.paymentConfigId) {
+    if (config.id === config.paymentConfigId) {
       return payments.map((payment: PaymentDto, index) => {
         if (!payment.deletedPayment) {
           return (

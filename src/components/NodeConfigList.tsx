@@ -1,4 +1,5 @@
 import { Selector } from 'components/Selector';
+import { RedditConfigDto } from 'labmaker-api-wrapper';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { SelectorContainer } from 'styles/Styles';
@@ -12,12 +13,12 @@ export const NodeConfigList = ({ onClick }: NodeListProps) => {
 
   return (
     <SelectorContainer>
-      {user.nodes.map((node) => {
+      {user.nodes.map((node: RedditConfigDto) => {
         return (
           <Selector
-            key={node}
+            key={node.id}
             clickEvent={() => onClick(node)}
-            message={node}
+            message={node.username}
           />
         );
       })}

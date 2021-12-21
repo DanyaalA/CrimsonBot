@@ -16,13 +16,13 @@ export const Logs = () => {
   const user = useSelector((state: RootState) => state.user.value);
 
   const handleClick = async (node: string) => {
-    const data = await Labmaker.Log.getLogs(node);
+    const data = await Labmaker.Log.getLogs(Number(node));
     dispatch(updateLogs(data));
   };
 
   useEffect(() => {
     const loadLogs = async () => {
-      const data = await Labmaker.Log.getLogs(user.nodes[0]);
+      const data = await Labmaker.Log.getLogs(user.nodes[0].id);
       dispatch(updateLogs(data));
     };
 

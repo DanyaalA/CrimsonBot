@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserDto } from 'labmaker-api-wrapper';
 
 const loadingUser: UserDto & { loading?: boolean } = {
-  _id: '0',
+  id: '0',
   username: 'Username',
   discriminator: '4444',
   avatar: 'http://google.com',
-  nodes: [''],
+  nodes: [],
   loading: true,
 };
 

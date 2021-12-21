@@ -13,6 +13,7 @@ import { MainSettings } from 'pages/Home/MainSettings';
 import { NodeConfigList } from 'components/NodeConfigList';
 import { Node } from 'utils/types';
 import { nodeTemplate } from 'utils/LoadingTypes';
+import { RedditConfigDto } from 'labmaker-api-wrapper';
 
 function useNodeLogic() {
   const dispatch = useDispatch();
@@ -22,20 +23,21 @@ function useNodeLogic() {
     (state: RootState) => state.redditConfig.value
   );
 
-  const handleClick = async (node: string) => {
-    if (node === redditConfig._id) {
+  const handleClick = async (node: RedditConfigDto) => {
+    if (node.id === redditConfig.id) {
       return;
     }
 
-    if (node === 'Create') {
+    if (node.id === -1) {
+      //Create Node
       const newNode: Node = nodeTemplate;
 
-      dispatch(updateReddit({ ...newNode, _id: '-2' }));
+      dispatch(updateReddit({ ...newNode, id: -1 }));
     } else {
-      const config: Node = await Labmaker.Reddit.getOne(node);
+      const config: Node = node;
 
       if (!config) {
-        console.log('Invalid Id');
+        console.log('Invalid Id/Error Occured?');
         return;
       }
       dispatch(updateReddit(config));
@@ -45,21 +47,21 @@ function useNodeLogic() {
   useEffect(() => {
     const loadConfig = async () => {
       if (user.nodes.length === 0) {
-        const nodes = [...user.nodes, 'Create'];
+        const nodes = [nodeTemplate];
         dispatch(updateUser({ ...user, nodes: nodes }));
         dispatch(updateReddit({ ...redditConfig, loading: false }));
         return;
       }
 
-      const config: Node = await Labmaker.Reddit.getOne(user.nodes[0]);
-      const hasCreate = user.nodes.find((n) => n === 'Create');
+      const config: Node = user.nodes[0];
+      const hasCreate = user.nodes.find((n) => n.id === -1);
 
       if (!hasCreate) {
-        const nodes = [...user.nodes, 'Create'];
+        const nodes = [...user.nodes, nodeTemplate];
         dispatch(updateUser({ ...user, nodes: nodes }));
       } else {
         const nodes = [...user.nodes];
-        nodes.push(nodes.splice(nodes.indexOf(hasCreate), 1)[0]);
+        nodes.push(nodes.splice(nodes.indexOf(hasCreate), 1)[0]); //Move Create Node to end of List
         dispatch(updateUser({ ...user, nodes }));
       }
 
@@ -80,17 +82,17 @@ function useNodeLogic() {
 
     if (newNode) {
       dispatch(updateReddit(newNode));
-      dispatch(updateUser({ ...user, nodes: [...user.nodes, newNode._id] }));
+      dispatch(updateUser({ ...user, nodes: [...user.nodes, newNode] }));
       setReload(true);
     }
   };
 
   const deleteNode = async () => {
-    if (redditConfig._id === '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0') return;
+    // if (redditConfig.id === '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0') return;
 
-    await Labmaker.Reddit.deleteConfig(redditConfig._id);
+    await Labmaker.Reddit.deleteConfig(redditConfig.id);
     const nodes = [...user.nodes];
-    const index = nodes.indexOf(redditConfig._id);
+    const index = nodes.indexOf(redditConfig);
 
     if (index > -1) {
       nodes.splice(index, 1);
@@ -106,7 +108,7 @@ export const Home = () => {
   const { redditConfig, handleClick, saveNode, deleteNode } = useNodeLogic();
 
   const renderSettings = () => {
-    if (redditConfig._id === '0') {
+    if (redditConfig.id === -1) {
       // return <SelectorContainer>Create a Config Above</SelectorContainer>;
       return <div></div>;
     } else {

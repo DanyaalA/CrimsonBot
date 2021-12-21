@@ -1,8 +1,8 @@
 import { GuildConfig, LogType, Node, PaymentType } from 'utils/types';
 
 export const loadingLogs: LogType = {
-  _id: '0',
-  nodeId: '0',
+  id: 0,
+  nodeId: 0,
   message: 'Loading Logs...',
   subId: 'Loading...',
   username: 'Loading...',
@@ -13,7 +13,7 @@ export const loadingLogs: LogType = {
 };
 
 export const loadingPayment: PaymentType = {
-  _id: '0',
+  id: 0,
   serverId: '0',
   name: 'Loading Payments...',
   value: 'Loading...',
@@ -22,7 +22,8 @@ export const loadingPayment: PaymentType = {
 };
 
 export const loadingRedditConfig: Node = {
-  _id: '0',
+  id: 0,
+  userId: '0',
   clientId: '0',
   clientSecret: 'Client Secret',
   username: 'Username',
@@ -38,9 +39,8 @@ export const loadingRedditConfig: Node = {
 };
 
 export const loadingDiscordConfig: GuildConfig = {
-  _id: '0',
+  id: '0',
   name: 'Loading Server',
-  icon: null,
   paymentConfigId: '0',
   prefix: '?',
   embedImageUrl: 'http://www.image.com/image.png',
@@ -51,10 +51,11 @@ export const loadingDiscordConfig: GuildConfig = {
 };
 
 export const nodeTemplate: Node = {
-  _id: '0',
+  id: -1,
+  userId: '0',
   clientId: '',
   clientSecret: '',
-  username: '',
+  username: 'Create',
   password: '',
   userAgent: '',
   title: '',

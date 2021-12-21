@@ -38,7 +38,7 @@ export const Payment = ({ payment, payments, setPayment }: PaymentProps) => {
     }
 
     const _payments = [...payments];
-    const index = _payments.findIndex((x) => x._id === payment._id);
+    const index = _payments.findIndex((x) => x.id === payment.id);
 
     if (index > -1) {
       _payments[index] = {
@@ -53,7 +53,7 @@ export const Payment = ({ payment, payments, setPayment }: PaymentProps) => {
 
   const deletePayment = () => {
     const _payments = [...payments];
-    const index = _payments.findIndex((x) => x._id === payment._id);
+    const index = _payments.findIndex((x) => x.id === payment.id);
 
     if (index > -1) {
       _payments[index] = {

@@ -16,7 +16,7 @@ export const Menu = () => {
           <IconStyle
             src={
               user.avatar
-                ? `https://cdn.discordapp.com/avatars/${user._id}/${user.avatar}`
+                ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
                 : 'https://i.imgur.com/yrZKnwI.png'
             }
             alt="Reddit Avatar"

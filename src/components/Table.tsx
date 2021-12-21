@@ -21,7 +21,7 @@ export const Table = ({ logs }: LogProps) => {
           <th>Time</th>
         </tr>
         {logs.map((log) => (
-          <tr key={log._id}>
+          <tr key={log.id}>
             <td>
               <a
                 href={`https://reddit.com/u/${log.username}/`}

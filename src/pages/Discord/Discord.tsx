@@ -55,7 +55,7 @@ function useGuildLogic() {
       dispatch(updateDiscord({ ...discordConfig, loading: true }));
 
       const fetchedGuilds = await Labmaker.Guild.Guilds();
-      if (fetchedGuilds.length === 0) {
+      if (!fetchedGuilds) {
         // dispatch(
         //   updateDiscord({
         //     ...discordConfig,
@@ -112,11 +112,11 @@ function useGuildLogic() {
 
   const createPayment = async () => {
     const newPayment: PaymentDto = {
-      _id: '0',
+      id: 0,
       name: 'Payment Name',
       value: 'Payment Value',
       type: 'FIAT',
-      serverId: discordConfig._id,
+      serverId: discordConfig.id,
       newPayment: true,
     };
 
@@ -132,13 +132,13 @@ function useGuildLogic() {
   const savePayments = async () => {
     await Labmaker.Discord.updatePayments(payments);
 
-    const deletedIds: string[] = [];
+    const deletedIds: number[] = [];
     await Promise.all(
       payments
         .filter((payment) => payment.deletedPayment)
         .map((payment) => {
-          if (payment.deletedPayment && payment._id) {
-            deletedIds.push(payment._id);
+          if (payment.deletedPayment && payment.id) {
+            deletedIds.push(payment.id);
           }
 
           return payment;
