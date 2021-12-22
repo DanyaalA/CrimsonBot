@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ContainerStyle, BasePageStyle } from 'styles/Styles';
 import { PageHeader } from 'components/PageHeader';
 import styled from 'styled-components';
@@ -9,32 +9,41 @@ import { updateLogs } from 'utils/slices/logsSlice';
 import { Labmaker } from 'utils/APIHandler';
 import { Spinner } from 'components/Spinner';
 import { NodeConfigList } from 'components/NodeConfigList';
+import { Node } from 'utils/types';
 
 export const Logs = () => {
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const logs = useSelector((state: RootState) => state.logs.value);
   const user = useSelector((state: RootState) => state.user.value);
+  const rConfig = useSelector((state: RootState) => state.redditConfig.value);
 
-  const handleClick = async (node: string) => {
-    const data = await Labmaker.Log.getLogs(Number(node));
+  const handleClick = async (node: Node) => {
+    setLoading(true);
+    console.log('thos is the node');
+    console.log(node);
+    let data = await Labmaker.Log.getLogs(node.id);
+
     dispatch(updateLogs(data));
+    setLoading(false);
   };
 
   useEffect(() => {
+    console.log(user.nodes);
     const loadLogs = async () => {
-      const data = await Labmaker.Log.getLogs(user.nodes[0].id);
-      dispatch(updateLogs(data));
+      if (rConfig) {
+        let data = await Labmaker.Log.getLogs(rConfig.id);
+        dispatch(updateLogs(data));
+        setLoading(false);
+      }
     };
 
     loadLogs();
-  }, [dispatch, user.nodes]);
+  }, [dispatch, user.nodes, rConfig]);
 
   return (
     <HomeStyle>
-      <Spinner
-        loading={logs.length > 0 ? logs[0].loading : false}
-        message={'Loading Logs'}
-      />
+      <Spinner loading={loading} message={'Loading Logs'} />
 
       <PageHeader title="LabMaker Logs" subtitle="/u/HomeworkHelperr" />
 

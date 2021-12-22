@@ -8,6 +8,7 @@ import { Spinner } from 'components/Spinner';
 import { useDispatch } from 'react-redux';
 import { updateUser } from 'utils/slices/userSlice';
 import { Home } from 'pages/Home/Home';
+import { updateReddit } from 'utils/slices/configSlices';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -22,6 +23,10 @@ function App() {
       } else {
         Labmaker.User.getUser().then((userDetails) => {
           dispatch(updateUser(userDetails));
+          if (userDetails.nodes.length > 0) {
+            dispatch(updateReddit(userDetails.nodes[0]));
+          }
+
           setLoading(false);
         });
       }

@@ -24,15 +24,16 @@ function useNodeLogic() {
   );
 
   const handleClick = async (node: RedditConfigDto) => {
-    if (node.id === redditConfig.id) {
+    if (node.id === redditConfig.id && node.id !== -1) {
+      console.log('ended');
       return;
     }
 
     if (node.id === -1) {
+      console.log('Creating New');
       //Create Node
-      const newNode: Node = nodeTemplate;
-
-      dispatch(updateReddit({ ...newNode, id: -1 }));
+      const newNode: Node = { ...nodeTemplate, id: 0 };
+      dispatch(updateReddit({ ...newNode, id: 0, userId: user.id }));
     } else {
       const config: Node = node;
 
@@ -78,7 +79,10 @@ function useNodeLogic() {
   const saveNode = async () => {
     if (!redditConfig.newNode) return Labmaker.Reddit.update(redditConfig);
 
-    const newNode = await Labmaker.Reddit.create(redditConfig);
+    const newNode = await Labmaker.Reddit.create({
+      ...redditConfig,
+      userId: user.id,
+    });
 
     if (newNode) {
       dispatch(updateReddit(newNode));
@@ -87,6 +91,7 @@ function useNodeLogic() {
     }
   };
 
+  //Fix Reload
   const deleteNode = async () => {
     // if (redditConfig.id === '3630aeb2-38c5-4c36-a0d5-5c2d95fa35b0') return;
 
