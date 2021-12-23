@@ -23,6 +23,7 @@ export const PaymentSettings = ({
   createPayment,
 }: PaymentSettingProp) => {
   const renderPayments = (payments: PaymentDto[]) => {
+    let delKey = -2;
     if (guilds.length === 0) {
       return <div></div>;
     }
@@ -38,7 +39,8 @@ export const PaymentSettings = ({
             />
           );
         } else {
-          return <div></div>;
+          delKey--;
+          return <div key={delKey}></div>;
         }
       });
     } else {
