@@ -1,9 +1,27 @@
 import { LogDto } from 'labmaker-api-wrapper';
 import { useState } from 'react';
 import styled from 'styled-components';
+const moment = require('moment');
 
 type LogProps = {
   logs: LogDto[];
+};
+
+type DateColumnProps = {
+  createdAt?: string;
+};
+
+const DateColumn = ({ createdAt }: DateColumnProps) => {
+  //Change CreatedAt to non optional in API-Wrapper
+  if (!createdAt) {
+    return <td>Unknown Time</td>;
+  }
+
+  //Installing MommentJS is Overkill
+  //When i have time ill create a function for it as it shouldnt be too hard.
+  const date = new Date(createdAt);
+  const dateString = moment(date, 'YYYYMMDD').fromNow();
+  return <td>{dateString}</td>;
 };
 
 export const Table = ({ logs }: LogProps) => {
@@ -60,7 +78,8 @@ export const Table = ({ logs }: LogProps) => {
                 Here
               </a>
             </td>
-            <td>{log.createdAt}</td>
+
+            <DateColumn createdAt={log.createdAt} />
           </tr>
         ))}
       </tbody>
