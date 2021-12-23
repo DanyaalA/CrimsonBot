@@ -104,6 +104,7 @@ function useGuildLogic() {
   }, [dispatch, discordConfig, reload]);
 
   const saveData = async () => {
+    //Add Functionality to see what was updated and only update that.
     await savePayments();
     await Labmaker.Discord.update(discordConfig);
   };
@@ -132,15 +133,17 @@ function useGuildLogic() {
     };
 
     const savedPayment = await Labmaker.Discord.createPayments([newPayment]);
-    console.log(savedPayment);
-
     const _payments = [...payments];
+
     _payments.push(savedPayment[0]);
     console.log(savedPayment);
     setPayments(_payments);
   };
 
   const savePayments = async () => {
+    if (payments.length === 0) return;
+
+    //Add Functionality to see what was updated and only send them
     await Labmaker.Discord.updatePayments(payments);
 
     const deletedIds: number[] = [];

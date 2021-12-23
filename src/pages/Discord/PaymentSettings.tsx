@@ -22,8 +22,6 @@ export const PaymentSettings = ({
   setPayments,
   createPayment,
 }: PaymentSettingProp) => {
-  console.log(config);
-
   const renderPayments = (payments: PaymentDto[]) => {
     if (guilds.length === 0) {
       return <div></div>;
