@@ -124,7 +124,7 @@ function useGuildLogic() {
 
   const createPayment = async () => {
     const newPayment: PaymentDto = {
-      id: 0,
+      id: Math.random(),
       name: 'Payment Name',
       value: 'Payment Value',
       type: 'FIAT',
@@ -132,33 +132,40 @@ function useGuildLogic() {
       newPayment: true,
     };
 
-    const savedPayment = await Labmaker.Discord.createPayments([newPayment]);
+    // const savedPayment = await Labmaker.Discord.createPayments([newPayment]);
     const _payments = [...payments];
 
-    _payments.push(savedPayment[0]);
-    console.log(savedPayment);
+    // _payments.push(savedPayment[0]);
+    _payments.push(newPayment);
+    // console.log(savedPayment);
     setPayments(_payments);
   };
 
   const savePayments = async () => {
     if (payments.length === 0) return;
 
+    // await Labmaker.Discord.updatePayments(payments);
+
     //Add Functionality to see what was updated and only send them
-    await Labmaker.Discord.updatePayments(payments);
-
+    const newPayments: PaymentDto[] = [];
+    const updatePayments: PaymentDto[] = [];
     const deletedIds: number[] = [];
-    await Promise.all(
-      payments
-        .filter((payment) => payment.deletedPayment)
-        .map((payment) => {
-          if (payment.deletedPayment && payment.id) {
-            deletedIds.push(payment.id);
-          }
 
-          return payment;
-        })
-    );
+    //Should this be moved to the API under one route?
+    payments.forEach((payment) => {
+      if (payment.newPayment) {
+        newPayments.push(payment);
+      } else if (!payment.deletedPayment) {
+        updatePayments.push(payment);
+      } else if (payment.deletedPayment && payment.id) {
+        deletedIds.push(payment.id);
+      }
+    });
 
+    if (newPayments.length > 0)
+      await Labmaker.Discord.createPayments(newPayments);
+    if (updatePayments.length > 0)
+      await Labmaker.Discord.updatePayments(updatePayments);
     if (deletedIds.length > 0)
       await Labmaker.Discord.deletePayments(deletedIds);
   };
