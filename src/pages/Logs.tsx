@@ -28,7 +28,7 @@ export const Logs = () => {
 
   useEffect(() => {
     const loadLogs = async () => {
-      if (rConfig) {
+      if (rConfig.id !== -1) {
         let data = await Labmaker.Log.getLogs(rConfig.id);
         dispatch(updateLogs(data));
         setLoading(false);
