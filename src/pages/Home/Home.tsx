@@ -147,7 +147,7 @@ export const Home = () => {
 
       <BasePageStyle>
         <NodeConfigList onClick={handleClick} />
-        <DialogButton onClick={deleteNode} />
+        <DialogButton onClick={deleteNode} deleteName={redditConfig.username} />
         {renderSettings()}
       </BasePageStyle>
     </HomeStyle>

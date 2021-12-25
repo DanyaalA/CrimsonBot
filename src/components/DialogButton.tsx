@@ -6,9 +6,10 @@ import { CenterDiv } from 'styles/Styles';
 
 type DialogProps = {
   onClick: Function;
+  deleteName: string;
 };
 
-export const DialogButton = ({ onClick }: DialogProps) => {
+export const DialogButton = ({ onClick, deleteName }: DialogProps) => {
   const [isOpen, setIsOpened] = useState(false);
 
   return (
@@ -20,7 +21,7 @@ export const DialogButton = ({ onClick }: DialogProps) => {
         <DialogContainer>
           <BackgroundDiv />
           <DialogBox>
-            <p>Are You Sure You want to Delete this Node</p>
+            <p>Are you sure you want to delete {deleteName}</p>
             <CustomButton onClick={() => setIsOpened(false)}>
               Cancel
             </CustomButton>
