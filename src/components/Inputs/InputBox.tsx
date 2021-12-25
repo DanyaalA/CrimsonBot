@@ -4,7 +4,7 @@ import { handleInputChange } from 'utils/components';
 type InputProps = {
   message: String;
   value: string | string[];
-  onChange?: any;
+  onChange: Function;
 };
 
 export const InputBox = ({ message, value, onChange }: InputProps) => {
@@ -12,10 +12,7 @@ export const InputBox = ({ message, value, onChange }: InputProps) => {
     <div className="inputBox">
       <StyledSpan>{message}</StyledSpan>
       <InputContainer>
-        <input
-          value={value}
-          onChange={(e) => handleInputChange(e, value, onChange)}
-        />
+        <input value={value} onChange={(e) => onChange(e)} />
       </InputContainer>
     </div>
   );

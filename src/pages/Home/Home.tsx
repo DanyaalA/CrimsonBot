@@ -14,6 +14,7 @@ import { NodeConfigList } from 'components/NodeConfigList';
 import { Node } from 'utils/types';
 import { nodeTemplate } from 'utils/LoadingTypes';
 import { RedditConfigDto } from 'labmaker-api-wrapper';
+import { DialogButton } from 'components/DialogButton';
 
 function useNodeLogic() {
   const dispatch = useDispatch();
@@ -146,9 +147,7 @@ export const Home = () => {
 
       <BasePageStyle>
         <NodeConfigList onClick={handleClick} />
-        <CenterDiv>
-          <CustomButton onClick={deleteNode}>Delete</CustomButton>
-        </CenterDiv>
+        <DialogButton onClick={deleteNode} />
         {renderSettings()}
       </BasePageStyle>
     </HomeStyle>
