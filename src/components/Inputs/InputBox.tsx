@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { handleInputChange } from 'utils/components';
 
 type InputProps = {
   message: String;
