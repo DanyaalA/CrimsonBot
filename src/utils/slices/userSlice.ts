@@ -7,6 +7,7 @@ const loadingUser: UserDto & { loading?: boolean } = {
   discriminator: '4444',
   avatar: 'http://google.com',
   nodes: [],
+  editableNodes: [],
   loading: true,
 };
 

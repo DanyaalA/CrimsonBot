@@ -35,6 +35,7 @@ export const loadingRedditConfig: Node = {
   subreddits: ['Subreddit1', 'Subreddit2'],
   forbiddenWords: ['ForbiddenWord1', 'Forbidden String 1'],
   blockedUsers: ['Blocked_User1', 'Blocked_User2'],
+  nodeEditors: [],
   loading: true,
 };
 
@@ -64,5 +65,6 @@ export const nodeTemplate: Node = {
   subreddits: ['Subreddit'],
   forbiddenWords: [],
   blockedUsers: [],
+  nodeEditors: [],
   newNode: true,
 };

@@ -82,6 +82,18 @@ export const MainSettings = ({ config }: SettingsProps) => {
             );
           }}
         />
+        <TagInputBox
+          message="Node Editors"
+          items={config.nodeEditors}
+          onChange={(updatedValues: any) => {
+            dispatch(
+              updateReddit({
+                ...config,
+                nodeEditors: updatedValues,
+              })
+            );
+          }}
+        />
       </TagBoxMiniContainer>
 
       <Switch
